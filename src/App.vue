@@ -6,9 +6,9 @@
 </template>
 
 <style lang="scss">
-@import '@/assets/styles/reset.scss';
-@import '@/assets/styles/common.scss';
-@import '@/assets/styles/iconfont.scss';
+@import '@/styles/reset.scss';
+@import '@/styles/common.scss';
+@import '@/styles/iconfont.scss';
 #app, .root {
   height: 100vh;
   width: 100vw;

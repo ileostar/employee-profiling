@@ -1,47 +1,173 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 
+// 主页面
 import Home from '@/views/Home/Home.vue'
+// 登录注册
 import Login from '@/views/Login/Login.vue'
 import Register from '@/views/Register/Register.vue'
+// 信息维护
 import Charts from '@/views/Charts/Charts.vue'
 import Information from '@/views/Information/Information.vue'
+import Performance from '@/views/Performance/Performance.vue'
+import TagManage from '@/views/TagManage/TagManage.vue'
+import AccountManage from '@/views/AccountManage/AccountManage.vue'
+// 员工画像
+import EmployeePortrait from '@/views/EmployeePortrait/EmployeePortrait.vue'
+// 岗位画像
+import OverallPortrait from '@/views/OverallPortrait/OverallPortrait.vue'
+import PositionPortrait from '@/views/PositionPortrait/PositionPortrait.vue'
+// 人岗匹配
+import Matching from '@/views/Matching/Matching.vue'
+
+declare module 'vue-router' {
+    interface RouteMeta {
+        auth?: boolean;
+        menu?: boolean;
+        title?: string;
+        icon?: string;
+    }
+}
 
 const routes: Array<RouteRecordRaw> = [
     {
         path: '/',
         name: 'Home',
         component: Home,
-        redirect: '/charts',
+        redirect: '/maintenance',
         meta: {
             auth: true,
             menu: true,
             title: '信息维护',
-            icon: 'el-icon-s-home'
+            icon: '#icon-yonghuweihu'
         },
         children: [
             {
-                path: '/charts',
-                name: 'Charts',
-                component: Charts,
+                path: '/maintenance',
+                name: 'Maintenance',
+                redirect: '/charts',
                 meta: {
                     auth: true,
                     menu: true,
-                    title: '数据展示',
-                    icon: 'el-icon-s-home'
-                }
+                    title: '信息维护',
+                    icon: '#icon-yonghuweihu'
+                },
+                children:[
+                    {
+                        path: '/charts',
+                        name: 'Charts',
+                        component: Charts,
+                        meta: {
+                            auth: true,
+                            menu: true,
+                            title: '数据展示',
+                            icon:  '#icon-a-007_shujufenxi'             
+                        }
+                    },
+                    {
+                        path: '/information',
+                        name: 'Information',
+                        component: Information,
+                        meta: {
+                            auth: true,
+                            menu: true,
+                            title: '员工信息',
+                            icon: '#icon-yuangongguanli'
+                        }
+                    },
+                    {
+                        path: '/performance',
+                        name: 'Performance',
+                        component: Performance,
+                        meta: {
+                            auth: true,
+                            menu: true,
+                            title: '绩效成绩',
+                            icon: '#icon-jixiaopinggu'
+                        }
+                    },
+                    {
+                        path: '/tagManage',
+                        name: 'TagManage',
+                        component: TagManage,
+                        meta: {
+                            auth: true,
+                            menu: true,
+                            title: '标签管理',
+                            icon: '#icon-biaoqian'
+                        }
+                    },
+                    {
+                        path: '/accountManage',
+                        name: 'AccountManage',
+                        component: AccountManage,
+                        meta: {
+                            auth: true,
+                            menu: true,
+                            title: '账号管理',
+                            icon: '#icon-zhanghaoguanli1'
+                        }
+                    },   
+                ]
             },
-            {
-                path: '/information',
-                name: 'Information',
-                component: Information,
+            {    
+                path: '/employeePortrait',
+                name: 'EmployeePortrait',
+                component: EmployeePortrait,
                 meta: {
                     auth: true,
                     menu: true,
-                    title: '员工信息',
-                    icon: 'el-icon-s-home'
+                    title: '员工画像',
+                    icon: '#icon-yonghuhuaxiang1'
+                },
+            },
+            {    
+                path: '/post',
+                name: 'post',
+                component: Login,
+                redirect: '/overallPortrait',
+                meta: {
+                    auth: true,
+                    menu: true,
+                    title: '岗位画像',
+                    icon: '#icon-yonghuhuaxiang'
+                },
+                children: [
+                {
+                    path: '/overallPortrait',
+                    name: 'OverallPortrait',
+                    component: OverallPortrait,
+                    meta: {
+                        auth: true,
+                        menu: true,
+                        title: '总体画像',
+                        icon:  '#icon-gangweijibie'             
+                    }
+                },
+                {
+                    path: '/positionPortrait',
+                    name: 'PositionPortrait',
+                    component: PositionPortrait,
+                    meta: {
+                        auth: true,
+                        menu: true,
+                        title: '岗位画像',
+                        icon:  '#icon-gangweiguanli'             
+                    }
                 }
-            }
+                ]
+            },
+            {    
+                path: '/matching',
+                name: 'Matching',
+                component: Matching,
+                meta: {
+                    auth: true,
+                    menu: true,
+                    title: '人岗匹配',
+                    icon: '#icon-gangweixinxi'
+                },
+            },
 
         ]
     },
@@ -55,6 +181,25 @@ const routes: Array<RouteRecordRaw> = [
       name: 'register',
       component: Register
     },
+    {
+      path: '/403',
+      name: 'notAuth',
+      component: NotAuth
+    },
+    {
+      path: '/404',
+      name: 'notFound',
+      component: NotFound
+    },
+    {
+      path: '/500',
+      name: 'notServer',
+      component: NotServer
+    },
+    {
+      path: '/:pathMatch(.*)*',
+      redirect: '/404'
+    }
 ]
 
 const router = createRouter({

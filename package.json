@@ -11,6 +11,7 @@
   "dependencies": {
     "axios": "^1.4.0",
     "element-plus": "^2.3.5",
+    "lodash": "^4.17.21",
     "pinia": "^2.0.35",
     "pinia-plugin-persistedstate": "^3.1.0",
     "sass": "^1.62.1",

@@ -26,11 +26,17 @@
           </el-menu-item>
           <el-menu-item index="1-3">
             <svg class="icon" aria-hidden="true">
+              <use xlink:href="#icon-jixiaopinggu"></use>
+            </svg>
+            <span>绩效成绩</span>
+          </el-menu-item>
+          <el-menu-item index="1-4">
+            <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-biaoqian"></use>
             </svg>
             <span>标签管理</span>
           </el-menu-item>
-          <el-menu-item index="1-4">
+          <el-menu-item index="1-5">
             <svg class="icon" aria-hidden="true">
               <use xlink:href="#icon-zhanghaoguanli1"></use>
             </svg>
@@ -75,6 +81,14 @@
 </template>
 
 <script setup lang="ts">
+// import _ from 'lodash'
+// import { useRouter, useRoute } from 'vue-router';
+// const router = useRouter()
+// const route = useRoute()
+
+
+
+
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }
@@ -84,5 +98,14 @@ const handleClose = (key: string, keyPath: string[]) => {
 </script>
 
 <style lang="scss" scoped>
-
+.el-menu {
+  height: 100%;
+  background-color: #f7fafc;
+  .el-menu-item.is-active {
+    background-color: #ecf1f4;
+  }
+}
+.el-menu,.el-sub-menu,.el-menu-item {
+  background-color: #f7fafc;
+}
 </style>

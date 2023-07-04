@@ -43,7 +43,7 @@ const handleLogout= ()=> {
         display: flex;
         align-items: center;
         img {
-            width: 25px;
+            width: 23px;
             height: 25px;
             margin-right: 12px;
         }
