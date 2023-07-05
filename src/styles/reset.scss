@@ -18,9 +18,13 @@ button,
 input,
 textarea,
 th,
-td {
+td{
     margin : 0;
     padding: 0,
+}
+
+div {
+    box-sizing : border-box
 }
 
 /*设置默认字体*/

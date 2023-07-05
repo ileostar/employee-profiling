@@ -19,6 +19,10 @@ import OverallPortrait from '@/views/OverallPortrait/OverallPortrait.vue'
 import PositionPortrait from '@/views/PositionPortrait/PositionPortrait.vue'
 // 人岗匹配
 import Matching from '@/views/Matching/Matching.vue'
+// 缺省页
+import NotFound from '@/views/NotFound/NotFound.vue'
+import NotAuth from '@/views/NotAuth/NotAuth.vue'
+import NotServer from '@/views/NotServer/NotServer.vue'
 
 declare module 'vue-router' {
     interface RouteMeta {

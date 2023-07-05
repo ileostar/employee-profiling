@@ -6,11 +6,13 @@ import router from './router'
 import App from './App.vue'
 import '@/util/iconfont.js'
 import '@/config/dynamicConfig.ts'
+import * as echarts from 'echarts';   //引入echarts
 
 import ElementPlus from 'element-plus'
 import 'element-plus/dist/index.css'
 import zhCn from 'element-plus/es/locale/lang/zh-cn'
 import * as ElementPlusIconsVue from '@element-plus/icons-vue'
+
 
 const app = createApp(App)
 const pinia = createPinia()
@@ -22,7 +24,7 @@ for (const [key, component] of Object.entries(ElementPlusIconsVue)) {
 
 console.log("环境变量:",import.meta.env);
 
-
+app.config.globalProperties.$echarts = echarts;   //全局使用
 app.use(ElementPlus, { locale: zhCn })
 app.use(pinia)
 app.use(router)

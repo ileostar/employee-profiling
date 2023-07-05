@@ -81,10 +81,17 @@
 </template>
 
 <script setup lang="ts">
-// import _ from 'lodash'
-// import { useRouter, useRoute } from 'vue-router';
-// const router = useRouter()
-// const route = useRoute()
+import _ from 'lodash'
+import { useRouter } from 'vue-router';
+const router = useRouter()
+
+
+const menu = _.cloneDeep(router.options.routes[0].children)
+console.log("menu:",menu)
+
+
+
+// console.log('menus:',menus[0].children[0]);
 
 
 
