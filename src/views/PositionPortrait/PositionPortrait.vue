@@ -1,6 +1,7 @@
 <template>
     <div>
 
+        <h1 class="title">岗位画像</h1>
     </div>
 </template>
 

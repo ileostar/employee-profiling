@@ -108,10 +108,10 @@ const  init = async ()=> {
     flex-direction: column;
     align-items: center;
     width: 43vw;
-    height: 62vh;
+    height: 64vh;
     background-color: #fff;
     box-shadow: 3px 3px 8px 3px rgb(29 35 41 / 13%);
-    border-radius: 20px;
+    border-radius: 5px;
     padding: 2vw;
     .post-title {
         margin-bottom: 30px;

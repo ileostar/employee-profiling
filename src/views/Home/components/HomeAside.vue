@@ -1,101 +1,77 @@
 <template>
       <el-menu
-        default-active="1-1"
+        :default-active="route.path"
         class="el-menu-vertical-demo"
         @open="handleOpen"
         @close="handleClose"
+        router
       >
-        <el-sub-menu index="1">
+        <!-- 信息维护 -->
+        <el-sub-menu v-for="item in maintenance" :key="item.path" :index="item.path">
           <template #title>
               <svg class="icon" aria-hidden="true">
-                <use xlink:href="#icon-yonghuweihu"></use>
+                <use :xlink:href="item.meta?.icon"></use>
               </svg>
-            <span>信息维护</span>
+            <span>{{item.meta?.title}}</span>
           </template>
-          <el-menu-item index="1-1">
+          <el-menu-item v-for="itemChild in item.children" :key="itemChild.path" :index="itemChild.path">
             <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-a-007_shujufenxi"></use>
+              <use :xlink:href="itemChild.meta?.icon"></use>
             </svg>
-            <span>数据展示</span>
-          </el-menu-item>
-          <el-menu-item index="1-2">
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-yuangongguanli"></use>
-            </svg>
-            <span>员工信息</span>
-          </el-menu-item>
-          <el-menu-item index="1-3">
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-jixiaopinggu"></use>
-            </svg>
-            <span>绩效成绩</span>
-          </el-menu-item>
-          <el-menu-item index="1-4">
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-biaoqian"></use>
-            </svg>
-            <span>标签管理</span>
-          </el-menu-item>
-          <el-menu-item index="1-5">
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-zhanghaoguanli1"></use>
-            </svg>
-            <span>账号管理</span>
+            <span>{{ itemChild.meta?.title }}</span>
           </el-menu-item>
         </el-sub-menu>
-        <el-menu-item index="2">
-          <template #title>
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-yonghuhuaxiang1"></use>
-            </svg>
-            <span>员工画像</span>
-          </template>
+
+        <!-- 员工画像 -->
+        <el-menu-item :index="employeePortrait.path">
+          <svg class="icon" aria-hidden="true">
+            <use :xlink:href="employeePortrait.meta?.icon"></use>
+          </svg>
+          <span>{{ employeePortrait.meta?.title }}</span>
         </el-menu-item>
-        <el-sub-menu index="3">
+        
+        <!-- 岗位画像 -->
+        <el-sub-menu v-for="item in postPortrait" :key="item.path" :index="item.path">
           <template #title>
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-yonghuhuaxiang"></use>
-            </svg>
-            <span>岗位画像</span>
+              <svg class="icon" aria-hidden="true">
+                <use :xlink:href="item.meta?.icon"></use>
+              </svg>
+            <span>{{item.meta?.title}}</span>
           </template>
-          <el-menu-item index="3-1">
+          <el-menu-item v-for="itemChild in item.children" :key="itemChild.path" :index="itemChild.path">
             <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-gangweijibie"></use>
+              <use :xlink:href="itemChild.meta?.icon"></use>
             </svg>
-            <span>总体画像</span>
-          </el-menu-item>
-          <el-menu-item index="3-2">
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-gangweiguanli"></use>
-            </svg>
-            <span>岗位画像</span>
+            <span>{{ itemChild.meta?.title }}</span>
           </el-menu-item>
         </el-sub-menu>
-        <el-menu-item index="4">
-            <svg class="icon" aria-hidden="true">
-              <use xlink:href="#icon-gangweixinxi"></use>
-            </svg>
-            <span>人岗匹配</span>
+
+        <!-- 人岗匹配 -->
+        <el-menu-item :index="Matching.path">
+          <svg class="icon" aria-hidden="true">
+            <use :xlink:href="Matching.meta?.icon"></use>
+          </svg>
+          <span>{{ Matching.meta?.title }}</span>
         </el-menu-item>
+
       </el-menu>
 </template>
 
 <script setup lang="ts">
-import _ from 'lodash'
-import { useRouter } from 'vue-router';
+import * as _ from 'lodash';
+import { useRouter, useRoute } from 'vue-router';
 const router = useRouter()
-
+const route = useRoute()
 
 const menu = _.cloneDeep(router.options.routes[0].children)
-console.log("menu:",menu)
+// console.log("menu:",menu![0].children)
 
-
+const maintenance = [menu![0]]
+const employeePortrait = menu![1]
+const postPortrait = [menu![2]]
+const Matching = menu![3]
 
 // console.log('menus:',menus[0].children[0]);
-
-
-
-
 const handleOpen = (key: string, keyPath: string[]) => {
   console.log(key, keyPath)
 }

@@ -128,7 +128,6 @@ const routes: Array<RouteRecordRaw> = [
             {    
                 path: '/post',
                 name: 'post',
-                component: Login,
                 redirect: '/overallPortrait',
                 meta: {
                     auth: true,

@@ -1,6 +1,6 @@
 <template>
     <div class="charts">   
-        <h1 class="charts-title">数据展示</h1>   
+        <h1 class="title">数据展示</h1>   
         <div class="small-charts">
             <SmallChart v-for="i in 4" :key="i" :image="image[i-1]" :chart="chart[i-1]"></SmallChart>
         </div>
@@ -24,9 +24,6 @@ const chart= ["src/assets/images/chart-1.png","src/assets/images/chart-2.png", "
 .charts {
     display: flex;
     flex-direction: column;
-    .charts-title {
-        margin-bottom: 20px;
-    }
     .small-charts {
         display: flex;
         flex-wrap: wrap;
