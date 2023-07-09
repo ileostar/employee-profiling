@@ -3,8 +3,8 @@
         :columns="columns"
         :data="data"
         :sort-by="sortState"
-        :width="1260"
-        :height="620"
+        :width="1125"
+        :height="560"
         fixed
         @column-sort="onSort"
     />

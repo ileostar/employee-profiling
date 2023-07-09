@@ -107,7 +107,7 @@ const  init = async ()=> {
     overflow: hidden;
     flex-direction: column;
     align-items: center;
-    width: 43vw;
+    width: 42vw;
     height: 64vh;
     background-color: #fff;
     box-shadow: 3px 3px 8px 3px rgb(29 35 41 / 13%);
@@ -115,13 +115,13 @@ const  init = async ()=> {
     padding: 2vw;
     .post-title {
         margin-bottom: 30px;
-        font-size: 18px;
+        font-size: 1.3vw;
         font-weight: 400;
         letter-spacing: 2px;
     }
     .post-chart {
         width: 40vw;
-        height: 56vh;
+        height: 60vh;
     }
 }
 </style>

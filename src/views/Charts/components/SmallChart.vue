@@ -43,10 +43,11 @@ const props = defineProps(['image','chart'])
             flex-direction: column;
             justify-content: space-between;
             .title {
-                font-size: 16px;
+                font-size: 1.2vw;
+                margin-bottom: 0.2vw;
             }
             .text {
-                font-size: 14px;
+                font-size: 0.9vw;
                 color: #B2B2B2;
             }
         }

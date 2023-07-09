@@ -28,7 +28,7 @@ import { ArrowDown } from '@element-plus/icons-vue'
 
 <style lang="scss" scoped>
 .function-select {
-    height: 4vh;
+    height: 3.2vh;
     width: 9vw;
     border: 1px solid #ebeef5;
     border-radius: 5px;
@@ -39,7 +39,7 @@ import { ArrowDown } from '@element-plus/icons-vue'
         color: #606266;
         display: flex;
         align-items: center;
-        line-height: 3.5vh;
+        line-height: 3.2vh;
 
       }
       

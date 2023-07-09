@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="position-portrait">
 
         <h1 class="title">岗位画像</h1>
     </div>
@@ -10,5 +10,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+.position-portrait {
+    padding: 3vh;
+}
 </style>

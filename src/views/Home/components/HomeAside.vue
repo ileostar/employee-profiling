@@ -91,4 +91,11 @@ const handleClose = (key: string, keyPath: string[]) => {
 .el-menu,.el-sub-menu,.el-menu-item {
   background-color: #f7fafc;
 }
+.el-menu-item span,.el-sub-menu span {
+  font-size: 1vw;
+}
+.icon {
+  width: 1.5vw;
+  height: 1.5vw;
+}
 </style>

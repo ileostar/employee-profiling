@@ -43,9 +43,9 @@ const  init = async ()=> {
         },
         emphasis: {
             label: {
-            show: true,
-            fontSize: 40,
-            fontWeight: 'bold'
+                show: true,
+                fontSize: 40,
+                fontWeight: 'bold'
             }
         },
         labelLine: {
@@ -70,21 +70,22 @@ const  init = async ()=> {
 .tag-charts {
     display: flex;
     flex-direction: column;
+    overflow: hidden;
     align-items: center;
-    width: 40vw;
+    width: 39.5vw;
     height: 64vh;
     box-shadow: 3px 3px 8px 3px rgb(29 35 41 / 13%);
     border-radius: 5px;
     padding: 2vw;
     .tag-title {
         margin-bottom: 18px;
-        font-size: 18px;
+        font-size: 1.3vw;
         font-weight: 400;
         letter-spacing: 2px;
     }
     .tag-chart {
-        width: 37.5vw;
-        height: 62vh;
+        width: 40vw;
+        height: 64vh;
     }
 }
 </style>

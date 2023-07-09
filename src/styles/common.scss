@@ -1,5 +1,14 @@
 .title {
-    margin-bottom: 20px;
+    font-size: 1.2vw;
+    margin-bottom: 2vh;
+}
+
+.my-table {
+    border: 2px solid #ebeef5;
+    border-radius: 5px;
+    overflow: hidden;
+    height: 82vh;
+    width: 83vw;
 }
 
 // 去掉ElementUI的黑框

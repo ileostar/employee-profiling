@@ -24,11 +24,12 @@ const chart= ["src/assets/images/chart-1.png","src/assets/images/chart-2.png", "
 .charts {
     display: flex;
     flex-direction: column;
+    padding: 3vh;
     .small-charts {
         display: flex;
         flex-wrap: wrap;
         justify-content: space-between;
-        margin-bottom: 20px;
+        margin-bottom: 2vh;
     }
     .big-charts {
         display: flex;

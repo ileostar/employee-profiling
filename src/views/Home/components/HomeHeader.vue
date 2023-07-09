@@ -33,8 +33,8 @@ const handleLogout= ()=> {
 .home-header {
     box-sizing: border-box;
     width: 100%;
-    height: 45px;
-    padding: 7.5px 20px;
+    height: 6.5vh;
+    padding: 1vh 2vh;
     background-image: linear-gradient(to right,#7e819f, #37827d);
     display: flex;
     align-items: center;
@@ -43,13 +43,13 @@ const handleLogout= ()=> {
         display: flex;
         align-items: center;
         img {
-            width: 23px;
-            height: 25px;
-            margin-right: 12px;
+            width: 4vh;
+            height: 4vh;
+            margin-right: 1.5vh;
         }
         .home-header-link {
             color: aliceblue;
-            font-size: 16px;
+            font-size: 2.3vh;
             cursor: pointer;
             text-decoration: none;
             &:hover {
@@ -58,13 +58,12 @@ const handleLogout= ()=> {
         }
     }
     .home-header-right {
-        height: 100%;
         .el-avatar {
-            font-size: 22px;
+            font-size: 3vh;
             color: black;
             background-color: #fff;
-            height: 30px;
-            width: 30px;
+            height: 4vh;
+            width: 4vh;
         }
     }
 }

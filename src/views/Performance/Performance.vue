@@ -4,7 +4,7 @@
             <h1>绩效成绩</h1> 
             <PerfoFunction></PerfoFunction>
         </div> 
-        <div class="performance-content">
+        <div class="my-table">
             <PerforTable></PerforTable>
         </div>
     </div>
@@ -17,15 +17,16 @@ import PerfoFunction from './components/PerforFunction.vue'
 </script>
 
 <style lang="scss" scoped>
-.performance-header {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    margin-bottom: 20px;
-}
-.performance-content {
-    padding: 5px 5px;
-    border: 2px solid #ebeef5;
-    border-radius: 5px;
+.performance {
+    padding: 3vh;
+    .performance-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 2vh;
+        h1 {
+            font-size: 1.2vw;
+        }
+    }
 }
 </style>

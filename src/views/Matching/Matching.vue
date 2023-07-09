@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="matching"> 
 
         <h1 class="title">人岗匹配</h1>
     </div>
@@ -10,5 +10,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+.matching {
+    padding: 3vh;
+}
 </style>

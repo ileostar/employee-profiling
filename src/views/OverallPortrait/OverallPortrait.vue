@@ -1,5 +1,5 @@
 <template>
-    <div>
+    <div class="overall-portrait">
 
         <h1 class="title">总体画像</h1>
     </div>
@@ -10,5 +10,7 @@
 </script>
 
 <style lang="scss" scoped>
-
+.overall-portrait {
+    padding: 3vh;
+}
 </style>
