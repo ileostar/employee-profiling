@@ -11,6 +11,21 @@
     width: 83vw;
 }
 
+.common-layout {
+    display: flex;
+    flex-direction: column;
+    height: 93.5vh;
+    width: 100%;
+    padding: 3vh;
+}
+
+.fenge {
+    border-bottom: 1px solid #ebeef5;
+    width: 100%;
+    height: 1px;
+    margin-bottom: 0vh;
+}
+
 // 去掉ElementUI的黑框
 .home-header-space:focus {
     outline: none;

@@ -1,7 +1,9 @@
 <template>
-    <div class="matching"> 
+    <div class="matching common-layout"> 
 
         <h1 class="title">人岗匹配</h1>
+        <div class="fenge"></div>
+        <div class="matching-main"></div>
     </div>
 </template>
 
@@ -11,6 +13,11 @@
 
 <style lang="scss" scoped>
 .matching {
-    padding: 3vh;
+    .matching-main {
+        height: 100%;
+        width: 100%;
+        overflow: hidden;
+        background-color: #bababa;
+    }
 }
 </style>

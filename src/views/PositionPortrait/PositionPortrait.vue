@@ -1,7 +1,8 @@
 <template>
-    <div class="position-portrait">
+    <div class="position-portrait common-layout">
 
         <h1 class="title">岗位画像</h1>
+        <div class="fenge"></div>
     </div>
 </template>
 
@@ -11,6 +12,5 @@
 
 <style lang="scss" scoped>
 .position-portrait {
-    padding: 3vh;
 }
 </style>
