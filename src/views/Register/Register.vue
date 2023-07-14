@@ -7,27 +7,27 @@
             :rules="rules"
             label-width="120px"
             class="demo-ruleForm">
-        <div class="title">注册</div>
-        <el-form-item label="用户名" prop="username" class="item">
-        <el-input v-model="ruleForm.username" type="text" autocomplete="off" />
-        </el-form-item>
-        <el-form-item label="密码" prop="password" class="item">
-        <el-input
-            v-model="ruleForm.password"
-            type="password"
-            autocomplete="off"/>
-        </el-form-item>
-        <el-form-item label="确认密码" prop="checkpassword" class="item">
-        <el-input
-            v-model="ruleForm.password"
-            type="password"
-            autocomplete="off"/>
-        </el-form-item>
-        <el-form-item class="login-button">
-          <el-button  type="primary" @click="submitForm(ruleFormRef)">注册</el-button>
-          <el-button @click="resetForm(ruleFormRef)">重置</el-button>
-        </el-form-item>
-        <router-link to="/login" tag="div" class="goLogin">转去登陆</router-link>
+          <div class="title">注册</div>
+          <el-form-item label="用户名" prop="username" class="item">
+          <el-input v-model="ruleForm.username" type="text" autocomplete="off" />
+          </el-form-item>
+          <el-form-item label="密码" prop="password" class="item">
+          <el-input
+              v-model="ruleForm.password"
+              type="password"
+              autocomplete="off"/>
+          </el-form-item>
+          <el-form-item label="确认密码" prop="checkpassword" class="item">
+          <el-input
+              v-model="ruleForm.password"
+              type="password"
+              autocomplete="off"/>
+          </el-form-item>
+          <el-form-item class="login-button">
+            <el-button  type="primary" @click="submitForm(ruleFormRef)">注册</el-button>
+            <el-button @click="resetForm(ruleFormRef)">重置</el-button>
+          </el-form-item>
+          <router-link to="/login" tag="div" class="goLogin">转去登陆</router-link>
         </el-form>
     </div>
 </template>
