@@ -1,9 +1,9 @@
-<script setup lang="ts">
-</script>
-
 <template>
     <RouterView class="root" />
 </template>
+
+<script setup lang="ts">
+</script>
 
 <style lang="scss">
 @import '@/styles/reset.scss';
