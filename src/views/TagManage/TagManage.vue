@@ -40,7 +40,7 @@
 </template>
 
 <script setup lang="ts">
-import { nextTick, reactive, ref } from 'vue'
+import {  reactive, ref } from 'vue'
 import { ElInput } from 'element-plus'
 
 const inputValue = ref('')
@@ -65,12 +65,6 @@ const handleClose = (tag: string) => {
   dynamicTags.value.splice(dynamicTags.value.indexOf(tag), 1)
 }
 
-const showInput = () => {
-  inputVisible.value = true
-  nextTick(() => {
-    InputRef.value!.input!.focus()
-  })
-}
 
 const handleInputConfirm = () => {
   if (inputValue.value) {

@@ -34,14 +34,14 @@ const router = useRouter()
 
 const ruleFormRef = ref<FormInstance>()
 
-const username = (rule: any, value: any, callback: any) => {
+const username = (_rule: any,value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请输入用户名'))
   } else {
     callback()
   }
 }
-const password = (rule: any, value: any, callback: any) => {
+const password = (_rule: any,value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请输入密码'))
   } else {
@@ -54,7 +54,7 @@ const ruleForm = reactive({
   password: ''
 })
 
-const rules = reactive<FormRules<typeof ruleForm>>({
+const rules = reactive<FormRules>({
   username: [{ validator: username, trigger: 'blur' }],
   password: [{ validator: password, trigger: 'blur' }],
 })

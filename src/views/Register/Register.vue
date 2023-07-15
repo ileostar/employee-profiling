@@ -32,7 +32,7 @@
     </div>
 </template>
 
-<script setup lang="ts">
+<script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 
@@ -57,7 +57,7 @@ const password = (_rule: any, value: any, callback: any) => {
   }
 }
 const checkpassword = (_rule: any, value: any, callback: any) => {
-    if (value === '') {
+  if (value === '') {
     callback(new Error('请再次输入密码'))
   } else if (value !== ruleForm.password) {
     callback(new Error("两次密码不一致!"))
@@ -72,7 +72,7 @@ const ruleForm = reactive({
   checkpassword: ''
 })
 
-const rules = reactive<FormRules<typeof ruleForm>>({
+const rules = reactive<FormRules>({
   username: [{ validator: username, trigger: 'blur' }],
   password: [{ validator: password, trigger: 'blur' }],
   checkpassword: [{ validator: checkpassword, trigger: 'blur' }],
