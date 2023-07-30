@@ -21,12 +21,16 @@ import PerfoFunction from './components/PerforFunction.vue'
     padding: 3vh;
     .performance-header {
         display: flex;
+        overflow: hidden;
         justify-content: space-between;
         align-items: center;
         margin-bottom: 2vh;
         h1 {
             font-size: 1.2vw;
         }
+    }
+    .my-table { 
+        height: 80vh;
     }
 }
 </style>

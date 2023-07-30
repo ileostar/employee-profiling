@@ -4,7 +4,7 @@
             <h1>员工信息</h1> 
             <InforFunction></InforFunction>
         </div> 
-        <div class="my-table">
+        <div class="my-table" ref="tableContainer">
             <InforTable></InforTable>
         </div>
     </div>
@@ -13,12 +13,14 @@
 <script setup lang="ts">
 import InforTable from './components/InforTable.vue'
 import InforFunction from './components/InforFunction.vue'
+
 </script>
 
 <style lang="scss" scoped>
 .information {
     padding: 3vh;
     .information-header {
+        overflow: hidden;
         display: flex;
         justify-content: space-between;
         align-items: center;
@@ -26,6 +28,9 @@ import InforFunction from './components/InforFunction.vue'
         h1 {
             font-size: 1.2vw;
         }
+    }
+    .my-table { 
+        height: 80vh;
     }
 }
 </style>

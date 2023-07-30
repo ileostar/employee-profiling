@@ -11,16 +11,22 @@
                 </el-space>
                 <template #dropdown>
                     <el-dropdown-menu>
-                        <el-dropdown-item>个人中心</el-dropdown-item>
+                        <el-dropdown-item @click="drawer = true">个人中心</el-dropdown-item>
                         <el-dropdown-item @click="handleLogout">退出</el-dropdown-item>
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
+            <el-drawer v-model="drawer" title="I am the title" :with-header="false">
+                <span>Hi there!</span>
+            </el-drawer>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import { ref } from 'vue'
+
+const drawer = ref(false)
 
 const handleLogout= ()=> {
   setTimeout(()=>{

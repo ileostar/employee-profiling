@@ -5,9 +5,8 @@ declare module "*.vue" {
     export default vueComponent;
 }
 
-
 interface ImportMetaEnv {
-    VITE_username : string
+    VITE_AXIOS_BASE_URI: string
 }
 
 declare module 'element-plus/es/locale/lang/zh-cn';

@@ -9,19 +9,19 @@
             class="demo-ruleForm">
           <div class="title">注册</div>
           <el-form-item label="用户名" prop="username" class="item">
-          <el-input v-model="ruleForm.username" type="text" autocomplete="off" />
+            <el-input v-model="ruleForm.username" type="text" autocomplete="off" />
           </el-form-item>
           <el-form-item label="密码" prop="password" class="item">
-          <el-input
-              v-model="ruleForm.password"
-              type="password"
-              autocomplete="off"/>
-          </el-form-item>
+            <el-input
+                v-model="ruleForm.password"
+                type="password"
+                autocomplete="off"/>
+            </el-form-item>
           <el-form-item label="确认密码" prop="checkpassword" class="item">
-          <el-input
-              v-model="ruleForm.password"
-              type="password"
-              autocomplete="off"/>
+            <el-input
+                v-model="ruleForm.checkpassword"
+                type="password"
+                autocomplete="off"/>
           </el-form-item>
           <el-form-item class="login-button">
             <el-button  type="primary" @click="submitForm(ruleFormRef)">注册</el-button>
@@ -34,10 +34,13 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
+import api from '@/api/api'
+import router from '@/router'
 
 const ruleFormRef = ref<FormInstance>()
 
+// 校验规则
 const username = (_rule: any, value: any, callback: any) => {
   if (value === '') {
     callback(new Error('请输入用户名'))
@@ -65,31 +68,46 @@ const checkpassword = (_rule: any, value: any, callback: any) => {
     callback()
   }
 }
-
-const ruleForm = reactive({
-  username: '',
-  password: '',
-  checkpassword: ''
-})
-
 const rules = reactive<FormRules>({
   username: [{ validator: username, trigger: 'blur' }],
   password: [{ validator: password, trigger: 'blur' }],
   checkpassword: [{ validator: checkpassword, trigger: 'blur' }],
 })
 
+
+// 表单信息
+const ruleForm = reactive({
+  username: '',
+  password: '',
+  checkpassword: ''
+})
+
+// 提交表单注册
 const submitForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.validate((valid: any) => {
     if (valid) {
-      console.log('submit!')
+      const regForm = {
+        username: ruleForm.username,
+        password: ruleForm.password
+      } 
+      api.register(regForm).then((res)=>{
+        console.log(res);
+        if(res.data.state === 200){
+          ElMessage.success("注册成功")
+          router.push('/login')
+        } else{
+          ElMessage.error('注册失败');
+        }
+      })
     } else {
-      console.log('error submit!')
+      ElMessage.error('请正确填写表单！')
       return false
     }
   })
 }
 
+// 重置表单
 const resetForm = (formEl: FormInstance | undefined) => {
   if (!formEl) return
   formEl.resetFields()

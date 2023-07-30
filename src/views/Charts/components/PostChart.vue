@@ -76,7 +76,7 @@ const  init = async ()=> {
         type: 'bar',
         tooltip: {
             valueFormatter: function (value: string) {
-            return value + ' 人';
+            return Math.round(Number(value)) + ' 人';
             }
         },
         data: [
@@ -89,7 +89,7 @@ const  init = async ()=> {
         yAxisIndex: 1,
         tooltip: {
             valueFormatter: function (value: string) {
-            return value + ' °C';
+            return value;
             }
         },
         data: [89.0, 90.3, 86.3, 84.5, 85.3]

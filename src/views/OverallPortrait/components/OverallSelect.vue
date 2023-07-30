@@ -55,7 +55,7 @@
                 />
               </el-select>
         </div>  
-        <el-button type="primary">分析</el-button>
+        <el-button type="info">分析</el-button>
         <div class="overall-portrait-select-time">
             <el-select v-model="value" clearable placeholder="选择时间段">
                 <el-option

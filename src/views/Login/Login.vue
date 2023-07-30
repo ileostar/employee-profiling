@@ -30,6 +30,9 @@
 import { useRouter } from 'vue-router';
 import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
+import { ElMessage } from 'element-plus'
+import api from '@/api/api'
+
 const router = useRouter()
 
 const ruleFormRef = ref<FormInstance>()
@@ -61,13 +64,28 @@ const rules = reactive<FormRules>({
 
 const submitForm = function (formEl: FormInstance | undefined) {
   if (!formEl) return
-  formEl.validate((valid: any) => {
+  formEl.validate((valid) => {
     if (valid) {
-      router.push('/')
+      api.login(ruleForm).then((res)=>{
+        console.log(res.data);
+        if(res.data.state === 200){
+          ElMessage.success('登录成功');
+          router.push('/');
+          console.log(res);
+          
+          const cookies = res.headers['set-cookie'];
+          cookies!.forEach(cookie => {
+            document.cookie = cookie; // 将每个 Set-Cookie 头部设置为 document.cookie
+          });
+        }
+        else{
+          ElMessage.error('登录失败');
+        }
+      })
     } else {
-      console.log('error submit!')
+      ElMessage.error('请正确填写表单！')
       return false
-    } 
+    }
   })
 }
 

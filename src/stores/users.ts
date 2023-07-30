@@ -1,12 +1,34 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
+type Token = string
+type Infos = {
+  [index: string]: unknown
+}
 export const useUsersStore = defineStore('users', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+
+  const token = ref<Token>('')
+  const infos = ref<Infos>({})
+  
+  function updateToken(payload: Token){
+    token.value = payload;
+  }
+  function updateInfos(payload: Infos){
+    infos.value = payload;
+  }
+  function clearToken(){
+    token.value = '';
   }
 
-  return { count, doubleCount, increment }
+  return { 
+    token, 
+    infos, 
+    updateToken,
+    updateInfos,
+    clearToken 
+  }
+}, {
+  persist: {
+    paths: ['token']
+  }
 })
