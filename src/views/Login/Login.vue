@@ -32,8 +32,10 @@ import { reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import api from '@/api/api'
+import { useUsersStore } from '@/stores/users';
 
 const router = useRouter()
+const userStore = useUsersStore()
 
 const ruleFormRef = ref<FormInstance>()
 
@@ -70,13 +72,14 @@ const submitForm = function (formEl: FormInstance | undefined) {
         console.log(res.data);
         if(res.data.state === 200){
           ElMessage.success('登录成功');
+          // 设置cookie
+          const cookie = res.data.message;
+          userStore.updateCookie(cookie)
+          // 更新用户信息
+          userStore.updateInfos(res.data.data)
+
           router.push('/');
-          console.log(res);
           
-          const cookies = res.headers['set-cookie'];
-          cookies!.forEach(cookie => {
-            document.cookie = cookie; // 将每个 Set-Cookie 头部设置为 document.cookie
-          });
         }
         else{
           ElMessage.error('登录失败');

@@ -1,18 +1,39 @@
+// import router from '@/router';
+// import { useUsersStore } from '@/stores/users';
 import axios from 'axios'
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
+// import { ElMessage } from 'element-plus';
+// import { storeToRefs } from 'pinia';
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_AXIOS_BASE_URI,
-  timeout: 5000
+  timeout: 5000,
+  headers: {
+    'Access-Control-Allow-Origin':'*',
+    'Access-Control-Allow-Credentials':'true',
+    'Content-Type': 'application/json',
+  }
 });
 
+// 请求拦截器
 instance.interceptors.request.use(function (config) {
   return config;
 }, function (error: unknown) {
   return Promise.reject(error);
 });
 
+// 响应拦截器
 instance.interceptors.response.use(function (response) {
+  // if(response.data.errmsg === 'token error'){
+  //   const usersStore = useUsersStore()
+  //   usersStore.clearAllCookie()
+  //   ElMessage.error('auth error');
+  //   setTimeout(()=>{
+  //     window.location.replace('/login');
+  //   }, 1000)
+  // } else if(response.data.errmsg === 'error'){
+  //   router.push('/500');
+  // }
   return response;
 }, function (error: unknown) {
   return Promise.reject(error);

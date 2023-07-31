@@ -23,6 +23,9 @@ import Matching from '@/views/Matching/Matching.vue'
 import NotFound from '@/views/NotFound/NotFound.vue'
 import NotAuth from '@/views/NotAuth/NotAuth.vue'
 import NotServer from '@/views/NotServer/NotServer.vue'
+import { storeToRefs } from 'pinia'
+import { useUsersStore } from '@/stores/users'
+import * as _ from 'lodash'
 
 declare module 'vue-router' {
     interface RouteMeta {
@@ -211,10 +214,21 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _from, next) => {
-    if (to.meta.auth){ 
-        next()
+    const usersStore = useUsersStore()
+    const { cookie, infos } = storeToRefs(usersStore)
+    if (to.meta.auth  && _.isEmpty(infos.value) ){ 
+        if(cookie.value) {
+            next();
+        } else {
+            next('/login')
+        }
     } else {
-        next()
+        if( cookie.value && to.path === '/login' ){
+            next('/');
+        }
+        else{
+            next();
+        }
     }
 })
 

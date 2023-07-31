@@ -11,9 +11,9 @@ export default {
   register: (params: LoginReg) => {
     return http.post('/user/reg', params)
   },
-  // select: (params: Login) => {
-  //   return http.get('/user/select', params)
-  // },
+  select: () => {
+    return http.get('/user/select')
+  },
   // updateByPassword: (params: Login) => {
   //   return http.put('/user/updateByPassword', params)
   // },

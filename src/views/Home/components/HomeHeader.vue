@@ -16,23 +16,27 @@
                     </el-dropdown-menu>
                 </template>
             </el-dropdown>
-            <el-drawer v-model="drawer" title="I am the title" :with-header="false">
-                <span>Hi there!</span>
+            <el-drawer v-model="drawer" :with-header="false">
+                <userInfos></userInfos>
             </el-drawer>
         </div>
     </div>
 </template>
 
 <script setup lang="ts">
+import userInfos from '@/components/userInfos/userInfos.vue'
+import { useUsersStore } from '@/stores/users'
 import { ref } from 'vue'
-
 const drawer = ref(false)
+const userStore = useUsersStore()
 
 const handleLogout= ()=> {
   setTimeout(()=>{
+    userStore.clearAllCookie()
     window.location.replace('/login')
   }, 500)
 }
+
 </script>
 
 <style lang="scss" scoped>
