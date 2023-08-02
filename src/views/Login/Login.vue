@@ -69,20 +69,21 @@ const submitForm = function (formEl: FormInstance | undefined) {
   formEl.validate((valid) => {
     if (valid) {
       api.login(ruleForm).then((res)=>{
-        console.log(res.data);
         if(res.data.state === 200){
-          ElMessage.success('登录成功');
-          // 设置cookie
-          const cookie = res.data.message;
-          userStore.updateCookie(cookie)
+
           // 更新用户信息
-          userStore.updateInfos(res.data.data)
+          userStore.updateInfos(res.data.data.Username)
+          
+          // 设置token
+          userStore.updateToken(res.data.data.uToken)
+          
+          ElMessage.success('登录成功');
 
           router.push('/');
           
         }
         else{
-          ElMessage.error('登录失败');
+          ElMessage.error(res.data.message);
         }
       })
     } else {

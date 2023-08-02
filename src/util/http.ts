@@ -1,9 +1,7 @@
-// import router from '@/router';
-// import { useUsersStore } from '@/stores/users';
+import { useUsersStore } from '@/stores/users';
 import axios from 'axios'
 import type { AxiosRequestConfig, AxiosResponse } from 'axios'
-// import { ElMessage } from 'element-plus';
-// import { storeToRefs } from 'pinia';
+import { storeToRefs } from 'pinia';
 
 const instance = axios.create({
   baseURL: import.meta.env.VITE_AXIOS_BASE_URI,
@@ -17,6 +15,11 @@ const instance = axios.create({
 
 // 请求拦截器
 instance.interceptors.request.use(function (config) {
+  if(config.headers){
+    const usersStore = useUsersStore()
+    const {token} = storeToRefs(usersStore)
+    config.headers.authentication = token.value;
+  }
   return config;
 }, function (error: unknown) {
   return Promise.reject(error);
@@ -24,16 +27,6 @@ instance.interceptors.request.use(function (config) {
 
 // 响应拦截器
 instance.interceptors.response.use(function (response) {
-  // if(response.data.errmsg === 'token error'){
-  //   const usersStore = useUsersStore()
-  //   usersStore.clearAllCookie()
-  //   ElMessage.error('auth error');
-  //   setTimeout(()=>{
-  //     window.location.replace('/login');
-  //   }, 1000)
-  // } else if(response.data.errmsg === 'error'){
-  //   router.push('/500');
-  // }
   return response;
 }, function (error: unknown) {
   return Promise.reject(error);

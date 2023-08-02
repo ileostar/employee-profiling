@@ -1,5 +1,5 @@
 import http from '../util/http'
-import { LoginReg } from './type'
+import { LoginReg, fixPassword, fixUsername } from './type'
 
 export default {
   /**
@@ -14,12 +14,13 @@ export default {
   select: () => {
     return http.get('/user/select')
   },
-  // updateByPassword: (params: Login) => {
-  //   return http.put('/user/updateByPassword', params)
-  // },
-  // updateByUsername: (params: Login) => {
-  //   return http.put('/user/updateByUsername', params)
-  // },
+  updateByPassword: (params: fixPassword) => {
+    return http.get('/user/updateByPassword', params)
+  },
+  
+  updateByUsername: (params: fixUsername) => {
+    return http.get('/user/updateByUsername', params)
+  },
   
   /**
    * @desc 标签接口

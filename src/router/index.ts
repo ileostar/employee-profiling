@@ -215,15 +215,15 @@ const router = createRouter({
 
 router.beforeEach((to, _from, next) => {
     const usersStore = useUsersStore()
-    const { cookie, infos } = storeToRefs(usersStore)
+    const { token,infos } = storeToRefs(usersStore)
     if (to.meta.auth  && _.isEmpty(infos.value) ){ 
-        if(cookie.value) {
+        if(token.value) {
             next();
         } else {
             next('/login')
         }
     } else {
-        if( cookie.value && to.path === '/login' ){
+        if( token.value && to.path === '/login' ){
             next('/');
         }
         else{

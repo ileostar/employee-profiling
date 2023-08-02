@@ -1,43 +1,47 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-type Cookie = string
+type Token = string
 type Infos = {
+  id?: number
+  username?: string
+  password?: string
+  role?: string
   [index: string]: unknown
 }
 export const useUsersStore = defineStore('users', () => {
 
-  const cookie = ref<Cookie>('')
+  const token = ref<Token>('')
   const infos = ref<Infos>({})
   
-  function updateCookie(Cookie: string) {
-    cookie.value = Cookie;
-    document.cookie = `JSESSIONID=${Cookie}`;
+  function updateToken(payload: Token) {
+    token.value = payload;
+
   }
 
   function updateInfos(payload: Infos){
     infos.value = payload;
   }
-  //清除所有cookie函数
-  function clearAllCookie() {
-    cookie.value = ''
-    var keys = document.cookie.match(/[^ =;]+(?=\=)/g);
-    if (keys) {
-        for (var i = keys.length; i--;)
-            document.cookie = keys[i] + '=0;expires=' + new Date(0).toUTCString()
-    }
+
+  function updatePassword(payload: string){
+    infos.value.password = payload;
+  }
+  
+  function clearToken() {
+    token.value = ''
   }
 
 
   return { 
-    cookie, 
+    token, 
     infos, 
-    updateCookie,
+    updateToken,
     updateInfos,
-    clearAllCookie 
+    updatePassword,
+    clearToken
   }
 }, {
   persist: {
-    paths: ['cookie']
+    paths: ['token','infos']
   }
 })

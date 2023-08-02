@@ -17,7 +17,7 @@
                 </template>
             </el-dropdown>
             <el-drawer v-model="drawer" :with-header="false">
-                <userInfos></userInfos>
+                <userInfos :drawer="drawer"></userInfos>
             </el-drawer>
         </div>
     </div>
@@ -32,7 +32,7 @@ const userStore = useUsersStore()
 
 const handleLogout= ()=> {
   setTimeout(()=>{
-    userStore.clearAllCookie()
+    userStore.clearToken()
     window.location.replace('/login')
   }, 500)
 }
