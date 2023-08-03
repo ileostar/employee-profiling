@@ -1,5 +1,5 @@
 import http from '../util/http'
-import { LoginReg, fixPassword, fixUsername } from './type'
+import { LoginReg, Tag, fixPassword, fixUsername } from './type'
 
 export default {
   /**
@@ -25,18 +25,18 @@ export default {
   /**
    * @desc 标签接口
    */
-  // insertTag: (params: Login) => {
-  //   return http.post('/label/insert', params)
-  // },
-  // deleteTag: (params: Login) => {
-  //   return http.delete('/label/delete', params)
-  // },
-  // updateTag: (params: Login) => {
-  //   return http.put('/label/update', params)
-  // },
-  // selectTag: (params: Login) => {
-  //   return http.get('/label/select', params)
-  // },
+  insertTag: (params: { features: string }) => {
+    return http.post('/label/insert', params)
+  },
+  deleteTag: (params:number) => {
+    return http.delete('/label/delete?id='+params)
+  },
+  updateTag: (params: Tag) => {
+    return http.put('/label/update', params)
+  },
+  selectTag: () => {
+    return http.get('/label/select')
+  },
 
   /**
    * @desc 员工接口

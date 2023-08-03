@@ -66,26 +66,22 @@ const rules = reactive<FormRules>({
 
 const submitForm = function (formEl: FormInstance | undefined) {
   if (!formEl) return
-  formEl.validate((valid) => {
+  formEl.validate(async (valid) => {
     if (valid) {
-      api.login(ruleForm).then((res)=>{
-        if(res.data.state === 200){
+      const res = await api.login(ruleForm)
+      if(res.data.state === 200){
+        // 更新用户信息
+        userStore.updateInfos(res.data.data.Username)
 
-          // 更新用户信息
-          userStore.updateInfos(res.data.data.Username)
-          
-          // 设置token
-          userStore.updateToken(res.data.data.uToken)
-          
-          ElMessage.success('登录成功');
+        // 设置token
+        userStore.updateToken(res.data.data.uToken)
+        
+        ElMessage.success('登录成功');
+        router.push('/');
 
-          router.push('/');
-          
-        }
-        else{
-          ElMessage.error(res.data.message);
-        }
-      })
+      } else{
+        ElMessage.error(res.data.message);
+      }
     } else {
       ElMessage.error('请正确填写表单！')
       return false

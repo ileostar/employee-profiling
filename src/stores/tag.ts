@@ -1,12 +1,22 @@
-import { ref, computed } from 'vue'
+import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
-export const useCounterStore = defineStore('tag', () => {
-  const count = ref(0)
-  const doubleCount = computed(() => count.value * 2)
-  function increment() {
-    count.value++
+export type Infos = {
+  id?: number
+  features?: string
+}
+
+export const useTagStore = defineStore('tag', () => {
+  const info = ref<Array<Infos>>([])
+  
+  function updateTagInfos(payload:Array<Infos>) {
+    info.value = payload
+    console.log(info);
+    
   }
 
-  return { count, doubleCount, increment }
+  return { 
+    info,
+    updateTagInfos
+   }
 })

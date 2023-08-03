@@ -11,3 +11,8 @@ export type fixUsername = {
     id: number
     username: string
 }
+
+export type Tag = {
+    id?: number
+    features?: string
+}

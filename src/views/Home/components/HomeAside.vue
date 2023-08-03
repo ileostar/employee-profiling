@@ -58,15 +58,25 @@
 </template>
 
 <script setup lang="ts">
+import { useUsersStore } from '@/stores/users';
 import * as _ from 'lodash';
+import { storeToRefs } from 'pinia';
 import { useRouter, useRoute } from 'vue-router';
 const router = useRouter()
 const route = useRoute()
+const userStore = useUsersStore()
+
+const {infos} = storeToRefs(userStore)
 
 const menu = _.cloneDeep(router.options.routes[0].children)
-// console.log("menu:",menu![0].children)
 
-const maintenance = [menu![0]]
+// 权限过滤
+const updatedObj = { 
+  ...menu![0], 
+  children: menu![0].children?.filter((item) => infos.value.role==='普通用户' ?item.name !== 'AccountManage':true)
+};
+
+const maintenance = [updatedObj]
 const employeePortrait = menu![1]
 const postPortrait = [menu![2]]
 const Matching = menu![3]

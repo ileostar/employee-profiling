@@ -1,5 +1,9 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useUsersStore } from '@/stores/users'
+import * as _ from 'lodash'
+import api from '@/api/api'
 
 // 主页面
 import Home from '@/views/Home/Home.vue'
@@ -23,9 +27,7 @@ import Matching from '@/views/Matching/Matching.vue'
 import NotFound from '@/views/NotFound/NotFound.vue'
 import NotAuth from '@/views/NotAuth/NotAuth.vue'
 import NotServer from '@/views/NotServer/NotServer.vue'
-import { storeToRefs } from 'pinia'
-import { useUsersStore } from '@/stores/users'
-import * as _ from 'lodash'
+import { useTagStore } from '@/stores/tag'
 
 declare module 'vue-router' {
     interface RouteMeta {
@@ -102,7 +104,21 @@ const routes: Array<RouteRecordRaw> = [
                             menu: true,
                             title: '标签管理',
                             icon: '#icon-biaoqian'
-                        }
+                        },
+                        async beforeEnter(_to, _from, next){
+                            const tagStore = useTagStore()
+                            const { info: tagInfo } = storeToRefs(tagStore)
+                            if( _.isEmpty(tagInfo.value) ){
+                              const res = await api.selectTag()
+                              if(res.data.state === 200){
+                                tagStore.updateTagInfos(res.data.data)
+                              }
+                              else{
+                                return;
+                              }
+                            }
+                            next()
+                          }
                     },
                     {
                         path: '/accountManage',
