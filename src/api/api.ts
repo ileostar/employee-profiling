@@ -11,13 +11,15 @@ export default {
   register: (params: LoginReg) => {
     return http.post('/user/reg', params)
   },
-  select: () => {
+  deleteUser: (params: number) => {
+    return http.delete('/user/delete?id='+params)
+  },
+  selectUser: () => {
     return http.get('/user/select')
   },
   updateByPassword: (params: fixPassword) => {
     return http.get('/user/updateByPassword', params)
   },
-  
   updateByUsername: (params: fixUsername) => {
     return http.get('/user/updateByUsername', params)
   },

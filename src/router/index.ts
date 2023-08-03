@@ -118,7 +118,7 @@ const routes: Array<RouteRecordRaw> = [
                               }
                             }
                             next()
-                          }
+                        }
                     },
                     {
                         path: '/accountManage',
@@ -129,8 +129,22 @@ const routes: Array<RouteRecordRaw> = [
                             menu: true,
                             title: '账号管理',
                             icon: '#icon-zhanghaoguanli1'
-                        }
-                    },   
+                        },
+                        async beforeEnter(_to, _from, next){
+                            const userStore = useUsersStore()
+                            const { allUsers: Info } = storeToRefs(userStore)
+                            if( _.isEmpty(Info.value) ){
+                              const res = await api.selectUser()
+                              if(res.data.state === 200){
+                                userStore.updateAllUsers(res.data.data)
+                              }
+                              else{
+                                return;
+                              }
+                            }
+                            next()
+                        } 
+                    }
                 ]
             },
             {    

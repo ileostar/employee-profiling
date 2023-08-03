@@ -2,21 +2,26 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
 type Token = string
-type Infos = {
+export type Infos = {
   id?: number
   username?: string
   password?: string
+  salt?: string
+  createdTime?: string,
   role?: string
-  [index: string]: unknown
 }
 export const useUsersStore = defineStore('users', () => {
 
   const token = ref<Token>('')
   const infos = ref<Infos>({})
+  const allUsers = ref<Array<Infos>>([])
   
   function updateToken(payload: Token) {
     token.value = payload;
+  }
 
+  function updateAllUsers(payload: Array<Infos>) {
+    allUsers.value = payload;
   }
 
   function updateInfos(payload: Infos){
@@ -35,8 +40,10 @@ export const useUsersStore = defineStore('users', () => {
   return { 
     token, 
     infos, 
+    allUsers,
     updateToken,
     updateInfos,
+    updateAllUsers,
     updatePassword,
     clearToken
   }
