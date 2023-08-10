@@ -6,7 +6,7 @@
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
 
-    /* Bundler mode */    
+    /* Bundler mode */
     // 单元测试的支持
     "types": ["vitest/globals"],
     "moduleResolution": "node",
@@ -23,14 +23,12 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    /* 设置别名 */ 
+    /* 设置别名 */
     "baseUrl": "./",
-    "paths":{
+    "paths": {
       "@": ["src"],
-      "@/*": ["src/*"],
-    },
-
-
+      "@/*": ["src/*"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]

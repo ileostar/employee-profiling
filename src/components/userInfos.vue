@@ -34,21 +34,21 @@ const  circleUrl =ref('https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726
 const drawer = defineProps(['drawer'])
 
 const editUserInfos = async () => {
-    const fixData = {
-        id:  userStore.infos.id as number,
-        username: userStore.infos.username as string
-    }
-    api.updateByUsername(fixData).then((res)=>{
-        console.log(res);
-        if(res.data.state == 200){
+	const fixData = {
+		id:  userStore.infos.id as number,
+		username: userStore.infos.username as string
+	}
+	api.updateByUsername(fixData).then((res)=>{
+		console.log(res);
+		if(res.data.state == 200){
             
-            userStore.updatePassword(fixData.username)
-            ElMessage.success("修改成功")
-        } else {
-            ElMessage.error(res.data.message)
-        }
-        console.log(drawer)
-    })
+			userStore.updatePassword(fixData.username)
+			ElMessage.success('修改成功')
+		} else {
+			ElMessage.error(res.data.message)
+		}
+		console.log(drawer)
+	})
 }
 </script>
 

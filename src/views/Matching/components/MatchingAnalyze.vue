@@ -50,17 +50,17 @@
 
 <script lang="ts" setup>
 
-import { reactive } from 'vue'
+import { reactive } from 'vue';
 
 const formInline = reactive({
-  user: '',
-  region: 'jingzhun',
-  date: '',
-})
+	user: '',
+	region: 'jingzhun',
+	date: '',
+});
 
 const onSubmit = () => {
-  console.log('submit!')
-}
+	console.log('submit!');
+};
 </script>
 
 <style lang="scss" scoped>
@@ -100,8 +100,9 @@ const onSubmit = () => {
     }
     .content-right {
         .content-right-post {
-            height: 20%;
             .el-form {
+                display: flex;
+                height: 20%;
                 margin: 3vh 3vh;
                 
                 .el-button {

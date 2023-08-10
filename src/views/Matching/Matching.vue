@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <div class="matching common-layout"> 
         <h1 class="title">人岗匹配</h1>
@@ -24,12 +25,12 @@ let currentComponent = ref(MatchingAnalyze);
 let isMatchingAnalyzeActive = ref(true);
 
 function toggleMatchingAnalyze() {
-  currentComponent.value = MatchingAnalyze
-  isMatchingAnalyzeActive.value = true
+	currentComponent.value = MatchingAnalyze;
+	isMatchingAnalyzeActive.value = true;
 }
 function toggleMatchingPost() {
-  currentComponent.value = MatchingPost
-  isMatchingAnalyzeActive.value = false
+	currentComponent.value = MatchingPost;
+	isMatchingAnalyzeActive.value = false;
 }
 </script>
 

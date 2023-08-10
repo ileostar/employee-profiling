@@ -24,7 +24,7 @@
 </template>
 
 <script setup lang="ts">
-import userInfos from '@/components/userInfos/userInfos.vue';
+import userInfos from '@/components/userInfos.vue';
 import { useUsersStore } from '@/stores/users';
 import { ref } from 'vue';
 const drawer = ref(false);
