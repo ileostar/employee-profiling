@@ -6,10 +6,13 @@
     "lib": ["ESNext", "DOM", "DOM.Iterable"],
     "skipLibCheck": true,
 
-    /* Bundler mode */
+    /* Bundler mode */    
+    // 单元测试的支持
+    "types": ["vitest/globals"],
     "moduleResolution": "node",
     "allowImportingTsExtensions": true,
     "resolveJsonModule": true,
+    // 解决测试文件中的 '--isolatedModules'报错
     "isolatedModules": true,
     "noEmit": true,
     "jsx": "preserve",
@@ -20,12 +23,14 @@
     "noUnusedParameters": true,
     "noFallthroughCasesInSwitch": true,
 
-    // 设置别名
+    /* 设置别名 */ 
     "baseUrl": "./",
     "paths":{
       "@": ["src"],
       "@/*": ["src/*"],
-    }
+    },
+
+
   },
   "include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
   "references": [{ "path": "./tsconfig.node.json" }]

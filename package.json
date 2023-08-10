@@ -6,13 +6,21 @@
   "scripts": {
     "dev": "vite --open",
     "build": "vue-tsc && vite build",
-    "preview": "vite preview"
+    "preview": "vite preview",
+    "commit": "git add . && cz",
+    "test": "vitest",
+    "coverage": "vitest run --coverage"
   },
   "dependencies": {
+    "@element-plus/icons-vue": "1.x",
     "axios": "^1.4.0",
+    "commit": "^0.0.4",
+    "cz-conventional-changelog": "3.3.0",
+    "cz-conventional-changelog-zh": "^0.0.2",
     "dotenv": "^16.3.1",
     "echarts": "^5.4.2",
     "element-plus": "^2.3.5",
+    "init": "0.1.2",
     "lodash": "^4.17.21",
     "pinia": "^2.0.35",
     "pinia-plugin-persistedstate": "^3.1.0",
@@ -22,9 +30,90 @@
   },
   "devDependencies": {
     "@types/node": "^20.2.4",
+    "@typescript-eslint/eslint-plugin": "^6.2.1",
+    "@typescript-eslint/parser": "^6.2.1",
     "@vitejs/plugin-vue": "^4.1.0",
+    "@vitest/coverage-istanbul": "^0.34.1",
+    "@vue/test-utils": "^2.4.1",
+    "commitizen": "^4.3.0",
+    "eslint": "^8.46.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "eslint-plugin-vue": "^9.16.1",
+    "happy-dom": "^10.7.0",
+    "i": "^0.3.7",
+    "prettier": "^3.0.1",
     "typescript": "^5.0.2",
     "vite": "^4.3.2",
+    "vitest": "^0.34.1",
     "vue-tsc": "^1.4.2"
+  },
+  "config": {
+    "commitizen": {
+      "path": "./node_modules/cz-conventional-changelog-zh",
+      "defaultType": "[新增功能]",
+      "types": {
+        "[新增功能]": {
+          "description": "新增功能点、新增需求",
+          "title": "Features"
+        },
+        "[Bug修复]": {
+          "description": "修复Bug,线上，测试，验收阶段的bug",
+          "title": "Bug Fixes"
+        },
+        "[文档修改]": {
+          "description": "文档增删改",
+          "title": "Documentation"
+        },
+        "[样式修改]": {
+          "description": "样式修改(空白、格式、缺少分号等)",
+          "title": "Styles"
+        },
+        "[代码重构]": {
+          "description": "既不修复bug也不添加新功能的更改",
+          "title": "Code Refactoring"
+        },
+        "[性能优化]": {
+          "description": "性能优化",
+          "title": "Performance Improvements"
+        },
+        "[测试代码]": {
+          "description": "增加测试",
+          "title": "Tests"
+        },
+        "[编译代码]": {
+          "description": "影响构建系统或外部依赖项的更改(示例范围:gulp、broccoli、npm)",
+          "title": "Builds"
+        },
+        "[持续集成]": {
+          "description": "对CI配置文件和脚本的更改(示例范围:Travis, Circle, BrowserStack, SauceLabs)",
+          "title": "Continuous Integrations"
+        },
+        "[其他提交]": {
+          "description": "除src目录或测试文件以外的修改",
+          "title": "Chores"
+        },
+        "[回退更改]": {
+          "description": "回退历史版本",
+          "title": "Reverts"
+        },
+        "[修改冲突]": {
+          "description": "修改冲突",
+          "title": "Conflict"
+        },
+        "[字体修改]": {
+          "description": "字体文件更新",
+          "title": "Fonts"
+        },
+        "[删除文件]": {
+          "description": "删除文件",
+          "title": "Delete Files"
+        },
+        "[暂存文件]": {
+          "description": "暂存文件",
+          "title": "Stash Files"
+        }
+      }
+    }
   }
 }
