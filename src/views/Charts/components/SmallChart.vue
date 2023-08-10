@@ -14,7 +14,7 @@
 </template>
 
 <script lang="ts" setup>
-const props = defineProps(['image','chart'])
+const props = defineProps(['image','chart']);
 </script>
 
 <style lang="scss" scoped>

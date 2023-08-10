@@ -24,18 +24,18 @@
 </template>
 
 <script setup lang="ts">
-import userInfos from '@/components/userInfos/userInfos.vue'
-import { useUsersStore } from '@/stores/users'
-import { ref } from 'vue'
-const drawer = ref(false)
-const userStore = useUsersStore()
+import userInfos from '@/components/userInfos/userInfos.vue';
+import { useUsersStore } from '@/stores/users';
+import { ref } from 'vue';
+const drawer = ref(false);
+const userStore = useUsersStore();
 
 const handleLogout= ()=> {
-  setTimeout(()=>{
-    userStore.clearToken()
-    window.location.replace('/login')
-  }, 500)
-}
+	setTimeout(()=>{
+		userStore.clearToken();
+		window.location.replace('/login');
+	}, 500);
+};
 
 </script>
 
@@ -68,6 +68,9 @@ const handleLogout= ()=> {
         }
     }
     .home-header-right {
+        .home-header-space {
+          cursor:pointer;
+        }
         .el-avatar {
             font-size: 3vh;
             color: black;

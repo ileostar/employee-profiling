@@ -15,6 +15,7 @@
   },
   "dependencies": {
     "@element-plus/icons-vue": "1.x",
+    "@types/lodash": "^4.14.197",
     "axios": "^1.4.0",
     "commit": "^0.0.4",
     "cz-conventional-changelog": "3.3.0",
@@ -23,9 +24,10 @@
     "echarts": "^5.4.2",
     "element-plus": "^2.3.5",
     "init": "0.1.2",
-    "lodash": "^4.17.21",
+    "loadsh": "^0.0.4",
     "pinia": "^2.0.35",
     "pinia-plugin-persistedstate": "^3.1.0",
+    "r": "^0.0.5",
     "sass": "^1.62.1",
     "vue": "^3.2.47",
     "vue-router": "^4.1.6"
@@ -49,6 +51,7 @@
     "i": "^0.3.7",
     "install": "^0.13.0",
     "lint-staged": "^13.2.3",
+    "lodash": "^4.17.21",
     "prettier": "^3.0.1",
     "typescript": "^5.0.2",
     "vite": "^4.3.2",

@@ -47,79 +47,79 @@
 
 <script setup lang="ts">
 
-import { ref } from 'vue'
-import { Search } from '@element-plus/icons-vue'
-const input3 = ref('')
+import { ref } from 'vue';
+import { Search } from '@element-plus/icons-vue';
+const input3 = ref('');
 const tableData = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-]
+	{
+		date: '2016-05-03',
+		name: 'Tom',
+		address: 'No. 189, Grove St, Los Angeles',
+	},
+	{
+		date: '2016-05-02',
+		name: 'Tom',
+		address: 'No. 189, Grove St, Los Angeles',
+	},
+	{
+		date: '2016-05-04',
+		name: 'Tom',
+		address: 'No. 189, Grove St, Los Angeles',
+	},
+	{
+		date: '2016-05-01',
+		name: 'Tom',
+		address: 'No. 189, Grove St, Los Angeles',
+	},
+];
 
 const tableData2 = [
-  {
-    date: '2016-05-03',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-02',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-04',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-  {
-    date: '2016-05-01',
-    name: 'Tom',
-    address: 'No. 189, Grove St, Los Angeles',
-  },
-]
+	{
+		date: '2016-05-03',
+		name: 'Tom',
+		address: 'No. 189, Grove St, Los Angeles',
+	},
+	{
+		date: '2016-05-02',
+		name: 'Tom',
+		address: 'No. 189, Grove St, Los Angeles',
+	},
+	{
+		date: '2016-05-04',
+		name: 'Tom',
+		address: 'No. 189, Grove St, Los Angeles',
+	},
+	{
+		date: '2016-05-01',
+		name: 'Tom',
+		address: 'No. 189, Grove St, Los Angeles',
+	},
+	{
+		date: '2016-05-01',
+		name: 'Tom',
+		address: 'No. 189, Grove St, Los Angeles',
+	},
+	{
+		date: '2016-05-01',
+		name: 'Tom',
+		address: 'No. 189, Grove St, Los Angeles',
+	},
+	{
+		date: '2016-05-01',
+		name: 'Tom',
+		address: 'No. 189, Grove St, Los Angeles',
+	},
+	{
+		date: '2016-05-01',
+		name: 'Tom',
+		address: 'No. 189, Grove St, Los Angeles',
+	},
+	{
+		date: '2016-05-01',
+		name: 'Tom',
+		address: 'No. 189, Grove St, Los Angeles',
+	},
+];
 </script>
 
 <style lang="scss" scoped>
@@ -159,13 +159,13 @@ const tableData2 = [
                 flex-direction: column;
                 height: 100%;
                 .content-analyze {
-                    height: 43%;
+                    height: 46%;
                     .el-table {
                         margin: 1vh 0;
                     }
                 }
                 .content-matching {
-                    height: 55%;
+                    height: 54%;
                 }
             }
         }

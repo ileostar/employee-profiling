@@ -4,6 +4,9 @@ dependencies:
   '@element-plus/icons-vue':
     specifier: 1.x
     version: 1.1.4(vue@3.2.47)
+  '@types/lodash':
+    specifier: ^4.14.197
+    version: 4.14.197
   axios:
     specifier: ^1.4.0
     version: 1.4.0
@@ -28,15 +31,18 @@ dependencies:
   init:
     specifier: 0.1.2
     version: 0.1.2
-  lodash:
-    specifier: ^4.17.21
-    version: 4.17.21
+  loadsh:
+    specifier: ^0.0.4
+    version: 0.0.4
   pinia:
     specifier: ^2.0.35
     version: 2.0.35(typescript@5.0.2)(vue@3.2.47)
   pinia-plugin-persistedstate:
     specifier: ^3.1.0
     version: 3.1.0(pinia@2.0.35)
+  r:
+    specifier: ^0.0.5
+    version: 0.0.5
   sass:
     specifier: ^1.62.1
     version: 1.62.1
@@ -102,6 +108,9 @@ devDependencies:
   lint-staged:
     specifier: ^13.2.3
     version: 13.2.3
+  lodash:
+    specifier: ^4.17.21
+    version: 4.17.21
   prettier:
     specifier: ^3.0.1
     version: 3.0.1
@@ -943,11 +952,11 @@ packages:
   /@types/lodash-es@4.17.8:
     resolution: {integrity: sha512-euY3XQcZmIzSy7YH5+Unb3b2X12Wtk54YWINBvvGQ5SmMvwb11JQskGsfkH/5HXK77Kr8GF0wkVDIxzAisWtog==}
     dependencies:
-      '@types/lodash': 4.14.196
+      '@types/lodash': 4.14.197
     dev: false
 
-  /@types/lodash@4.14.196:
-    resolution: {integrity: sha512-22y3o88f4a94mKljsZcanlNWPzO0uBsBdzLAngf2tp533LzZcQzb6+eZPJ+vCTt+bqF2XnvT9gejTLsAcJAJyQ==}
+  /@types/lodash@4.14.197:
+    resolution: {integrity: sha512-BMVOiWs0uNxHVlHBgzTIqJYmj+PgCo4euloGF+5m4okL3rEYzM2EEv78mw8zWSMM57dM7kVIgJ2QDvwHSoCI5g==}
     dev: false
 
   /@types/minimist@1.2.2:
@@ -2152,7 +2161,7 @@ packages:
       '@element-plus/icons-vue': 2.1.0(vue@3.2.47)
       '@floating-ui/dom': 1.5.1
       '@popperjs/core': /@sxzz/popperjs-es@2.11.7
-      '@types/lodash': 4.14.196
+      '@types/lodash': 4.14.197
       '@types/lodash-es': 4.17.8
       '@vueuse/core': 9.13.0(vue@3.2.47)
       async-validator: 4.2.5
@@ -3128,6 +3137,11 @@ packages:
       wrap-ansi: 7.0.0
     dev: true
 
+  /loadsh@0.0.4:
+    resolution: {integrity: sha512-U+wLL8InpfRalWrr+0SuhWgGt10M4OyAk6G8xCYo2rwpiHtxZkWiFpjei0vO463ghW8LPCdhqQxXlMy2qicAEw==}
+    deprecated: This is a typosquat on the popular Lodash package. This is not maintained nor is the original Lodash package.
+    dev: false
+
   /local-pkg@0.4.3:
     resolution: {integrity: sha512-SFppqq5p42fe2qcZQqqEOiVRXl+WCP1MdT6k7BDEW1j++sp5fIY+/fdRQitvKgB5BrBcmrs5m/L0v2FrU5MY1g==}
     engines: {node: '>=14'}
@@ -3734,6 +3748,10 @@ packages:
     resolution: {integrity: sha512-ARhCpm70fzdcvNQfPoy49IaanKkTlRWF2JMzqhcJbhSFRZv7nPTvZJdcY7301IPmvW+/p0RgIWnQDLJxifsQ7g==}
     engines: {node: '>=8'}
     dev: true
+
+  /r@0.0.5:
+    resolution: {integrity: sha512-rO+FXCKIUiLEVCP4HjIEkq8V5gRHc1N15/2K97GSOE/P5evYj6uOOgvHlINCwMHnEmHouBdeR6PBDzZDqmEH2A==}
+    dev: false
 
   /react-is@18.2.0:
     resolution: {integrity: sha512-xWGDIW6x921xtzPkhiULtthJHoJvBbF3q26fzloPCK0hsvxtPVelvftw3zjbHWSkR2km9Z+4uxbDDK/6Zw9B8w==}

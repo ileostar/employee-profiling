@@ -1,3 +1,4 @@
+<!-- eslint-disable vue/multi-word-component-names -->
 <template>
     <el-container>
         <el-header>
@@ -15,9 +16,9 @@
 </template>
 
 <script setup lang="ts">
-import HomeAside from './components/HomeAside.vue'
-import HomeHeader from './components/HomeHeader.vue'
-import HomeMain from './components/HomeMain.vue'
+import HomeAside from './components/HomeAside.vue';
+import HomeHeader from './components/HomeHeader.vue';
+import HomeMain from './components/HomeMain.vue';
 
 </script>
 

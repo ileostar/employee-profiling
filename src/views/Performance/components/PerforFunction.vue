@@ -125,44 +125,44 @@
 
 <script lang="ts" setup>
 import { reactive, ref } from 'vue';
-import { Search } from '@element-plus/icons-vue'
+import { Search } from '@element-plus/icons-vue';
 
-const search = ref('')
-const defaultSelect = ref('')
+const search = ref('');
+const defaultSelect = ref('');
 const select = reactive([
-{
-  label: '岗位1',
-  value: '1'
-},
-{
-  label: '岗位2',
-  value: '2'
-},
-{
-  label: '岗位3',
-  value: '3'
-},
-{
-  label: '岗位4',
-  value: '4'
-}
-])
-const dialogCreateFormVisible = ref(false)
-const dialogFixFormVisible = ref(false)
-const dialogInFormVisible = ref(false)
-const dialogOutFormVisible = ref(false)
-const formLabelWidth = '140px'
+	{
+		label: '岗位1',
+		value: '1'
+	},
+	{
+		label: '岗位2',
+		value: '2'
+	},
+	{
+		label: '岗位3',
+		value: '3'
+	},
+	{
+		label: '岗位4',
+		value: '4'
+	}
+]);
+const dialogCreateFormVisible = ref(false);
+const dialogFixFormVisible = ref(false);
+const dialogInFormVisible = ref(false);
+const dialogOutFormVisible = ref(false);
+const formLabelWidth = '140px';
 
 const form = reactive({
-  name: '',
-  region: '',
-  date1: '',
-  date2: '',
-  delivery: false,
-  type: [],
-  resource: '',
-  desc: '',
-})
+	name: '',
+	region: '',
+	date1: '',
+	date2: '',
+	delivery: false,
+	type: [],
+	resource: '',
+	desc: '',
+});
 
 interface Select  {
   label: string
@@ -175,8 +175,8 @@ interface Select  {
 * @desc: 切换当前下拉菜单显示
 */
 const taggleSelect = (select: Select)=>{
-  defaultSelect.value = select.label
-}
+	defaultSelect.value = select.label;
+};
 
 </script>
 
@@ -188,8 +188,6 @@ const taggleSelect = (select: Select)=>{
     overflow: hidden;
     padding: 0 0.5vw;
     .function-selectSearch {
-      line-height: 4.4vh;
-      height: 4.8vh;
       width: 30vw;
       overflow: hidden;
       border-radius: 5px;

@@ -48,9 +48,9 @@
 
 <script setup lang="ts">
 
-import { ref } from 'vue'
-import { Search } from '@element-plus/icons-vue'
-const input3 = ref('')
+import { ref } from 'vue';
+import { Search } from '@element-plus/icons-vue';
+const input3 = ref('');
 </script>
 
 <style lang="scss" scoped>
