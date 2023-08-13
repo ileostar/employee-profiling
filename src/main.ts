@@ -12,7 +12,8 @@ import 'element-plus/dist/index.css';
 import zhCn from 'element-plus/es/locale/lang/zh-cn';
 import * as ElementPlusIconsVue from '@element-plus/icons-vue';
 
-import svgIcon from './components/SvgIcon.vue'
+import svgIcon from '@/components/svgIcon/svgIcon.vue'
+import 'virtual:svg-icons-register'
 
 const app = createApp(App);
 const pinia = createPinia();

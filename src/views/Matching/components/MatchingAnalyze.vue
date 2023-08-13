@@ -27,6 +27,11 @@
             </div>
             <div class="content-left-result">
                 <p>> 分析结果</p>
+                <noResultYet size="400">
+                  <template v-slot:default>
+                    111
+                  </template>
+                </noResultYet>
             </div>
         </div>
         <div class="content-right">
@@ -43,6 +48,11 @@
             </div>
             <div class="content-right-matching">
                 <p>> 根据岗位筛选复合人员</p>
+                <noResultYet size="400">
+                  <template v-slot:default>
+                    111
+                  </template>
+                </noResultYet>
             </div>
         </div>
     </div>
@@ -51,6 +61,7 @@
 <script lang="ts" setup>
 
 import { reactive } from 'vue';
+import noResultYet from '@/components/noResultYet/noResultYet.vue'
 
 const formInline = reactive({
 	user: '',

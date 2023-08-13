@@ -5,6 +5,8 @@ import { resolve } from 'path';
 import './src/declare/myenv.d.ts';
 import dotenv, { DotenvParseOutput } from 'dotenv';
 import fs from 'fs';
+import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
+import { fileURLToPath, URL } from 'node:url'
 
 // https://vitejs.dev/config/
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -17,7 +19,10 @@ export default defineConfig((_mode: ConfigEnv) =>{
 	};
 
 	return {
-		plugins: [vue()], 
+		plugins: [createSvgIconsPlugin({
+			iconDirs: [fileURLToPath(new URL('./src/assets/svg', import.meta.url))], //+ 新增
+			symbolId: 'icon-[name]', //+ 新增
+		}),vue()], 
 		resolve: {
 			alias: {
 				'@': resolve(__dirname, 'src'), // 路径别名

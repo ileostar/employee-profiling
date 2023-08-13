@@ -15,19 +15,21 @@
       <el-divider />
       <div class="matching-result">
         <li>人岗匹配分析</li>
-        <Transition name="el-fade-in-linear">
-          <div v-show="true">
-            <svg><use xlink:href="#Noresultyet"></use></svg>
-          </div>
-        </Transition>
+        <noResultYet :size="350">
+          <template v-slot:default>
+            111
+          </template>
+        </noResultYet>
       </div>
     </div>
 </template>
 
 <script lang="ts" setup>
 import { ref } from 'vue'
+import noResultYet from '@/components/noResultYet/noResultYet.vue'
 const textarea = ref('')
 const example = '例：我需要一个体力好，有服务意识，并且具备开发能力的员工'
+
 </script>
 
 <style lang="scss" scoped>

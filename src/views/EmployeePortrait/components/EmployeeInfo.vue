@@ -52,10 +52,16 @@
                     <p>该员工与当前岗位匹配分析：</p>
                     <div class="box1-card">
                       <div class="box1-card-left">
-                        111
+                        <p>88.8%</p>
                       </div>
                       <div class="box1-card-right">
-                        111
+                        <div class="card-information-header">
+                          <el-icon><CaretRight /></el-icon>
+                          <p>{{postName}}</p>
+                        </div>
+                        <p class="card-information-content">
+                          该岗位优秀画像特征：{{ postIntroductInfo }}
+                        </p>
                       </div>
                     </div>
                   </div>
@@ -64,18 +70,18 @@
                     <div class="box2-card">
                       <employeeTagCard class="box2-card-content">
                         <template v-slot:header>
-                          <p>111</p>
+                          <p>> 当前岗位优秀标签</p>
                         </template>
                         <template v-slot:default>
-                          <p>111</p>
+                          <el-tag class="ml-2" type="info">Tag 3</el-tag>
                         </template>
                       </employeeTagCard>
-                      <employeeTagCard class="box2-card-content">
+                      <employeeTagCard class="box2-card-content second">
                         <template v-slot:header>
-                          <p>111</p>
+                          <p>> 该员工对应标签情况</p>
                         </template>
                         <template v-slot:default>
-                          <p>111</p>
+                          <el-tag class="ml-2" type="info">Tag 3</el-tag>
                         </template>
                       </employeeTagCard>
                     </div>
@@ -83,12 +89,12 @@
                   <div class="content-right-matching-box3">
                     <p>据模型分析，与当前员工匹配度高的岗位有：</p>
                     <div class="box3-table">  
-                      <el-table :data="tableData" border style="width: 98%">
+                      <el-table :data="tableData" :header-cell-style="{background:'#97c1be',color: '#fff' }" border  size="small">
                         <el-table-column prop="postName" label="岗位名" />
-                        <el-table-column prop="matchingNumber" label="匹配系数" width="90" />
-                        <el-table-column prop="maxMatching" label="最大匹配值" width="95" />
-                        <el-table-column prop="minMatching" label="最小匹配值"  width="95" />
-                        <el-table-column prop="averageMatching" label="平均值" width="70"/>
+                        <el-table-column prop="matchingNumber" label="匹配系数" width="75" />
+                        <el-table-column prop="maxMatching" label="最大匹配值" width="88" />
+                        <el-table-column prop="minMatching" label="最小匹配值"  width="88" />
+                        <el-table-column prop="averageMatching" label="平均值"/>
                       </el-table>
                     </div>
                   </div>
@@ -101,10 +107,11 @@
 
 <script lang="ts" setup>
 import { ref } from 'vue'
-import employeeTagCard from '@/components/employeeTagCard.vue'
+import employeeTagCard from '@/components/employeeTagCard/employeeTagCard.vue'
 
 const tags = ref(['标签1', '标签2', '标签3', '标签4', '标签2', '标签3', '标签4', '标签2', '标签3', '标签4', '标签2', '标签3', '标签4', '标签2', '标签3', '标签4'])
-
+const postName = ref('会计师')
+const postIntroductInfo = ref('有QC项目获奖情况、有体育特长、初级经济师、中共党员、有文学特长、有艺术特长')
 const tableData = [
 	{
 		postName: '会计师',
@@ -167,6 +174,11 @@ const tableData = [
               padding: 1vh;
               .el-tag  {
                 margin: .5vh;
+                border-radius: 1.2vh;
+              }
+              .ml-2,.more {
+                  color: #fff;
+                  background-color: #64b3ae;
               }
               .more {
                 cursor: pointer;
@@ -206,44 +218,78 @@ const tableData = [
               display: flex;
               flex-direction: column;
               height: 100%;
-              padding-top: 1vh;
-              .content-right-matching-box1, {
+              padding: 1vh 1.5vw 0;
+              .content-right-matching-box1 {
                 height: 25%;
+                overflow: hidden;
                 .box1-card {
                   overflow: hidden;
-                  margin: 1vh  2vh 0;
+                  margin: 1.2vh 2vh 0;
                   display: flex;
                   height: 70%;
                   border-radius: 10vh;
                   border: 1px solid #74777d;
                   .box1-card-left {
+                    display: flex;
+                    overflow: hidden;
+                    justify-content: center;
+                    align-items: center;
                     padding: 1vh 2vh;
                     width: 30%;
                     background-color:#37827d;
                     color: #fff;
+                    p {
+                      font-size: 3vh;
+                    }
                   }
                   .box1-card-right {
+                    overflow: hidden;
                     padding: 1vh 2vh;
+                    .card-information-header {
+                      display: flex;
+                      overflow: hidden;
+                      align-items: center;
+                    }
+                    .card-information-content {
+                      padding-top: .3vh;
+                      overflow: hidden;
+                      text-overflow:ellipsis;
+                      -webkit-line-clamp: 2;
+                      word-wrap: break-word;
+                      display: -webkit-box;
+                      -webkit-box-orient: vertical;
+                      color: #666565;
+                    }
                   }
                 }
               }
               .content-right-matching-box2 {
-                height: 48%;
+                flex: 1;
                 .box2-card {
                   display: flex;
-                  padding-top: 1vh;
+                  padding: 1.5vh .8vw 0;
                   height: 100%;
+                  .el-tag {
+                    color: #fff;
+                    background-color: #64b3ae;
+                    border-radius: 1.2vh;
+                  }
                   .box2-card-content {
-                    height:87%;
-                    width: 15.5vw;
-                    margin-left: 1.5vh;
+                    height:85%;
+                    width: 15vw;
+                  }
+                  .second {  
+                    margin-left: 2vh;
                   }
                 }
               }
               .content-right-matching-box3 {
-                height: 27%;
+                height: 25%;
                 .box3-table {
-                  padding-top: 1vh;
+                  padding-top: 1.5vh;
+                  .el-table {
+                    border-radius: 1.4vh;
+                  }
                 }
               }
               p {
@@ -259,5 +305,6 @@ const tableData = [
         padding: 2vh;
     }
   }
+
 }
 </style>
