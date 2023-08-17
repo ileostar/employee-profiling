@@ -1,10 +1,19 @@
+<!-- eslint-disable indent -->
 <template>
 	<div class="information-function">
+    <el-select v-model="currentDate" class="m-2" placeholder="Select">
+      <el-option
+        v-for="item in options"
+        :key="item"
+        :label="item"
+        :value="item"
+      />
+    </el-select>
 		<div class="function-selectSearch">
 			<div class="mt-4">
 				<el-input
 					v-model="search"
-					placeholder="请输入查询关键词"
+					placeholder="请输入员工编号或姓名"
 					class="input-with-select"
 				>
 					<template #prepend>
@@ -15,14 +24,14 @@
 							<el-option
 								v-for="item of select"
 								@click="taggleSelect(item)"
-								:label="item.label"
-								:key="item.value"
+								:label="item"
+								:key="item"
 								value="1"
 							/>
 						</el-select>
 					</template>
 					<template #append>
-						<el-button :icon="Search" />
+						<el-button :icon="Search" @click="searchEmployee" />
 					</template>
 				</el-input>
 			</div>
@@ -109,17 +118,23 @@
 		</template>
 	</el-dialog>
 	<el-dialog v-model="dialogInFormVisible" title="导入">
-		<el-form :model="form">
-			<el-form-item label="Promotion name" :label-width="formLabelWidth">
-				<el-input v-model="form.name" autocomplete="off" />
-			</el-form-item>
-			<el-form-item label="Zones" :label-width="formLabelWidth">
-				<el-select v-model="form.region" placeholder="Please select a zone">
-					<el-option label="Zone No.1" value="shanghai" />
-					<el-option label="Zone No.2" value="beijing" />
-				</el-select>
-			</el-form-item>
-		</el-form>
+    <el-upload
+    class="upload-demo"
+    drag
+    action="http://8.134.133.19:8827/upload"
+    multiple
+    :before-upload="beforeAvatarUpload"
+  >
+    <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+    <div class="el-upload__text">
+      Drop file here or <em>click to upload</em>
+    </div>
+    <template #tip>
+      <div class="el-upload__tip">
+        Please upload the xls/xlsx file
+      </div>
+    </template>
+  </el-upload>
 		<template #footer>
 			<span class="dialog-footer">
 				<el-button @click="dialogInFormVisible = false">取消</el-button>
@@ -155,27 +170,19 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
+import { ElMessage } from 'element-plus'
+import { useEmployeeStore } from '@/stores/employee'
+import { storeToRefs } from 'pinia'
+import { usePostStore } from '@/stores/post'
+import api from '@/api/api'
 
+const EmployeeStore = useEmployeeStore()
+const PostStore = usePostStore()
+
+const { createdTime: currentDate }  = storeToRefs(EmployeeStore)
 const search = ref('')
 const defaultSelect = ref('')
-const select = reactive([
-	{
-		label: '岗位1',
-		value: '1',
-	},
-	{
-		label: '岗位2',
-		value: '2',
-	},
-	{
-		label: '岗位3',
-		value: '3',
-	},
-	{
-		label: '岗位4',
-		value: '4',
-	},
-])
+const { postData: select } = storeToRefs(PostStore)
 const dialogCreateFormVisible = ref(false)
 const dialogFixFormVisible = ref(false)
 const dialogInFormVisible = ref(false)
@@ -193,18 +200,40 @@ const form = reactive({
 	desc: '',
 })
 
-interface Select {
-	label: string
-	value: string
-	[index: string]: unknown
-}
+const { createdTimeList: options } = storeToRefs(EmployeeStore)
 
 /**
  * @param: 当前点击岗位对象
  * @desc: 切换当前下拉菜单显示
  */
-const taggleSelect = (select: Select) => {
-	defaultSelect.value = select.label
+const taggleSelect = (select: string) => {
+	defaultSelect.value = select
+}
+
+/**
+ * Validates the file extension before uploading the avatar.
+ *
+ * @param {any} file - The file object to be validated.
+ * @return {boolean} - Returns true if the file extension is either 'xls' or 'xlsx', otherwise returns false.
+ */
+const beforeAvatarUpload = (file: any)=> {
+	var testmsg=file.name.substring(file.name.lastIndexOf('.')+1)
+	const extension = testmsg === 'xls'
+	const extension2 = testmsg === 'xlsx'
+
+	if(!extension && !extension2) {
+		ElMessage.error('请上传xls/xlsx格式的文件！');
+		return false;
+	}
+	// return isJPG && isLt2M;
+	return (extension || extension2)
+}
+const searchEmployee = async () => {
+	const res = await api.findByPostAndCondition({ post: defaultSelect.value,condition: search.value })
+	if(res.data.state === 200) {
+		EmployeeStore.updateEmployeeList(res.data.data)
+		console.log(res.data.data)
+	}
 }
 </script>
 

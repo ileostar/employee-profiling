@@ -1,5 +1,5 @@
 import http from '../util/http'
-import { Employee, LoginReg, Tag, fixPassword, fixUsername } from './type'
+import { Employee, LoginReg, Tag, fixPassword, fixUsername, searchEmployee } from './type'
 
 export default {
 	/**
@@ -65,6 +65,10 @@ export default {
 		// 员工信息修改方法，必须传入id
 		return http.put('/employee/update', params)
 	},
+	findByPostAndCondition: (params: searchEmployee) => {
+		// 员工信息修改方法，必须传入id
+		return http.get('/employee/findByPostAndCondition', params)
+	},
 	selectEmployee: (params: { createdTime: string }) => {
 		// 员工信息查询方法，用于展示员工信息，必须传入日期，格式如 “2023-05”
 		return http.get('/employee/select', params)
@@ -93,6 +97,10 @@ export default {
 		// 人岗匹配分析，查询该员工对该岗位的匹配系数，以及该岗位的最高最低平均匹配系数,需要传入的参数有员工姓名和日期、岗位，类型都是string，日期格式例如”2023-05“
 		return http.get('/employee/EmployeeAndPostMatching', params)
 	},
+	getCreatedTime: () => {
+		// 查询员工信息所有月份的方法
+		return http.get('/employee/selectByCreatedTime')
+	},
 
 	/**
 	 * @desc 绩效接口
@@ -107,7 +115,7 @@ export default {
 	},
 	findByUnit: (params: Employee) => {
 		// 用于右上角的查询，根据岗位进行查询
-		return http.put('/performane/findByUnit', params)
+		return http.get('/performane/findByUnit', params)
 	},
 	update: (params: Employee) => {
 		// 修改员工绩效的方法 要求前端表单能修改的字段只有绩效,为方便前端更新数据，新增成功后自动返回新增的数据
@@ -115,7 +123,7 @@ export default {
 	},
 	findByUnitAndCondition: (params: Employee) => {
 		// 用于右上角的查询，根据岗位和员工编号或岗位和员工姓名进行查询，注意编号和姓名的数据类型是不一样的，会根据传入的数据自动判断是姓名还是编号
-		return http.put('/performane/findByUnitAndCondition', params)
+		return http.get('/performane/findByUnitAndCondition', params)
 	},
 	selectPerformane: () => {
 		//  员工绩效查询方法,查询所有数据,用于前端展示

@@ -8,6 +8,7 @@
 			:height="tableHeight"
 			fixed
 			@column-sort="onSort"
+      @click="demo"
 		/>
 	</div>
 </template>
@@ -16,6 +17,11 @@
 import { ref, watchEffect } from 'vue'
 import { TableV2SortOrder } from 'element-plus'
 import type { SortBy } from 'element-plus'
+import { useEmployeeStore } from '@/stores/employee'
+import { storeToRefs } from 'pinia'
+
+const EmployeeStore = useEmployeeStore()
+const { EmployeeCloumn,EmployeeList } = storeToRefs(EmployeeStore)
 
 const tableWidth = ref(1125)
 const tableHeight = ref(550)
@@ -31,35 +37,35 @@ watchEffect(() => {
 	}
 })
 
-const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
-	Array.from({ length }).map((_, columnIndex) => ({
+// 员工信息表头
+const generateColumns = (props?: any) =>
+	EmployeeCloumn.value.map((item: string) => ({
 		...props,
-		key: `${prefix}${columnIndex}`,
-		dataKey: `${prefix}${columnIndex}`,
-		title: `列 ${columnIndex}`,
+		key: item,
+		dataKey: item,
+		title: item,
 		width: 150,
 	}))
 
 const generateData = (
 	columns: ReturnType<typeof generateColumns>,
-	length = 200,
-	prefix = 'row-',
-) =>
-	Array.from({ length }).map((_, rowIndex) => {
-		return columns.reduce(
-			(rowData, column, columnIndex) => {
-				rowData[column.dataKey] = `Row ${rowIndex} - Col ${columnIndex}`
-				return rowData
-			},
-			{
-				id: `${prefix}${rowIndex}`,
-				parentId: null,
-			},
-		)
-	})
+) => EmployeeList.value.map((row)=> {
+	// eslint-disable-next-line @typescript-eslint/no-unused-vars
+	const data = Object.entries(row).map(([_key, value]) => value)
+	return columns.reduce(
+		(rowData, column, columnIndex) => {
+			rowData[column.dataKey] = data![columnIndex]
+      
+			return rowData
+		})
+})
 
-const columns = generateColumns(10)
-let data = generateData(columns, 200)
+const columns = generateColumns()
+let data = generateData(columns)
+
+function demo() {
+	console.log(data)
+}
 
 columns[0].sortable = true
 

@@ -4,7 +4,7 @@
 			<div class="mt-4">
 				<el-input
 					v-model="search"
-					placeholder="请输入查询关键词"
+					placeholder="请输入员工编号或姓名"
 					class="input-with-select"
 				>
 					<template #prepend>

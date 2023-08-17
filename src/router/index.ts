@@ -29,7 +29,7 @@ import NotAuth from '@/views/NotAuth/NotAuth.vue'
 import NotServer from '@/views/NotServer/NotServer.vue'
 import { useTagStore } from '@/stores/tag'
 import { useChartStore } from '@/stores/chart'
-import { useCounterStore } from '@/stores/employee'
+import { useEmployeeStore } from '@/stores/employee'
 
 declare module 'vue-router' {
 	interface RouteMeta {
@@ -76,7 +76,7 @@ const routes: Array<RouteRecordRaw> = [
 						},
 						async beforeEnter(_to, _from, next) {
 							const chartStore = useChartStore()
-							const employeeStore = useCounterStore()
+							const employeeStore = useEmployeeStore()
 							const { smallChartData: Info, postChartData: PostInfo } =
 								storeToRefs(chartStore)
 							const { createdTime } = storeToRefs(employeeStore)
@@ -105,6 +105,22 @@ const routes: Array<RouteRecordRaw> = [
 							menu: true,
 							title: '员工信息',
 							icon: '#icon-yuangongguanli',
+						},
+						async beforeEnter(_to, _from, next) {
+							const employeeStore = useEmployeeStore()
+							const { createdTime:Info ,createdTimeList:Infos } = storeToRefs(employeeStore)
+							if (_.isEmpty(Info.value) || _.isEmpty(Infos.value)) {
+								const res = await api.getCreatedTime()
+								const res2 = await api.selectEmployee({createdTime: Info.value})
+								if (res.data.state === 200 && res2.data.state===200) {
+									employeeStore.updateCreatedTimeList(res.data.data)
+									employeeStore.updateEmployeeList(res2.data.data)
+								} else {
+									return
+								}
+								console.log(res2.data.data)
+							}
+							next()
 						},
 					},
 					{

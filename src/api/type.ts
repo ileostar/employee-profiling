@@ -83,3 +83,8 @@ export type Employee = {
 	two?: string
 	unit?: string
 }
+
+export type searchEmployee = {
+  post: string
+  condition: string | number
+}

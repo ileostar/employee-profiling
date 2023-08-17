@@ -12,7 +12,7 @@
 				<template #dropdown>
 					<el-dropdown-menu>
 						<el-dropdown-item @click="drawer = true">个人中心</el-dropdown-item>
-						<el-dropdown-item @click="handleLogout">退出</el-dropdown-item>
+						<el-dropdown-item @click="handleQuit">退出</el-dropdown-item>
 					</el-dropdown-menu>
 				</template>
 			</el-dropdown>
@@ -27,10 +27,15 @@
 import userInfos from '@/components/userInfos/userInfos.vue'
 import { useUsersStore } from '@/stores/users'
 import { ref } from 'vue'
-const drawer = ref(false)
-const userStore = useUsersStore()
 
-const handleLogout = () => {
+const userStore = useUsersStore()
+const drawer = ref(false) // 控制侧边栏
+
+/**
+ * handleQuit
+ * @desc 退出登陆，并清除localstorage
+ */
+const handleQuit = () => {
 	setTimeout(() => {
 		userStore.clearToken()
 		window.location.replace('/login')

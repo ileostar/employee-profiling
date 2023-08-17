@@ -174,6 +174,7 @@ const handleInputEdit = async () => {
 		.el-tag {
 			height: 4vh;
 			margin-right: 1.2vh;
+      margin-bottom: 1vh;
 			cursor: pointer;
 			background-color: #478781;
 			color: #fff;
