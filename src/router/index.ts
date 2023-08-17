@@ -1,41 +1,43 @@
-import { createRouter, createWebHistory } from 'vue-router';
-import type { RouteRecordRaw } from 'vue-router';
-import { storeToRefs } from 'pinia';
-import { useUsersStore } from '@/stores/users';
-import * as _ from 'lodash';
-import api from '@/api/api';
+import { createRouter, createWebHistory } from 'vue-router'
+import type { RouteRecordRaw } from 'vue-router'
+import { storeToRefs } from 'pinia'
+import { useUsersStore } from '@/stores/users'
+import * as _ from 'lodash'
+import api from '@/api/api'
 
 // 主页面
-import Home from '@/layouts/Home.vue';
+import Home from '@/layouts/Home.vue'
 // 登录注册
-import Login from '@/views/Login/Login.vue';
-import Register from '@/views/Register/Register.vue';
+import Login from '@/views/Login/Login.vue'
+import Register from '@/views/Register/Register.vue'
 // 信息维护
-import Charts from '@/views/Charts/Charts.vue';
-import Information from '@/views/Information/Information.vue';
-import Performance from '@/views/Performance/Performance.vue';
-import TagManage from '@/views/TagManage/TagManage.vue';
-import AccountManage from '@/views/AccountManage/AccountManage.vue';
+import Charts from '@/views/Charts/Charts.vue'
+import Information from '@/views/Information/Information.vue'
+import Performance from '@/views/Performance/Performance.vue'
+import TagManage from '@/views/TagManage/TagManage.vue'
+import AccountManage from '@/views/AccountManage/AccountManage.vue'
 // 员工画像
-import EmployeePortrait from '@/views/EmployeePortrait/EmployeePortrait.vue';
+import EmployeePortrait from '@/views/EmployeePortrait/EmployeePortrait.vue'
 // 岗位画像
-import OverallPortrait from '@/views/OverallPortrait/OverallPortrait.vue';
-import PositionPortrait from '@/views/PositionPortrait/PositionPortrait.vue';
+import OverallPortrait from '@/views/OverallPortrait/OverallPortrait.vue'
+import PositionPortrait from '@/views/PositionPortrait/PositionPortrait.vue'
 // 人岗匹配
-import Matching from '@/views/Matching/Matching.vue';
+import Matching from '@/views/Matching/Matching.vue'
 // 缺省页
-import NotFound from '@/views/NotFound/NotFound.vue';
-import NotAuth from '@/views/NotAuth/NotAuth.vue';
-import NotServer from '@/views/NotServer/NotServer.vue';
-import { useTagStore } from '@/stores/tag';
+import NotFound from '@/views/NotFound/NotFound.vue'
+import NotAuth from '@/views/NotAuth/NotAuth.vue'
+import NotServer from '@/views/NotServer/NotServer.vue'
+import { useTagStore } from '@/stores/tag'
+import { useChartStore } from '@/stores/chart'
+import { useCounterStore } from '@/stores/employee'
 
 declare module 'vue-router' {
-    interface RouteMeta {
-        auth?: boolean;
-        menu?: boolean;
-        title?: string;
-        icon?: string;
-    }
+	interface RouteMeta {
+		auth?: boolean
+		menu?: boolean
+		title?: string
+		icon?: string
+	}
 }
 
 const routes: Array<RouteRecordRaw> = [
@@ -48,7 +50,7 @@ const routes: Array<RouteRecordRaw> = [
 			auth: true,
 			menu: true,
 			title: '信息维护',
-			icon: '#icon-yonghuweihu'
+			icon: '#icon-yonghuweihu',
 		},
 		children: [
 			{
@@ -59,9 +61,9 @@ const routes: Array<RouteRecordRaw> = [
 					auth: true,
 					menu: true,
 					title: '信息维护',
-					icon: '#icon-yonghuweihu'
+					icon: '#icon-yonghuweihu',
 				},
-				children:[
+				children: [
 					{
 						path: '/charts',
 						name: 'Charts',
@@ -70,8 +72,29 @@ const routes: Array<RouteRecordRaw> = [
 							auth: true,
 							menu: true,
 							title: '数据展示',
-							icon:  '#icon-a-007_shujufenxi'             
-						}
+							icon: '#icon-a-007_shujufenxi',
+						},
+						async beforeEnter(_to, _from, next) {
+							const chartStore = useChartStore()
+							const employeeStore = useCounterStore()
+							const { smallChartData: Info, postChartData: PostInfo } =
+								storeToRefs(chartStore)
+							const { createdTime } = storeToRefs(employeeStore)
+							if (_.isEmpty(Info.value) || _.isEmpty(PostInfo.value)) {
+								const req = {
+									createdTime: createdTime.value,
+								}
+								const res = await api.dataAnalysis1(req)
+								const res2 = await api.dataAnalysis2(req)
+								if (res.data.state === 200 && res2.data.state) {
+									chartStore.updateSmallChartData(res.data.data)
+									chartStore.updatePostChartData(res2.data.data)
+								} else {
+									return
+								}
+							}
+							next()
+						},
 					},
 					{
 						path: '/information',
@@ -81,8 +104,8 @@ const routes: Array<RouteRecordRaw> = [
 							auth: true,
 							menu: true,
 							title: '员工信息',
-							icon: '#icon-yuangongguanli'
-						}
+							icon: '#icon-yuangongguanli',
+						},
 					},
 					{
 						path: '/performance',
@@ -92,8 +115,8 @@ const routes: Array<RouteRecordRaw> = [
 							auth: true,
 							menu: true,
 							title: '绩效成绩',
-							icon: '#icon-jixiaopinggu'
-						}
+							icon: '#icon-jixiaopinggu',
+						},
 					},
 					{
 						path: '/tagManage',
@@ -103,22 +126,21 @@ const routes: Array<RouteRecordRaw> = [
 							auth: true,
 							menu: true,
 							title: '标签管理',
-							icon: '#icon-biaoqian'
+							icon: '#icon-biaoqian',
 						},
-						async beforeEnter(_to, _from, next){
-							const tagStore = useTagStore();
-							const { info: tagInfo } = storeToRefs(tagStore);
-							if( _.isEmpty(tagInfo.value) ){
-								const res = await api.selectTag();
-								if(res.data.state === 200){
-									tagStore.updateTagInfos(res.data.data);
-								}
-								else{
-									return;
+						async beforeEnter(_to, _from, next) {
+							const tagStore = useTagStore()
+							const { info: tagInfo } = storeToRefs(tagStore)
+							if (_.isEmpty(tagInfo.value)) {
+								const res = await api.selectTag()
+								if (res.data.state === 200) {
+									tagStore.updateTagInfos(res.data.data)
+								} else {
+									return
 								}
 							}
-							next();
-						}
+							next()
+						},
 					},
 					{
 						path: '/accountManage',
@@ -128,26 +150,25 @@ const routes: Array<RouteRecordRaw> = [
 							auth: true,
 							menu: true,
 							title: '账号管理',
-							icon: '#icon-zhanghaoguanli1'
+							icon: '#icon-zhanghaoguanli1',
 						},
-						async beforeEnter(_to, _from, next){
-							const userStore = useUsersStore();
-							const { allUsers: Info } = storeToRefs(userStore);
-							if( _.isEmpty(Info.value) ){
-								const res = await api.selectUser();
-								if(res.data.state === 200){
-									userStore.updateAllUsers(res.data.data);
-								}
-								else{
-									return;
+						async beforeEnter(_to, _from, next) {
+							const userStore = useUsersStore()
+							const { allUsers: Info } = storeToRefs(userStore)
+							if (_.isEmpty(Info.value)) {
+								const res = await api.selectUser()
+								if (res.data.state === 200) {
+									userStore.updateAllUsers(res.data.data)
+								} else {
+									return
 								}
 							}
-							next();
-						} 
-					}
-				]
+							next()
+						},
+					},
+				],
 			},
-			{    
+			{
 				path: '/employeePortrait',
 				name: 'EmployeePortrait',
 				component: EmployeePortrait,
@@ -155,10 +176,10 @@ const routes: Array<RouteRecordRaw> = [
 					auth: true,
 					menu: true,
 					title: '员工画像',
-					icon: '#icon-yonghuhuaxiang1'
+					icon: '#icon-yonghuhuaxiang1',
 				},
 			},
-			{    
+			{
 				path: '/post',
 				name: 'post',
 				redirect: '/overallPortrait',
@@ -166,7 +187,7 @@ const routes: Array<RouteRecordRaw> = [
 					auth: true,
 					menu: true,
 					title: '岗位画像',
-					icon: '#icon-yonghuhuaxiang'
+					icon: '#icon-yonghuhuaxiang',
 				},
 				children: [
 					{
@@ -177,8 +198,8 @@ const routes: Array<RouteRecordRaw> = [
 							auth: true,
 							menu: true,
 							title: '总体画像',
-							icon:  '#icon-gangweijibie'             
-						}
+							icon: '#icon-gangweijibie',
+						},
 					},
 					{
 						path: '/positionPortrait',
@@ -188,12 +209,12 @@ const routes: Array<RouteRecordRaw> = [
 							auth: true,
 							menu: true,
 							title: '岗位画像',
-							icon:  '#icon-gangweiguanli'             
-						}
-					}
-				]
+							icon: '#icon-gangweiguanli',
+						},
+					},
+				],
 			},
-			{    
+			{
 				path: '/matching',
 				name: 'Matching',
 				component: Matching,
@@ -201,65 +222,63 @@ const routes: Array<RouteRecordRaw> = [
 					auth: true,
 					menu: true,
 					title: '人岗匹配',
-					icon: '#icon-gangweixinxi'
+					icon: '#icon-gangweixinxi',
 				},
 			},
-
-		]
+		],
 	},
 	{
 		path: '/login',
 		name: 'login',
-		component: Login
+		component: Login,
 	},
 	{
 		path: '/register',
 		name: 'register',
-		component: Register
+		component: Register,
 	},
 	{
 		path: '/403',
 		name: 'notAuth',
-		component: NotAuth
+		component: NotAuth,
 	},
 	{
 		path: '/404',
 		name: 'notFound',
-		component: NotFound
+		component: NotFound,
 	},
 	{
 		path: '/500',
 		name: 'notServer',
-		component: NotServer
+		component: NotServer,
 	},
 	{
 		path: '/:pathMatch(.*)*',
-		redirect: '/404'
-	}
-];
+		redirect: '/404',
+	},
+]
 
 const router = createRouter({
 	history: createWebHistory(import.meta.env.BASE_URL),
-	routes
-});
+	routes,
+})
 
 router.beforeEach((to, _from, next) => {
-	const usersStore = useUsersStore();
-	const { token,infos } = storeToRefs(usersStore);
-	if (to.meta.auth  && _.isEmpty(infos.value) ){ 
-		if(token.value) {
-			next();
+	const usersStore = useUsersStore()
+	const { token, infos } = storeToRefs(usersStore)
+	if (to.meta.auth && _.isEmpty(infos.value)) {
+		if (token.value) {
+			next()
 		} else {
-			next('/login');
+			next('/login')
 		}
 	} else {
-		if( token.value && to.path === '/login' ){
-			next('/');
-		}
-		else{
-			next();
+		if (token.value && to.path === '/login') {
+			next('/')
+		} else {
+			next()
 		}
 	}
-});
+})
 
-export default router;
+export default router

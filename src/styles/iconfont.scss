@@ -1,61 +1,60 @@
 @font-face {
-  font-family: "iconfont"; /* Project id 3826829 */
+	font-family: 'iconfont'; /* Project id 3826829 */
 	src: url('@/assets/iconfont.ttf?t=1688439052858') format('truetype');
 }
 
 .iconfont {
-  font-family: "iconfont" !important;
-  font-size: 25px;
-  font-style: normal;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+	font-family: 'iconfont' !important;
+	font-size: 25px;
+	font-style: normal;
+	-webkit-font-smoothing: antialiased;
+	-moz-osx-font-smoothing: grayscale;
 }
 
 .icon-guanliyuan:before {
-  content: "\e696";
+	content: '\e696';
 }
 
 .icon-jixiaopinggu:before {
-  content: "\e765";
+	content: '\e765';
 }
 
 .icon-yonghuhuaxiang:before {
-  content: "\e605";
+	content: '\e605';
 }
 
 .icon-gangweiguanli:before {
-  content: "\e624";
+	content: '\e624';
 }
 
 .icon-yonghuhuaxiang1:before {
-  content: "\e682";
+	content: '\e682';
 }
 
 .icon-gangweixinxi:before {
-  content: "\e640";
+	content: '\e640';
 }
 
 .icon-yonghuweihu:before {
-  content: "\e64a";
+	content: '\e64a';
 }
 
 .icon-biaoqian:before {
-  content: "\f24b";
+	content: '\f24b';
 }
 
 .icon-zhanghaoguanli1:before {
-  content: "\fb10";
+	content: '\fb10';
 }
 
 .icon-yuangongguanli:before {
-  content: "\e620";
+	content: '\e620';
 }
 
 .icon-gangweijibie:before {
-  content: "\ea45";
+	content: '\ea45';
 }
 
 .icon-zhanghaoguanli:before {
-  content: "\e600";
+	content: '\e600';
 }
-

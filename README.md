@@ -8,13 +8,13 @@ This template should help get you started developing with Vue 3 and TypeScript i
 
 ## Install
 
-``` bash
+```bash
   pnpm i
   pnpm dev
 ```
 
 ## pack
 
-``` bash
+```bash
   pnpm build
 ```
