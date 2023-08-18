@@ -3,16 +3,18 @@
 		<div class="position-portrait-aside">
 			<div class="portrait-aside-header">
 				<p class="aside-title">岗位</p>
-				<el-input
-					v-model="input3"
-					class="w-50 m-2"
-					size="small"
-					placeholder="请输入岗位"
-					:prefix-icon="Search"
-				/>
 			</div>
-			<div class="portrait-aside-body">111</div>
-			<div class="portrait-aside-pagination">111</div>
+      <el-divider />
+			<div class="portrait-aside-body">
+        <el-menu
+          :default-active="postData[0]"
+          class="el-menu-vertical-demo"
+        >
+          <el-menu-item v-for="item in postData" :key="item" :index="item" @click="handleSelect(item)">
+            <span>{{item}}</span>
+          </el-menu-item>
+        </el-menu>
+      </div>
 		</div>
 		<div class="position-portrait-main common-layout">
 			<h1 class="title">岗位画像特征</h1>
@@ -21,18 +23,26 @@
 				<div class="content">
 					<div class="content-analyze">
 						<li>相关性分析</li>
-						<el-table :data="tableData" border style="width: 100%">
-							<el-table-column prop="date" label="Date" width="180" />
-							<el-table-column prop="name" label="Name" width="180" />
-							<el-table-column prop="address" label="Address" />
+						<el-table :data="tableDataOne" border style="width: 100%">
+							<el-table-column show-overflow-tooltip prop="id" label="序号" width="60" />
+							<el-table-column show-overflow-tooltip prop="features" label="标签"/>
+							<el-table-column show-overflow-tooltip prop="weight" label="相关系数" width="100"/>
+							<el-table-column show-overflow-tooltip prop="niceFeatures" label="优秀特征" width="200" />
+							<el-table-column show-overflow-tooltip prop="niceNumber" label="人数占比" width="100" />
+							<el-table-column show-overflow-tooltip prop="badFeatures" label="较差特征" width="200"/>
+							<el-table-column show-overflow-tooltip prop="badNumber" label="人数占比" width="100" />
 						</el-table>
 					</div>
 					<div class="content-matching">
 						<li>员工匹配度</li>
-						<el-table :data="tableData2" height="310" style="width: 100%">
-							<el-table-column prop="date" label="Date" width="180" />
-							<el-table-column prop="name" label="Name" width="180" />
-							<el-table-column prop="address" label="Address" />
+						<el-table :data="analyzeMatchingList" height="310" style="width: 100%">
+							<el-table-column prop="id" label="序号" width="120" />
+							<el-table-column prop="number" label="员工编号" width="120" />
+							<el-table-column prop="name" label="员工姓名" />
+							<el-table-column prop="unit" label="单位" width="120" />
+							<el-table-column prop="post" label="岗位" width="130" />
+							<el-table-column prop="scores" label="月度绩效" width="120" />
+							<el-table-column prop="factor" label="匹配系数" width="180" />
 						</el-table>
 					</div>
 				</div>
@@ -42,79 +52,43 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
-import { Search } from '@element-plus/icons-vue'
-const input3 = ref('')
-const tableData = [
-	{
-		date: '2016-05-03',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-	{
-		date: '2016-05-02',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-	{
-		date: '2016-05-04',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-	{
-		date: '2016-05-01',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-]
+import { ref, watchEffect } from 'vue'
+import { storeToRefs } from 'pinia'
+import { usePostStore } from '@/stores/post'
+import { useEmployeeStore } from '@/stores/employee'
+import api from '@/api/api'
+import { ElMessage } from 'element-plus'
 
-const tableData2 = [
-	{
-		date: '2016-05-03',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-	{
-		date: '2016-05-02',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-	{
-		date: '2016-05-04',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-	{
-		date: '2016-05-01',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-	{
-		date: '2016-05-01',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-	{
-		date: '2016-05-01',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-	{
-		date: '2016-05-01',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-	{
-		date: '2016-05-01',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-	{
-		date: '2016-05-01',
-		name: 'Tom',
-		address: 'No. 189, Grove St, Los Angeles',
-	},
-]
+const employeeStore = useEmployeeStore()
+const PostStore = usePostStore()
+const { createdTime } =storeToRefs(employeeStore)
+const { postData,analyzeRelationList,analyzeMatchingList } = storeToRefs(PostStore)
+
+const tableDataOne = ref<Array<any>>([])
+watchEffect(() => {
+	tableDataOne.value= analyzeRelationList.value.map((item)=> {
+		const { weight,niceNumber,badNumber,...props } = item
+		return {
+			...props,
+			weight: weight.toFixed(2),
+			badNumber: Number(badNumber).toFixed(2)+'%',
+			niceNumber: Number(niceNumber).toFixed(2)+'%',
+		}
+	})
+})
+
+const handleSelect = async (post:string) => {
+	const res = await api.findByPostAndCreatedTime({createdTime:createdTime.value,post})
+	const res2 = await api.findPostFactorDesc({createdTime:createdTime.value,post})
+	if (res.data.state === 200 && res2.data.state === 200 ) {
+		PostStore.updateAnalyzeRelation(res.data.data)
+		PostStore.updateAnalyzeMatching(res2.data.data)
+	} else {
+		ElMessage.error(res.data.msg)
+		ElMessage.error(res2.data.msg)
+	}
+  
+}
 </script>
 
 <style lang="scss" scoped>
@@ -130,7 +104,7 @@ const tableData2 = [
 		.portrait-aside-header {
 			display: flex;
 			flex-direction: column;
-			height: 8vh;
+			height: 2vh;
 			justify-content: space-between;
 			margin-bottom: 2vh;
 			.aside-title {
@@ -138,7 +112,28 @@ const tableData2 = [
 			}
 		}
 		.portrait-aside-body {
+      margin-top: -1.5vh;
 			height: 85%;
+      .el-menu {
+        background-color: transparent;
+        border: none;
+        .el-menu-item,.is-active {   
+          padding: 0 20px;
+          height: 6vh;
+          background-color: transparent;
+          border-radius: 1vh;
+          span {
+            color: #6f6f6f;
+          }
+        }
+        .is-active {
+          border-right: 3px solid #afb1c7;
+          border-left: 3px solid #afb1c7;
+          span {
+            color: #000;
+          }
+        }
+      }
 		}
 	}
 	.position-portrait-main {
@@ -154,13 +149,13 @@ const tableData2 = [
 				flex-direction: column;
 				height: 100%;
 				.content-analyze {
-					height: 46%;
+					height: 50%;
 					.el-table {
 						margin: 1vh 0;
 					}
 				}
 				.content-matching {
-					height: 54%;
+					height: 50%;
 				}
 			}
 		}

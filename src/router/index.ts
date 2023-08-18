@@ -30,6 +30,7 @@ import NotServer from '@/views/NotServer/NotServer.vue'
 import { useTagStore } from '@/stores/tag'
 import { useChartStore } from '@/stores/chart'
 import { useEmployeeStore } from '@/stores/employee'
+import { usePostStore } from '@/stores/post'
 
 declare module 'vue-router' {
 	interface RouteMeta {
@@ -111,14 +112,15 @@ const routes: Array<RouteRecordRaw> = [
 							const { createdTime:Info ,createdTimeList:Infos } = storeToRefs(employeeStore)
 							if (_.isEmpty(Info.value) || _.isEmpty(Infos.value)) {
 								const res = await api.getCreatedTime()
-								const res2 = await api.selectEmployee({createdTime: Info.value})
-								if (res.data.state === 200 && res2.data.state===200) {
+								if (res.data.state === 200) {
 									employeeStore.updateCreatedTimeList(res.data.data)
-									employeeStore.updateEmployeeList(res2.data.data)
 								} else {
 									return
 								}
-								console.log(res2.data.data)
+							}
+							const res2 = await api.selectEmployee({createdTime: Info.value})
+							if(res2.data.state===200) {
+								employeeStore.updateEmployeeList(res2.data.data)
 							}
 							next()
 						},
@@ -226,6 +228,23 @@ const routes: Array<RouteRecordRaw> = [
 							menu: true,
 							title: '岗位画像',
 							icon: '#icon-gangweiguanli',
+						},
+						async beforeEnter(_to, _from, next) {
+							const postStore = usePostStore()
+							const employeeStore = useEmployeeStore()
+							const { analyzeRelationList: Info,analyzeMatchingList:InfoTwo,postData } = storeToRefs(postStore)
+							const { createdTime } =storeToRefs(employeeStore)
+							if (_.isEmpty(Info.value)||_.isEmpty(InfoTwo)) {
+								const res = await api.findByPostAndCreatedTime({createdTime:createdTime.value,post:postData.value[0]})
+								const res2 = await api.findPostFactorDesc({createdTime:createdTime.value,post:postData.value[0]})
+								if (res.data.state === 200 && res2.data.state === 200 ) {
+									postStore.updateAnalyzeRelation(res.data.data)
+									postStore.updateAnalyzeMatching(res2.data.data)
+								} else {
+									return
+								}
+							}
+							next()
 						},
 					},
 				],

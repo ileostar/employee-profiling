@@ -15,14 +15,14 @@
 							<el-option
 								v-for="item of select"
 								@click="taggleSelect(item)"
-								:label="item.label"
-								:key="item.value"
+								:label="item"
+								:key="item"
 								value="1"
 							/>
 						</el-select>
 					</template>
 					<template #append>
-						<el-button :icon="Search" />
+						<el-button :icon="Search" @click="searchPerformance" />
 					</template>
 				</el-input>
 			</div>
@@ -155,27 +155,13 @@
 <script lang="ts" setup>
 import { reactive, ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
+import { storeToRefs } from 'pinia'
+import { usePostStore } from '@/stores/post'
 
+const PostStore = usePostStore()
+const { postData: select } = storeToRefs(PostStore)
 const search = ref('')
 const defaultSelect = ref('')
-const select = reactive([
-	{
-		label: '岗位1',
-		value: '1',
-	},
-	{
-		label: '岗位2',
-		value: '2',
-	},
-	{
-		label: '岗位3',
-		value: '3',
-	},
-	{
-		label: '岗位4',
-		value: '4',
-	},
-])
 const dialogCreateFormVisible = ref(false)
 const dialogFixFormVisible = ref(false)
 const dialogInFormVisible = ref(false)
@@ -193,18 +179,21 @@ const form = reactive({
 	desc: '',
 })
 
-interface Select {
-	label: string
-	value: string
-	[index: string]: unknown
-}
-
 /**
  * @param: 当前点击岗位对象
  * @desc: 切换当前下拉菜单显示
  */
-const taggleSelect = (select: Select) => {
-	defaultSelect.value = select.label
+const taggleSelect = (select: string) => {
+	defaultSelect.value = select
+}
+const searchPerformance = () => {
+	// const res = await api.findByPostAndCondition({ post: defaultSelect.value,conditions: search.value })
+	// if(res.data.state === 200) {
+	// 	EmployeeStore.updateEmployeeList(res.data.data)
+	// 	console.log(res.data.data)
+	// 	const { EmployeeList }  = storeToRefs(EmployeeStore)
+	// 	console.log(EmployeeList.value);   
+	// }
 }
 </script>
 

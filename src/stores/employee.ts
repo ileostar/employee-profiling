@@ -32,10 +32,12 @@ export const useEmployeeStore = defineStore('employee', () => {
     createdTime.value = payload[0]
 	}
 
-  function updateEmployeeList(payload: Array<string>) {
+  function addEmployeeList(payload: any){
+    EmployeeList.value.push(payload)
+  }
+
+  function updateEmployeeList(payload: any) {
 		EmployeeList.value = payload
-    console.log(EmployeeCloumn.value.length);
-    
 	}
 
 	return { 
@@ -43,6 +45,7 @@ export const useEmployeeStore = defineStore('employee', () => {
 		createdTimeList,
     EmployeeList,
     EmployeeCloumn,
+    addEmployeeList,
     updateCreatedTimeList,
     updateEmployeeList
   }

@@ -86,5 +86,10 @@ export type Employee = {
 
 export type searchEmployee = {
   post: string
-  condition: string | number
+  conditions: string | number
+}
+
+export type AnalyzeRelation = {
+  createdTime: string
+  post: string
 }

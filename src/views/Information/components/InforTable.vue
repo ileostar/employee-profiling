@@ -29,6 +29,8 @@ const tableHeight = ref(550)
 // 获取表格容器的引用
 const tableContainer = ref(null)
 
+const data = ref<Array<any>>([])
+
 // 监听表格容器尺寸的变化，并更新表格的宽度和高度
 watchEffect(() => {
 	if (tableContainer.value) {
@@ -44,24 +46,24 @@ const generateColumns = (props?: any) =>
 		key: item,
 		dataKey: item,
 		title: item,
-		width: 150,
+		width: 120,
 	}))
 
-const generateData = (
-	columns: ReturnType<typeof generateColumns>,
-) => EmployeeList.value.map((row)=> {
-	// eslint-disable-next-line @typescript-eslint/no-unused-vars
-	const data = Object.entries(row).map(([_key, value]) => value)
-	return columns.reduce(
-		(rowData, column, columnIndex) => {
-			rowData[column.dataKey] = data![columnIndex]
-      
-			return rowData
-		})
-})
+const generateData = (columns: ReturnType<typeof generateColumns>) => 
+	EmployeeList.value.map((row: { [s: string]: unknown } | ArrayLike<unknown>) => {
+		const rowData: { [key: string]: any } = {};
+
+		columns.forEach((column, columnIndex) => {
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			rowData[column.dataKey] = Object.entries(row).map(([_key, value]) => value)[columnIndex+1]
+		});
+
+		return rowData;
+	})
 
 const columns = generateColumns()
-let data = generateData(columns)
+// 监听Employeeist的更新变化
+watchEffect(() => data.value = generateData(columns));
 
 function demo() {
 	console.log(data)
@@ -76,7 +78,7 @@ const sortState = ref<SortBy>({
 
 const onSort = (sortBy: SortBy) => {
 	console.log(sortBy)
-	data = data.reverse()
+	data.value = data.value.reverse()
 	sortState.value = sortBy
 }
 </script>

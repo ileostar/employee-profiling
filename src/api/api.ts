@@ -1,5 +1,5 @@
 import http from '../util/http'
-import { Employee, LoginReg, Tag, fixPassword, fixUsername, searchEmployee } from './type'
+import { AnalyzeRelation, Employee, LoginReg, Tag, fixPassword, fixUsername, searchEmployee } from './type'
 
 export default {
 	/**
@@ -85,7 +85,7 @@ export default {
 		// 员工信息查询方法，获取员工匹配系数需要传入的参数有员工姓名和日期，类型都是string，日期格式例如”2023-05“
 		return http.get('/employee/findFactorByname', params)
 	},
-	findByPostAndCreatedTime: (params: Employee) => {
+	findByPostAndCreatedTime: (params: AnalyzeRelation) => {
 		// 表单用，传入日期和岗位，
 		return http.get('/employee/findByPostAndCreatedTime5', params)
 	},
@@ -129,7 +129,7 @@ export default {
 		//  员工绩效查询方法,查询所有数据,用于前端展示
 		return http.get('/performane/select')
 	},
-	findPostFactorDesc: (params: Employee) => {
+	findPostFactorDesc: (params: AnalyzeRelation) => {
 		//  根据岗位和日期查询该岗位匹配系数，按降序排序,需要传入的参数有日期、岗位，类型都是string，日期格式例如”2023-05“
 		return http.get('/performane/findPostFactorDesc', params)
 	},
