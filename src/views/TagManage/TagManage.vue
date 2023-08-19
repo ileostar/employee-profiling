@@ -178,7 +178,7 @@ const handleInputEdit = async () => {
 			cursor: pointer;
 			background-color: #478781;
 			color: #fff;
-			:deep .el-tag__close {
+			:deep(.el-tag__close) {
 				background-color: #fff;
 				margin: 0 0.2vw 0 0.6vw;
 				color: #478781;

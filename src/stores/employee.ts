@@ -2,6 +2,11 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
+export type EmployeeName = {
+  id: number
+  name: string
+}
+
 export const useEmployeeStore = defineStore('employee', () => {
 	const createdTime = ref<string>('2023-05')
 	const createdTimeList = ref<Array<string>>([])
@@ -26,6 +31,9 @@ export const useEmployeeStore = defineStore('employee', () => {
   '是否有作为主要成员参加营销创新项目的经历','是否有参与的视频项目并在省局以上媒体发表情况',
   '是否有参与市局营销竞赛并获奖的情况','是否受到国家局（总公司）表彰','是否受到省局（公司）表彰',
   '是否受到市局（公司）表彰','创建时间'])
+  
+  const EmployeeNameList = ref<Array<EmployeeName>>([])
+
 
 	function updateCreatedTimeList(payload: Array<string>) {
 		createdTimeList.value = payload
@@ -40,13 +48,19 @@ export const useEmployeeStore = defineStore('employee', () => {
 		EmployeeList.value = payload
 	}
 
+  function updateEmployeeNameList(payload: any) {
+		EmployeeNameList.value = payload
+	}
+
 	return { 
 		createdTime,
 		createdTimeList,
     EmployeeList,
+    EmployeeNameList,
     EmployeeCloumn,
     addEmployeeList,
     updateCreatedTimeList,
-    updateEmployeeList
+    updateEmployeeList,
+    updateEmployeeNameList
   }
 })

@@ -52,8 +52,7 @@ const generateColumns = (props?: any) =>
 const generateData = (columns: ReturnType<typeof generateColumns>) => 
 	EmployeeList.value.map((row: { [s: string]: unknown } | ArrayLike<unknown>) => {
 		const rowData: { [key: string]: any } = {};
-
-		columns.forEach((column, columnIndex) => {
+		columns.forEach((column: { dataKey: string | number }, columnIndex: number) => {
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
 			rowData[column.dataKey] = Object.entries(row).map(([_key, value]) => value)[columnIndex+1]
 		});

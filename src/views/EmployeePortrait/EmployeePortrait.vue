@@ -11,8 +11,19 @@
 					:prefix-icon="Search"
 				/>
 			</div>
-			<div class="portrait-aside-body">111</div>
-			<div class="portrait-aside-pagination">111</div>
+			<div class="portrait-aside-body">
+        <el-menu
+          :default-active="`${EmployeeNameList[0].id}`"
+          class="el-menu-vertical-demo"
+          >
+          <el-menu-item v-for="item in EmployeeNameList" :key="item.id" :index="`${item.id}`" @click="handleSelect(item)">
+            <span>{{item.name}}</span>
+          </el-menu-item>
+        </el-menu>
+      </div>
+			<div class="portrait-aside-pagination">
+        <el-pagination small layout="prev, pager, next" :total="40" :hide-on-single-page="value"/>
+      </div>
 		</div>
 		<div class="employee-portrait-main">
 			<EmployeeInfo />
@@ -21,10 +32,26 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
+import { ref} from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import EmployeeInfo from './components/EmployeeInfo.vue'
+import { EmployeeName, useEmployeeStore } from '@/stores/employee'
+import { storeToRefs } from 'pinia'
+
+const employeeStore = useEmployeeStore()
+const { EmployeeNameList } = storeToRefs(employeeStore)
+
+const currentEmployee = ref<string>('')
+// const currentEmployee = ref<string>('')
+
 const input3 = ref('')
+const value = ref(false)
+
+const handleSelect = (item: EmployeeName) => {
+	currentEmployee.value = item.name
+	console.log(currentEmployee.value);
+  
+}
 </script>
 
 <style lang="scss" scoped>
@@ -48,8 +75,50 @@ const input3 = ref('')
 			}
 		}
 		.portrait-aside-body {
-			height: 85%;
+			height: 84%;
+      .el-menu {
+        background-color: transparent;
+        border: none;
+        .el-menu-item,.is-active {   
+          padding: 0 20px;
+          height: 6vh;
+          background-color: transparent;
+          border-radius: 1vh;
+          span {
+            color: #6f6f6f;
+          }
+        }
+        .is-active {
+          border-right: 3px solid #afb1c7;
+          border-left: 3px solid #afb1c7;
+          span {
+            color: #000;
+          }
+        }
+      }
 		}
+    .portrait-aside-pagination {
+      overflow: hidden;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      width: 100%;
+      :deep(.el-pagination) {
+        width: 100%;
+        background-color: transparent;
+        button {
+          background-color: transparent;
+        }
+      }
+      :deep(.el-pager li.is-active) {
+        color: #3d8180;
+        background-color: #ebeef5;
+        border-radius: 50%;
+      }
+      :deep(.el-pager li) {
+        background-color: transparent;
+      }
+    }
 	}
 	.employee-portrait-main {
 		width: 100%;

@@ -1,9 +1,16 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
-import { storeToRefs } from 'pinia'
-import { useUsersStore } from '@/stores/users'
 import * as _ from 'lodash'
 import api from '@/api/api'
+
+// stores
+import { useUsersStore } from '@/stores/users'
+import { useTagStore } from '@/stores/tag'
+import { useChartStore } from '@/stores/chart'
+import { useEmployeeStore } from '@/stores/employee'
+import { usePerformanceStore } from '@/stores/performance'
+import { usePostStore } from '@/stores/post'
+import { storeToRefs } from 'pinia'
 
 // 主页面
 import Home from '@/layouts/Home.vue'
@@ -27,10 +34,6 @@ import Matching from '@/views/Matching/Matching.vue'
 import NotFound from '@/views/NotFound/NotFound.vue'
 import NotAuth from '@/views/NotAuth/NotAuth.vue'
 import NotServer from '@/views/NotServer/NotServer.vue'
-import { useTagStore } from '@/stores/tag'
-import { useChartStore } from '@/stores/chart'
-import { useEmployeeStore } from '@/stores/employee'
-import { usePostStore } from '@/stores/post'
 
 declare module 'vue-router' {
 	interface RouteMeta {
@@ -76,8 +79,8 @@ const routes: Array<RouteRecordRaw> = [
 							icon: '#icon-a-007_shujufenxi',
 						},
 						async beforeEnter(_to, _from, next) {
-							const chartStore = useChartStore()
 							const employeeStore = useEmployeeStore()
+							const chartStore = useChartStore()
 							const { smallChartData: Info, postChartData: PostInfo } =
 								storeToRefs(chartStore)
 							const { createdTime } = storeToRefs(employeeStore)
@@ -135,6 +138,21 @@ const routes: Array<RouteRecordRaw> = [
 							title: '绩效成绩',
 							icon: '#icon-jixiaopinggu',
 						},
+						// eslint-disable-next-line @typescript-eslint/no-unused-vars
+						async beforeEnter(_to, _from, next) {
+							const performanceStore = usePerformanceStore()
+							const { performanceData } = storeToRefs(performanceStore)
+							if(_.isEmpty(performanceData)) {
+								const res = await api.selectPerformane()
+								if(res.data.state === 200) {
+									performanceStore.updatePerformanceData(res.data.data)
+									console.log('performanceData:',res.data.data);               
+								} else {
+									return
+								}
+							}
+							next()
+						}
 					},
 					{
 						path: '/tagManage',
@@ -196,6 +214,21 @@ const routes: Array<RouteRecordRaw> = [
 					title: '员工画像',
 					icon: '#icon-yonghuhuaxiang1',
 				},
+				async beforeEnter(_to, _from, next) {
+					const employeeStore = useEmployeeStore();
+					const { createdTime, EmployeeNameList: Info } = storeToRefs(employeeStore);
+					if (_.isEmpty(Info.value)) {
+						const res = await api.selectAllEmployee({ createdTime: createdTime.value, pageNum: 1, pageSize: 12 });
+						if (res.data.state === 200) {
+							employeeStore.updateEmployeeNameList(res.data.data);
+							console.log(res.data.data);
+              
+						} else {
+							next();
+						}
+					}
+					next();
+				},
 			},
 			{
 				path: '/post',
@@ -230,8 +263,8 @@ const routes: Array<RouteRecordRaw> = [
 							icon: '#icon-gangweiguanli',
 						},
 						async beforeEnter(_to, _from, next) {
-							const postStore = usePostStore()
 							const employeeStore = useEmployeeStore()
+							const postStore = usePostStore()
 							const { analyzeRelationList: Info,analyzeMatchingList:InfoTwo,postData } = storeToRefs(postStore)
 							const { createdTime } =storeToRefs(employeeStore)
 							if (_.isEmpty(Info.value)||_.isEmpty(InfoTwo)) {
@@ -299,8 +332,8 @@ const router = createRouter({
 })
 
 router.beforeEach((to, _from, next) => {
-	const usersStore = useUsersStore()
-	const { token, infos } = storeToRefs(usersStore)
+	const userStore = useUsersStore()
+	const { token, infos } = storeToRefs(userStore)
 	if (to.meta.auth && _.isEmpty(infos.value)) {
 		if (token.value) {
 			next()

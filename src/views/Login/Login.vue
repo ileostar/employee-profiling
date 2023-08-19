@@ -21,7 +21,7 @@
 				/>
 			</el-form-item>
 			<el-form-item class="login-button">
-				<el-button type="primary" @click="submitForm(ruleFormRef)">
+				<el-button type="primary" @click="submitForm(ruleFormRef)"  @keydown.enter="keyDown($event)">
 					登陆
 				</el-button>
 				<el-button @click="resetForm(ruleFormRef)">重置</el-button>
@@ -35,7 +35,7 @@
 
 <script setup lang="ts">
 import { useRouter } from 'vue-router'
-import { reactive, ref } from 'vue'
+import { onMounted, onUnmounted, reactive, ref } from 'vue'
 import type { FormInstance, FormRules } from 'element-plus'
 import { ElMessage } from 'element-plus'
 import api from '@/api/api'
@@ -46,7 +46,7 @@ const userStore = useUsersStore()
 
 const ruleFormRef = ref<FormInstance>()
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
+// 自定义表单校验规则
 const username = (_rule: any, value: any, callback: any) => {
 	if (value === '') {
 		callback(new Error('请输入用户名'))
@@ -54,7 +54,6 @@ const username = (_rule: any, value: any, callback: any) => {
 		callback()
 	}
 }
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
 const password = (_rule: any, value: any, callback: any) => {
 	if (value === '') {
 		callback(new Error('请输入密码'))
@@ -63,16 +62,34 @@ const password = (_rule: any, value: any, callback: any) => {
 	}
 }
 
+// 表单
 const ruleForm = reactive({
 	username: '',
 	password: '',
 })
 
+// 表单校验
 const rules = reactive<FormRules>({
 	username: [{ validator: username, trigger: 'blur' }],
 	password: [{ validator: password, trigger: 'blur' }],
 })
 
+// 回车键登录
+const keyDown = (e: { keyCode: number }) => {
+	if (e.keyCode == 13 || e.keyCode == 100) {
+		submitForm(ruleFormRef.value)
+	}
+}
+onMounted(() => {
+	//绑定监听事件
+	window.addEventListener('keydown', keyDown)
+});
+onUnmounted(() => {
+	//销毁事件
+	window.removeEventListener('keydown', keyDown, false)
+});
+
+// 提交表单
 const submitForm = function (formEl: FormInstance | undefined) {
 	if (!formEl) return
 	formEl.validate(async (valid) => {
@@ -97,6 +114,7 @@ const submitForm = function (formEl: FormInstance | undefined) {
 	})
 }
 
+// 重置表单
 const resetForm = (formEl: FormInstance | undefined) => {
 	if (!formEl) return
 	formEl.resetFields()

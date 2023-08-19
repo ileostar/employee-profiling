@@ -93,3 +93,19 @@ export type AnalyzeRelation = {
   createdTime: string
   post: string
 }
+
+export type OverallPortrait = {
+  createdTime: string
+  degree: string
+  maxAge: string
+  minAge: string
+  post: string
+  sex: string
+  unit: string
+}
+
+export type SelectAllEmployee = {
+  createdTime: string
+  pageNum: number
+  pageSize: number
+}

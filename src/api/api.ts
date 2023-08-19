@@ -1,5 +1,5 @@
 import http from '../util/http'
-import { AnalyzeRelation, Employee, LoginReg, Tag, fixPassword, fixUsername, searchEmployee } from './type'
+import { AnalyzeRelation, Employee, LoginReg, OverallPortrait, SelectAllEmployee, Tag, fixPassword, fixUsername, searchEmployee } from './type'
 
 export default {
 	/**
@@ -73,7 +73,7 @@ export default {
 		// 员工信息查询方法，用于展示员工信息，必须传入日期，格式如 “2023-05”
 		return http.get('/employee/select', params)
 	},
-	selectAllEmployee: (params: Employee) => {
+	selectAllEmployee: (params: SelectAllEmployee) => {
 		// 员工信息查询方法，有分页功能，pageNum：当前页码，pageSize：每页展示条数，必须传入的字段为pageNum，pageSize,createdTime,createdTime为字符串形式，注意格式如 “2023-05”
 		return http.get('/employee/selectAll', params)
 	},
@@ -116,6 +116,10 @@ export default {
 	findByUnit: (params: Employee) => {
 		// 用于右上角的查询，根据岗位进行查询
 		return http.get('/performane/findByUnit', params)
+	},
+	overallPortrait: (params: OverallPortrait) => {
+		// 用于总体画像页面，各岗位人数以及匹配系数,需要传入的参数有日期类型都是string，日期格式例如”2023-05“
+		return http.get('/performane/overallPortrait', params)
 	},
 	update: (params: Employee) => {
 		// 修改员工绩效的方法 要求前端表单能修改的字段只有绩效,为方便前端更新数据，新增成功后自动返回新增的数据

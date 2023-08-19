@@ -1,7 +1,6 @@
 <template>
 	<div class="overall-portrait common-layout">
 		<h1 class="title">总体画像</h1>
-
 		<div class="fenge"></div>
 		<div class="overall-portrait-main">
 			<OverallSelect></OverallSelect>

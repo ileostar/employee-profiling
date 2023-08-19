@@ -1,4 +1,3 @@
-/* eslint-disable indent */
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
 
@@ -11,48 +10,45 @@ export type Infos = {
 	createdTime?: string
 	role?: string
 }
-export const useUsersStore = defineStore(
-	'users',
-	() => {
-		const token = ref<Token>('')
-		const infos = ref<Infos>({})
-		const allUsers = ref<Array<Infos>>([])
 
-		function updateToken(payload: Token) {
-			token.value = payload
-		}
+export const useUsersStore = defineStore('users',() => {
+	const token = ref<Token>('')
+	const infos = ref<Infos>({})
+	const allUsers = ref<Array<Infos>>([])
 
-		function updateAllUsers(payload: Array<Infos>) {
-			allUsers.value = payload
-		}
+	function updateToken(payload: Token) {
+		token.value = payload
+	}
 
-		function updateInfos(payload: Infos) {
-			infos.value = payload
-		}
+	function updateAllUsers(payload: Array<Infos>) {
+		allUsers.value = payload
+	}
 
-		function updatePassword(payload: string) {
-			infos.value.password = payload
-		}
+	function updateInfos(payload: Infos) {
+		infos.value = payload
+	}
 
-		function clearToken() {
-			token.value = ''
-			localStorage.clear()
-		}
+	function updatePassword(payload: string) {
+		infos.value.password = payload
+	}
 
-		return {
-			token,
-			infos,
-			allUsers,
-			updateToken,
-			updateInfos,
-			updateAllUsers,
-			updatePassword,
-			clearToken,
-		}
+	function clearToken() {
+		token.value = ''
+		localStorage.clear()
+	}
+
+	return {
+		token,
+		infos,
+		allUsers,
+		updateToken,
+		updateInfos,
+		updateAllUsers,
+		updatePassword,
+		clearToken,
+	}
+},{
+	persist: {
+		paths: ['token', 'infos'],
 	},
-	{
-		persist: {
-			paths: ['token', 'infos'],
-		},
-	},
-)
+})

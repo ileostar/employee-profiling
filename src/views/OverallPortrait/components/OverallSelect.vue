@@ -12,7 +12,7 @@
 			</el-select>
 		</div>
 		<div class="overall-portrait-select-item">
-			<p>部门</p>
+			<p>岗位</p>
 			<el-select v-model="value" clearable placeholder="Select">
 				<el-option
 					v-for="item in options"
