@@ -11,7 +11,7 @@ type TableData = {
 }
 
 // page store
-export const useMatchingStores = defineStore('matching', () => {
+export const useMatchingStore = defineStore('matching', () => {
 
 	const PersonPostTableData = ref<Array<TableData>>([])
 

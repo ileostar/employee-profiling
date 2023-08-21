@@ -27,6 +27,7 @@ export const usePostStore = defineStore('post', () => {
 	const postData = ref<string[]>(['客户专员','市场经理','终端专员','综合管理员','信息专员'])
 	const analyzeRelationList = ref<Array<rowAnalyzeRelation>>([])
 	const analyzeMatchingList = ref<Array<rowAnalyzeMatching>>([])
+	const unitList = ref<string[]>([])
 
 	function updateAnalyzeRelation(payload: Array<rowAnalyzeRelation>) {
 		analyzeRelationList.value = payload
@@ -35,13 +36,18 @@ export const usePostStore = defineStore('post', () => {
 	function updateAnalyzeMatching(payload: Array<rowAnalyzeMatching>) {
 		analyzeMatchingList.value = payload
 	}
+	function updateUnitList(payload: string[]) {
+		unitList.value = payload
+	}
 
 	return {
 		postData,
+		unitList,
 		analyzeRelationList,
 		analyzeMatchingList,
 		updateAnalyzeRelation,
-		updateAnalyzeMatching
+		updateAnalyzeMatching,
+		updateUnitList
 	}
 },{
 	persist: {

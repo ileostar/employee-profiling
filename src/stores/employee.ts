@@ -8,7 +8,7 @@ export type EmployeeName = {
 }
 
 export const useEmployeeStore = defineStore('employee', () => {
-	const createdTime = ref<string>('2023-05')
+	const createdTime = ref<string>('')
 	const createdTimeList = ref<Array<string>>([])
   const EmployeeList = ref<Array<string>>([])
   const EmployeeCloumn = ref<string[]>(['员工编号','姓名','单位','岗位','性别',

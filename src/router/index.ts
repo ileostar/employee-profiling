@@ -221,8 +221,6 @@ const routes: Array<RouteRecordRaw> = [
 						const res = await api.selectAllEmployee({ createdTime: createdTime.value, pageNum: 1, pageSize: 12 });
 						if (res.data.state === 200) {
 							employeeStore.updateEmployeeNameList(res.data.data);
-							console.log(res.data.data);
-              
 						} else {
 							next();
 						}
@@ -251,6 +249,21 @@ const routes: Array<RouteRecordRaw> = [
 							title: '总体画像',
 							icon: '#icon-gangweijibie',
 						},
+						async beforeEnter(_to,_from,next) {
+							const postStore = usePostStore()
+							const { unitList } = storeToRefs(postStore)
+							if(_.isEmpty(unitList)){
+								const res = await api.selectByUnit()
+								if(res.data.state === 200){
+									postStore.updateUnitList(res.data.data)
+                  
+								}else{
+									return
+								}
+								console.log('kkk:',unitList.value);
+							}
+							next()
+						}
 					},
 					{
 						path: '/positionPortrait',

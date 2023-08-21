@@ -1,6 +1,6 @@
 <template>
 	<div class="information-function">
-    <el-select v-model="currentDate" class="m-2" placeholder="Select">
+    <el-select v-model="currentDate" class="m-2" placeholder="Select" @change="changeCreatedTime">
       <el-option
         v-for="item in options"
         :key="item"
@@ -151,16 +151,19 @@
 import { reactive, ref, watchEffect } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import { ElMessage } from 'element-plus'
-import { useEmployeeStore } from '@/stores/employee'
 import { storeToRefs } from 'pinia'
+import { useEmployeeStore } from '@/stores/employee'
 import { usePostStore } from '@/stores/post'
+import { useChartStore } from '@/stores/chart'
 import api from '@/api/api'
 import { Employee } from '@/api/type'
 
+const ChartStore = useChartStore()
 const EmployeeStore = useEmployeeStore()
 const PostStore = usePostStore()
 
-const { createdTime: currentDate,createdTimeList: options }  = storeToRefs(EmployeeStore)
+const { createdTime: currentDate,createdTimeList: options,EmployeeNameList }  = storeToRefs(EmployeeStore)
+const { smallChartData,postChartData } = storeToRefs(ChartStore)
 const search = ref('')
 const defaultSelect = ref('')
 const { postData: select } = storeToRefs(PostStore)
@@ -567,6 +570,8 @@ const beforeAvatarUpload = (file: any): boolean=> {
 	// return isJPG && isLt2M;
 	return (extension || extension2)
 }
+
+// 搜索
 const searchEmployee = async () => {
 	const res = await api.findByPostAndCondition({ post: defaultSelect.value,conditions: search.value })
 	if(res.data.state === 200) {
@@ -578,13 +583,92 @@ const searchEmployee = async () => {
 	}
 }
 
+// 新建
 const submitCreatedForm = async () => {
 	dialogCreateFormVisible.value = false
 	const res = await api.insertEmployee(form)
 	if(res.data.state === 200) {
-		EmployeeStore.addEmployeeList(res.data.data)
-		console.log(res.data.data);
-    
+		const obj:Employee = {      
+			id: 0,
+			number: 0,
+			name: '',
+			unit: '',
+			post: '',
+			sex: '',
+			status: '',
+			degree: '',
+			age: 0,
+			seniority: 0,
+			one: '',
+			two: '',
+			three: '',
+			four: '',
+			five: '',
+			six: '',
+			seven: '',
+			eight: '',
+			nine: '',
+			ten: '',
+			eleven: '',
+			twelve: '',
+			thirteen: '',
+			fourteen: '',
+			fifteen: '',
+			sixteen: '',
+			seventeen: '',
+			eighteen: '',
+			nineteen: '',
+			twenty: '',
+			twentyOne: '',
+			twentyTwo: '',
+			twentyThree: '',
+			twentyFour: '',
+			twentyFive: '',
+			twentySix: '',
+			twentySeven: '',
+			twentyEight: '',
+			twentyNine: '',
+			thirty: '',
+			thirtyOne: '',
+			thirtyTwo: '',
+			thirtyThree: '',
+			thirtyFour: '',
+			thirtyFive: '',
+			thirtySix: '',
+			thirtySeven: '',
+			thirtyEight: '',
+			thirtyNine: '',
+			forty: '',
+			fortyOne: '',
+			fortyTwo: '',
+			fortyThree: '',
+			fortyFour: '',
+			fortyFive: '',
+			fortySix: '',
+			fortySeven: '',
+			fortyEight: '',
+			fortyNine: '',
+			fifty: '',
+			fiftyOne: '',
+			fiftyTwo: '',
+			fiftyThree: '',
+			createdTime:'' 
+		}
+		const createData = Object.assign({}, obj, res.data.data);
+		EmployeeStore.addEmployeeList(createData)
+	}
+}
+
+// 切换创建时间
+const changeCreatedTime = async (value: string) => {
+	console.log(value);
+	currentDate.value = value
+	const res = await api.selectEmployee({createdTime: value})
+	if(res.data.state===200) {
+		EmployeeStore.updateEmployeeList(res.data.data)
+		EmployeeNameList.value = []
+		smallChartData.value = {}
+		postChartData.value = {}
 	}
 }
 </script>
