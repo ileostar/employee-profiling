@@ -22,7 +22,6 @@ const props = defineProps({
 	iconName: {
 		type: String,
 		default: 'noResultYet',
-		required: true,
 	},
 })
 </script>

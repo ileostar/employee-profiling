@@ -81,8 +81,7 @@ const routes: Array<RouteRecordRaw> = [
 						async beforeEnter(_to, _from, next) {
 							const employeeStore = useEmployeeStore()
 							const chartStore = useChartStore()
-							const { smallChartData: Info, postChartData: PostInfo } =
-								storeToRefs(chartStore)
+							const { smallChartData: Info, postChartData: PostInfo } = storeToRefs(chartStore)
 							const { createdTime } = storeToRefs(employeeStore)
 							if (_.isEmpty(Info.value) || _.isEmpty(PostInfo.value)) {
 								const req = {
@@ -142,7 +141,7 @@ const routes: Array<RouteRecordRaw> = [
 						async beforeEnter(_to, _from, next) {
 							const performanceStore = usePerformanceStore()
 							const { performanceData } = storeToRefs(performanceStore)
-							if(_.isEmpty(performanceData)) {
+							if(_.isEmpty(performanceData.value)) {
 								const res = await api.selectPerformane()
 								if(res.data.state === 200) {
 									performanceStore.updatePerformanceData(res.data.data)
@@ -252,15 +251,13 @@ const routes: Array<RouteRecordRaw> = [
 						async beforeEnter(_to,_from,next) {
 							const postStore = usePostStore()
 							const { unitList } = storeToRefs(postStore)
-							if(_.isEmpty(unitList)){
+							if(_.isEmpty(unitList.value)){
 								const res = await api.selectByUnit()
 								if(res.data.state === 200){
-									postStore.updateUnitList(res.data.data)
-                  
+									postStore.updateUnitList(res.data.data)      
 								}else{
 									return
 								}
-								console.log('kkk:',unitList.value);
 							}
 							next()
 						}

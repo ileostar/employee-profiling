@@ -40,14 +40,7 @@ const postPerson =
 // 一进来就调用
 onMounted(() => {
 	init()
-	test()
 })
-
-function test() {
-	console.log(postName, postAverageData)
-	console.log(Object.entries(postChartData.value))
-	console.log(postPerson)
-}
 
 const chart = ref()
 

@@ -27,7 +27,7 @@ export const usePostStore = defineStore('post', () => {
 	const postData = ref<string[]>(['客户专员','市场经理','终端专员','综合管理员','信息专员'])
 	const analyzeRelationList = ref<Array<rowAnalyzeRelation>>([])
 	const analyzeMatchingList = ref<Array<rowAnalyzeMatching>>([])
-	const unitList = ref<string[]>([])
+	const unitList = ref<Array<string>>([])
 
 	function updateAnalyzeRelation(payload: Array<rowAnalyzeRelation>) {
 		analyzeRelationList.value = payload

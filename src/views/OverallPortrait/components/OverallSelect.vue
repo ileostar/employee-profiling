@@ -2,7 +2,7 @@
 	<div class="overall-portrait-select">
 		<div class="overall-portrait-select-item">
 			<p>单位</p>
-			<el-select v-model="overallOptions.unit" clearable placeholder="Select">
+			<el-select v-model="overallOptions.unit" clearable placeholder="单位">
 				<el-option
 					v-for="item in unitList"
 					:key="item"
@@ -13,7 +13,7 @@
 		</div>
 		<div class="overall-portrait-select-item">
 			<p>岗位</p>
-			<el-select v-model="overallOptions.post" clearable placeholder="Select">
+			<el-select v-model="overallOptions.post" clearable placeholder="岗位">
         <el-option label="客户专员" value="客户专员" />
         <el-option label="信息专员" value="信息专员" />
         <el-option label="市场经理" value="市场经理" />
@@ -30,51 +30,108 @@
 		</div>
 		<div class="overall-portrait-select-item">
 			<p>年龄段</p>
-			<el-select v-model="overallOptions.age" clearable placeholder="Select">
-        <el-option label="客户专员" value="客户专员" />
-        <el-option label="信息专员" value="信息专员" />
-        <el-option label="市场经理" value="市场经理" />
-        <el-option label="综合管理员" value="综合管理员" />
-        <el-option label="终端专员" value="终端专员" />
+			<el-select v-model="age" clearable placeholder="年龄段">
+        <el-option label="18-25" value="1" />
+        <el-option label="26-30" value="2" />
+        <el-option label="31-35" value="3" />
+        <el-option label="36-40" value="4" />
+        <el-option label="41-50" value="5" />
+        <el-option label="50以上" value="6" />
 			</el-select>
 		</div>
 		<div class="overall-portrait-select-item">
 			<p>学历</p>
-			<el-select v-model="overallOptions.education" clearable placeholder="Select">
-        <el-option label="客户专员" value="客户专员" />
-        <el-option label="信息专员" value="信息专员" />
-        <el-option label="市场经理" value="市场经理" />
-        <el-option label="综合管理员" value="综合管理员" />
-        <el-option label="终端专员" value="终端专员" />
+			<el-select v-model="overallOptions.degree" clearable placeholder="学历">
+        <el-option label="博士" value="博士" />
+        <el-option label="硕士" value="硕士" />
+        <el-option label="大学" value="大学" />
+        <el-option label="大专" value="大专" />
+        <el-option label="高中" value="高中" />
+        <el-option label="初中" value="初中" />
 			</el-select>
 		</div>
-		<el-button type="info">分析</el-button>
+		<el-button type="info" @click="handleAnalyze">分析</el-button>
 		<div class="overall-portrait-select-time">
-			<el-select v-model="overallOptions" clearable placeholder="选择时间段">
-        <el-option label="客户专员" value="客户专员" />
-        <el-option label="信息专员" value="信息专员" />
-        <el-option label="市场经理" value="市场经理" />
-        <el-option label="综合管理员" value="综合管理员" />
-        <el-option label="终端专员" value="终端专员" />
+			<el-select v-model="overallOptions.createdTime" clearable placeholder="选择时间段">
+        <el-option v-for="item in createdTimeList" :key="item" :label="item" :value="item" />
 			</el-select>
 		</div>
 	</div>
 </template>
 
 <script lang="ts" setup>
+import api from '@/api/api';
+import { useEmployeeStore } from '@/stores/employee';
 import { usePostStore } from '@/stores/post';
 import { storeToRefs } from 'pinia';
-import { reactive } from 'vue'
+import { onMounted, reactive, ref } from 'vue'
 
 const postStore = usePostStore()
+const employeeStore = useEmployeeStore()
 const { unitList } = storeToRefs(postStore)
+const { createdTimeList } = storeToRefs(employeeStore)
+
+onMounted(() => {
+	hasCreatedTimeList()
+})
+
+const hasCreatedTimeList = async () => {
+	if(createdTimeList.value) {
+		const res = await api.getCreatedTime()
+		if (res.data.state === 200) {
+			employeeStore.updateCreatedTimeList(res.data.data)
+		} else {
+			return
+		}
+	}
+}
+
+const age = ref('')
+const ageGroup = ref({
+	minAge: '',
+	maxAge: ''
+})
 const overallOptions = reactive({
 	unit: '',
 	post: '',
 	sex: '',
-	age: '',
-	education: '',
+	degree: '',
+	createdTime: ''
 })
+
+/*
+ * @desc 子传父：将分析结果传给父组件渲染
+ */ 
+const emit = defineEmits(['submitAnalyze'])
+const handleAnalyze = async () => {
+	switch (age.value) {
+	case '1': 
+		ageGroup.value = { minAge: '18', maxAge: '25' } 
+		break;
+	case '2': 
+		ageGroup.value = { minAge: '26', maxAge: '30' }
+		break;
+	case '3': 
+		ageGroup.value = { minAge: '31', maxAge: '35' }
+		break;
+	case '4': 
+		ageGroup.value = { minAge: '36', maxAge: '40' }
+		break;
+	case '5': 
+		ageGroup.value = { minAge: '41', maxAge: '50' }
+		break;
+	case '6': 
+		ageGroup.value = { minAge: '50', maxAge: '100' }
+		break;
+	}
+	const res = await api.overallPortrait({
+		...overallOptions,
+		...ageGroup.value
+	})
+	if(res.data.state === 200) {
+		emit('submitAnalyze', res.data.data,overallOptions,ageGroup.value);
+	}
+}
 </script>
 
 <style lang="scss" scoped>
