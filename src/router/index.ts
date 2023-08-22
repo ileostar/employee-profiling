@@ -83,7 +83,15 @@ const routes: Array<RouteRecordRaw> = [
 							const chartStore = useChartStore()
 							const { smallChartData: Info, postChartData: PostInfo } = storeToRefs(chartStore)
 							const { createdTime } = storeToRefs(employeeStore)
-							if (_.isEmpty(Info.value) || _.isEmpty(PostInfo.value)) {
+							if (_.isEmpty(PostInfo.value) || _.isEmpty(Info.value)) {
+								if(_.isEmpty(createdTime.value)) { 
+									const res3 = await api.getCreatedTime()
+									if (res3.data.state === 200) {
+										employeeStore.updateCreatedTimeList(res3.data.data)
+									} else {
+										return
+									}
+								}
 								const req = {
 									createdTime: createdTime.value,
 								}

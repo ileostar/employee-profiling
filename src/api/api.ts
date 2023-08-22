@@ -77,7 +77,7 @@ export default {
 		// 员工信息查询方法，有分页功能，pageNum：当前页码，pageSize：每页展示条数，必须传入的字段为pageNum，pageSize,createdTime,createdTime为字符串形式，注意格式如 “2023-05”
 		return http.get('/employee/selectAll', params)
 	},
-	findEmployeeByNumber: (params: Employee) => {
+	findEmployeeByNumber: (params: { name: string}) => {
 		// 员工信息查询方法，根据员工姓名查询，用于表单的快速填写
 		return http.get('/employee/findByNumber', params)
 	},
