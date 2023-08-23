@@ -16,6 +16,11 @@
 import { ref, watchEffect } from 'vue'
 import { TableV2SortOrder } from 'element-plus'
 import type { SortBy } from 'element-plus'
+import { usePerformanceStore } from '@/stores/performance'
+import { storeToRefs } from 'pinia'
+
+const performanceStore = usePerformanceStore()
+const { performanceColumn, performanceList } = storeToRefs(performanceStore)
 
 const tableWidth = ref(1125)
 const tableHeight = ref(550)
@@ -31,36 +36,32 @@ watchEffect(() => {
 	}
 })
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const generateColumns = (length = 10, prefix = 'column-', props?: any) =>
-	Array.from({ length }).map((_, columnIndex) => ({
+const data = ref<Array<any>>([])
+
+// 员工信息表头
+const generateColumns = (props?: any) =>
+	performanceColumn.value.map((item: string) => ({
 		...props,
-		key: `${prefix}${columnIndex}`,
-		dataKey: `${prefix}${columnIndex}`,
-		title: `列 ${columnIndex}`,
-		width: 150,
+		key: item,
+		dataKey: item,
+		title: item,
+		width: 120,
 	}))
 
-const generateData = (
-	columns: ReturnType<typeof generateColumns>,
-	length = 200,
-	prefix = 'row-',
-) =>
-	Array.from({ length }).map((_, rowIndex) => {
-		return columns.reduce(
-			(rowData, column, columnIndex) => {
-				rowData[column.dataKey] = `Row ${rowIndex} - Col ${columnIndex}`
-				return rowData
-			},
-			{
-				id: `${prefix}${rowIndex}`,
-				parentId: null,
-			},
-		)
+const generateData = (columns: ReturnType<typeof generateColumns>) => 
+	performanceList.value.map((row: { [s: string]: unknown } | ArrayLike<unknown>) => {
+		const rowData: { [key: string]: any } = {};
+		columns.forEach((column: { dataKey: string | number }, columnIndex: number) => {
+			// eslint-disable-next-line @typescript-eslint/no-unused-vars
+			rowData[column.dataKey] = Object.entries(row).map(([_key, value]) => value)[columnIndex+1]
+		});
+
+		return rowData;
 	})
 
-const columns = generateColumns(10)
-let data = generateData(columns, 200)
+const columns = generateColumns()
+// 监听Employeeist的更新变化
+watchEffect(() => data.value = generateData(columns));
 
 columns[0].sortable = true
 
@@ -71,7 +72,7 @@ const sortState = ref<SortBy>({
 
 const onSort = (sortBy: SortBy) => {
 	console.log(sortBy)
-	data = data.reverse()
+	data.value = data.value.reverse()
 	sortState.value = sortBy
 }
 </script>

@@ -76,7 +76,7 @@
 		</div>
 	</div>
 	<el-dialog v-model="dialogCreateFormVisible" @close="resetForm" title="新建">
-		<el-form :model="form" :rules="formRules">
+		<el-form :model="form" :rules="formRules" ref="ruleFormRef">
       <el-form-item v-for="field, key in formField" :key="field.label" :label="field.label" :prop="key">
         <template v-if="field.label === '创建时间'">
           <el-select v-model="form.createdTime" class="m-2" placeholder="选择创建时间">
@@ -108,21 +108,21 @@
 		<template #footer>
 			<span class="dialog-footer">
 				<el-button @click="dialogCreateFormVisible = false">取消</el-button>
-				<el-button type="info" @click="submitCreatedForm()">
+				<el-button type="info" @click="submitCreatedForm(ruleFormRef)">
 					确定
 				</el-button>
 			</span>
 		</template>
 	</el-dialog>
 	<el-dialog v-model="dialogFixFormVisible" @close="resetForm" title="修改">
-		<el-form :model="form2" :rules="formRules2">
+		<el-form :model="form2" :rules="formRules2" ref="ruleForm2Ref">
       <el-form-item v-for="field, key in formField2" :key="field.label" :label="field.label" :prop="key">
         <template v-if="field.label === '创建时间'">
           <el-select v-model="form2.createdTime" class="m-2" placeholder="选择创建时间" @change="pairingCreatedTime">
             <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
           </el-select>
         </template>
-        <template v-else-if="field.label === '姓名'" >     
+        <template v-else-if="field.label === '姓名'" >
           <el-input v-model="form2.name" @blur="autofill" autocomplete="off" placeholder="填写姓名自动匹配,请优先填写姓名"></el-input>
         </template>
         <template v-else-if="field.label === '员工编号'" >     
@@ -156,7 +156,7 @@
 		<template #footer>
 			<span class="dialog-footer">
 				<el-button @click="dialogFixFormVisible = false">取消</el-button>
-				<el-button type="info" @click="submitUpdatedForm">
+				<el-button type="info" @click="submitUpdatedForm(ruleForm2Ref)">
 					确定
 				</el-button>
 			</span>
@@ -194,9 +194,9 @@
 </template>
 
 <script lang="ts" setup>
-import { reactive, ref, watchEffect } from 'vue'
+import { nextTick, reactive, ref, watchEffect } from 'vue'
 import { Search } from '@element-plus/icons-vue'
-import { ElMessage } from 'element-plus'
+import { ElMessage, FormInstance } from 'element-plus'
 import { storeToRefs } from 'pinia'
 import { useEmployeeStore } from '@/stores/employee'
 import { usePostStore } from '@/stores/post'
@@ -208,20 +208,22 @@ import * as _ from 'lodash'
 const ChartStore = useChartStore()
 const EmployeeStore = useEmployeeStore()
 const PostStore = usePostStore()
-
 const { createdTime: currentDate,createdTimeList: options,EmployeeNameList }  = storeToRefs(EmployeeStore)
 const { smallChartData,postChartData } = storeToRefs(ChartStore)
+const { postData: select } = storeToRefs(PostStore)
+
 const search = ref('')
 const defaultSelect = ref('')
-const { postData: select } = storeToRefs(PostStore)
+const currentDateList = ref<string[]>([])
+
+// 控制对话框显示
 const dialogCreateFormVisible = ref(false)
 const dialogFixFormVisible = ref(false)
 const dialogInFormVisible = ref(false)
 const dialogOutFormVisible = ref(false)
-const currentDateList = ref<string[]>([])
 
+// 新建表单
 const form = reactive<Employee>({})
-
 const formField = reactive({
 	createdTime: {
 		value: '',
@@ -539,7 +541,6 @@ const formField = reactive({
 		type: '',
 	}
 })
-
 const formRules = reactive({
 	createdTime: {
 		required: true,
@@ -562,9 +563,39 @@ const formRules = reactive({
 		trigger: 'blur'
 	},
 })
+const ruleFormRef = ref<FormInstance>()
+watchEffect(() => {
+	currentDateList.value = (() => {
+		// 获取当前日期
+		const currentDate = new Date();
 
+		// 获取当前年份和月份
+		const currentYear = currentDate.getFullYear();
+		const currentMonth = currentDate.getMonth() + 1; // 月份从0开始，所以需要加1
+
+		// 生成过去一年的年月数组
+		const pastYearMonths = [];
+		for (let i = 0; i < 12; i++) {
+			let year = currentYear;
+			let month = currentMonth - i;
+
+			if (month <= 0) {
+				// 如果月份小于等于0，表示跨年了
+				year -= 1;
+				month += 12;
+			}
+
+			// 将年份和月份格式化为字符串，并添加到数组中
+			const formattedMonth = month.toString().padStart(2, '0'); // 月份补零
+			pastYearMonths.push(`${year}-${formattedMonth}`);
+		}
+		return pastYearMonths
+	})()
+})
+
+// 修改表单
 const form2 = ref<Employee>({})
-
+const ruleForm2Ref = ref<FormInstance>()
 const formField2 = reactive({
 	name: {
 		value: '',
@@ -882,7 +913,6 @@ const formField2 = reactive({
 		type: '',
 	}
 })
-
 const formRules2 = reactive({
 	createdTime: {
 		required: true,
@@ -904,35 +934,6 @@ const formRules2 = reactive({
 		message: '请选择岗位',
 		trigger: 'change'
 	},
-})
-
-watchEffect(() => {
-	currentDateList.value = (() => {
-		// 获取当前日期
-		const currentDate = new Date();
-
-		// 获取当前年份和月份
-		const currentYear = currentDate.getFullYear();
-		const currentMonth = currentDate.getMonth() + 1; // 月份从0开始，所以需要加1
-
-		// 生成过去一年的年月数组
-		const pastYearMonths = [];
-		for (let i = 0; i < 12; i++) {
-			let year = currentYear;
-			let month = currentMonth - i;
-
-			if (month <= 0) {
-				// 如果月份小于等于0，表示跨年了
-				year -= 1;
-				month += 12;
-			}
-
-			// 将年份和月份格式化为字符串，并添加到数组中
-			const formattedMonth = month.toString().padStart(2, '0'); // 月份补零
-			pastYearMonths.push(`${year}-${formattedMonth}`);
-		}
-		return pastYearMonths
-	})()
 })
 
 type Namesake = {
@@ -971,7 +972,9 @@ const beforeAvatarUpload = (file: any): boolean=> {
 	return (extension || extension2)
 }
 
-// 搜索
+/**
+ * @desc: 搜索
+ */
 const searchEmployee = async () => {
 	const res = await api.findByPostAndCondition({ post: defaultSelect.value,conditions: search.value })
 	if(res.data.state === 200) {
@@ -983,86 +986,96 @@ const searchEmployee = async () => {
 	}
 }
 
-// 新建
-const submitCreatedForm = async () => {
-	dialogCreateFormVisible.value = false
-	const res = await api.insertEmployee(form)
-	if(res.data.state === 200) {
-		const obj:Employee = {      
-			id: 0,
-			number: 0,
-			name: '',
-			unit: '',
-			post: '',
-			sex: '',
-			status: '',
-			degree: '',
-			age: 0,
-			seniority: 0,
-			one: '',
-			two: '',
-			three: '',
-			four: '',
-			five: '',
-			six: '',
-			seven: '',
-			eight: '',
-			nine: '',
-			ten: '',
-			eleven: '',
-			twelve: '',
-			thirteen: '',
-			fourteen: '',
-			fifteen: '',
-			sixteen: '',
-			seventeen: '',
-			eighteen: '',
-			nineteen: '',
-			twenty: '',
-			twentyOne: '',
-			twentyTwo: '',
-			twentyThree: '',
-			twentyFour: '',
-			twentyFive: '',
-			twentySix: '',
-			twentySeven: '',
-			twentyEight: '',
-			twentyNine: '',
-			thirty: '',
-			thirtyOne: '',
-			thirtyTwo: '',
-			thirtyThree: '',
-			thirtyFour: '',
-			thirtyFive: '',
-			thirtySix: '',
-			thirtySeven: '',
-			thirtyEight: '',
-			thirtyNine: '',
-			forty: '',
-			fortyOne: '',
-			fortyTwo: '',
-			fortyThree: '',
-			fortyFour: '',
-			fortyFive: '',
-			fortySix: '',
-			fortySeven: '',
-			fortyEight: '',
-			fortyNine: '',
-			fifty: '',
-			fiftyOne: '',
-			fiftyTwo: '',
-			fiftyThree: '',
-			createdTime:'' 
+/**
+ * @desc: 新建
+ */
+const submitCreatedForm = async (formEl: FormInstance | undefined) => {
+	if(!formEl) return
+	formEl.validate(async (valid) => {
+		if (valid) {
+			dialogCreateFormVisible.value = false
+			const res = await api.insertEmployee(form)
+			if(res.data.state === 200) {
+				const obj:Employee = {      
+					id: 0,
+					number: 0,
+					name: '',
+					unit: '',
+					post: '',
+					sex: '',
+					status: '',
+					degree: '',
+					age: 0,
+					seniority: 0,
+					one: '',
+					two: '',
+					three: '',
+					four: '',
+					five: '',
+					six: '',
+					seven: '',
+					eight: '',
+					nine: '',
+					ten: '',
+					eleven: '',
+					twelve: '',
+					thirteen: '',
+					fourteen: '',
+					fifteen: '',
+					sixteen: '',
+					seventeen: '',
+					eighteen: '',
+					nineteen: '',
+					twenty: '',
+					twentyOne: '',
+					twentyTwo: '',
+					twentyThree: '',
+					twentyFour: '',
+					twentyFive: '',
+					twentySix: '',
+					twentySeven: '',
+					twentyEight: '',
+					twentyNine: '',
+					thirty: '',
+					thirtyOne: '',
+					thirtyTwo: '',
+					thirtyThree: '',
+					thirtyFour: '',
+					thirtyFive: '',
+					thirtySix: '',
+					thirtySeven: '',
+					thirtyEight: '',
+					thirtyNine: '',
+					forty: '',
+					fortyOne: '',
+					fortyTwo: '',
+					fortyThree: '',
+					fortyFour: '',
+					fortyFive: '',
+					fortySix: '',
+					fortySeven: '',
+					fortyEight: '',
+					fortyNine: '',
+					fifty: '',
+					fiftyOne: '',
+					fiftyTwo: '',
+					fiftyThree: '',
+					createdTime:'' 
+				}
+				const createData = Object.assign({}, obj, res.data.data);
+				EmployeeStore.addEmployeeList(createData)
+				ElMessage.success('添加成功')
+			} else {
+				ElMessage.error('添加失败')
+			}
 		}
-		const createData = Object.assign({}, obj, res.data.data);
-		EmployeeStore.addEmployeeList(createData)
-		ElMessage.success('添加成功')
-	} else {
-		ElMessage.error(res.data.msg)
-	}
+	})
 }
 
-// 切换创建时间
+/**
+ * @param: 当前点击创建时间
+ * @desc: 切换创建时间
+ */
 const changeCreatedTime = async (value: string) => {
 	console.log(value);
 	currentDate.value = value
@@ -1075,12 +1088,14 @@ const changeCreatedTime = async (value: string) => {
 	}
 }
 
-// 离焦自动填写
+/**
+ * @desc: 离焦自动填写
+ */
 const autofill = async () => {
 	if(!_.isEmpty(form2.value.name)) {
 		const res = await api.findEmployeeByNumber({name: form2.value.name as string})
 		if(res.data.state === 200) {
-			form2.value = res.data.data[1]
+			form2.value = res.data.data[0]
 			// 获取所有不同的number值
 			const numbers = [...new Set(res.data.data.map((item: Employee) => item.number))];
 
@@ -1092,21 +1107,29 @@ const autofill = async () => {
 				};
 			});
       
-			namesake.value = result as Array<Namesake>
-			console.log('namesake.value',namesake.value);
-      
+			namesake.value = result as Array<Namesake>;
+			nextTick(() => {
+				pairingCreatedTime()
+			})
 		}else {
-			ElMessage.error(res.data.msg)
+			ElMessage.error('无该员工信息')
 		}
 	} else {
 		ElMessage.success('员工姓名不能为空')
 	}
   
 }
+
+/**
+ * @param: 当前点击员工编号
+ * @desc: 员工编号自动填写
+ */
 const autofill2 = async (num: number) => {
 	let only = ref(true); 
 	if(nextNum.value === num) return 
 	const clonedNamesake = _.cloneDeep(namesake.value);
+	console.log(clonedNamesake);
+  
 	clonedNamesake.forEach(item => {
 		if(num === item.number && only.value) {
 			form2.value = item.items[0];
@@ -1118,60 +1141,57 @@ const autofill2 = async (num: number) => {
 	form2.value.number = num;
 }
 
-// 更新表单匹配创建时间
+/**
+ * @desc: 更新表单匹配创建时间
+ */
 const pairingCreatedTime = () => {
-	// Array.from(namesake.value).filter(item => item.number == form2.value.number).some((item) => {
-	// 	item.items.forEach((item2) => {
-	// 		if (item2.number === form2.value.number) {
-	// 			item2.createdTime = form2.value.createdTime;
-	// 			form2.value = item2;
-	// 			return true;
-	// 		}
-	// 	});
-	// });
-
-	// const clonedNamesake = _.cloneDeep(namesake.value);
-	// console.log('clonedNamesake',namesake.value);
-  
-	// const form2Copy = clonedNamesake.filter(item => item.number === form2.value.number)
-	// console.log('form2Copy',form2Copy);
-  
-	// console.log('zone',namesake.value.length,'length',form2Copy[0].items.length);
-  
-	// form2Copy.forEach((item) => {
-	// 	item.items.forEach((item2) => {
-	// 		console.log(item2.createdTime, form2.value.createdTime);
-
-	// 		if (item2.createdTime === form2.value.createdTime) {
-	// 			form2.value = { ...item2 }; // 使用对象的展开语法保持响应式绑定
-	// 			return false; // 直接返回 false 中断内部循环
-	// 		}
-	// 	});
-	// });
 	const clonedNamesake = _.cloneDeep(namesake.value);
-	const form2Copy = clonedNamesake.filter((item) => item.number === form2.value.number);
 
-	form2Copy.forEach((item) => {
-		item.items.forEach((item2) => {
-			if (item2.createdTime === form2.value.createdTime) {
-				form2.value = { ...item2 };
-				return false;
+	const form2Copy = clonedNamesake.filter(item => item.number === form2.value.number) as Array<Namesake>;
+  
+	if(!form2Copy.some(item => (
+		item.items.some(item1 => {
+			if (item1.createdTime === form2.value.createdTime) {
+				form2.value = { ...item1 };
+				return true; 
 			}
-		});
-	});
-}
-
-// 提交修改表单
-const submitUpdatedForm = async () => {
-	const res = await api.updateEmployee(form2.value)
-	if(res.data.state === 200) {
-		EmployeeStore.updateEmployeeList(res.data.data)
-		ElMessage.success('修改成功')
-	} else {
-		ElMessage.error(res.data.msg)
+			return false
+		}))
+	)) {
+		form2.value = {
+			createdTime: form2.value.createdTime,
+			name: form2.value.name,
+			number: form2.value.number
+		}
 	}
 }
 
+/**
+ * @param: 当前点击修改表单实例
+ * @desc: 提交修改表单
+ */
+const submitUpdatedForm = (formEl: FormInstance | undefined) => {
+	if(!formEl) return
+	formEl.validate(async (valid) => {
+		if (valid) {
+			const res = await api.updateEmployee(form2.value)
+			if(res.data.state === 200) {
+				const res2 = await api.selectEmployee({createdTime: currentDate.value})
+				if(res2.data.state === 200) {
+					EmployeeStore.updateEmployeeList(res2.data.data)
+				}
+				dialogFixFormVisible.value = false
+				ElMessage.success('修改成功')
+			} else {
+				ElMessage.error('修改失败')   
+			}
+		}
+	})
+}
+
+/**
+ * @desc: 重置表单
+ */
 const resetForm = () => {
 	form2.value = {}
 	namesake.value = []

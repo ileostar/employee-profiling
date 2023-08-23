@@ -1,7 +1,41 @@
 <template>
 	<div class="userInfos">
 		<div class="user-avatar">
-			<el-avatar :src="circleUrl" />
+      <el-upload class="avatar" action="#" list-type="picture-card" :auto-upload="false">
+        <img :src="infos.avatar" alt="">
+    
+        <template #file="{ file }">
+          <div>
+            <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
+            <span class="el-upload-list__item-actions">
+              <span
+                class="el-upload-list__item-preview"
+                @click="handlePictureCardPreview(file)"
+              >
+                <el-icon><zoom-in /></el-icon>
+              </span>
+              <span
+                v-if="!disabled"
+                class="el-upload-list__item-delete"
+                @click="handleDownload(file)"
+              >
+                <el-icon><Download /></el-icon>
+              </span>
+              <span
+                v-if="!disabled"
+                class="el-upload-list__item-delete"
+                @click="handleRemove(file)"
+              >
+                <el-icon><Delete /></el-icon>
+              </span>
+            </span>
+          </div>
+        </template>
+      </el-upload>
+    
+      <el-dialog v-model="dialogVisible">
+        <img w-full :src="dialogImageUrl" alt="Preview Image" />
+      </el-dialog>
 		</div>
 		<ul class="user-desc">
 			<li>
@@ -22,17 +56,34 @@
 <script lang="ts" setup>
 import api from '@/api/api'
 import { useUsersStore } from '@/stores/users'
-import { ElMessage } from 'element-plus'
+import { ElMessage, UploadFile } from 'element-plus'
 import { storeToRefs } from 'pinia'
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const userStore = useUsersStore()
 const { infos } = storeToRefs(userStore)
 
-const circleUrl = ref(
-	'https://cube.elemecdn.com/3/7c/3ea6beec64369c2642b92c6726f1epng.png',
-)
+const dialogImageUrl = ref('')
+const dialogVisible = ref(false)
+const disabled = ref(false)
 
+const handleRemove = (file: UploadFile) => {
+	console.log(file)
+}
+
+onMounted(() => {
+	console.log(infos.value.avatar);
+  
+})
+
+const handlePictureCardPreview = (file: UploadFile) => {
+	dialogImageUrl.value = file.url!
+	dialogVisible.value = true
+}
+
+const handleDownload = (file: UploadFile) => {
+	console.log(file)
+}
 const drawer = defineProps(['drawer'])
 
 const editUserInfos = async () => {
@@ -61,9 +112,12 @@ const editUserInfos = async () => {
 		width: 100%;
 		justify-content: center;
 		margin: 2vh 0;
-		.el-avatar {
-			width: 7vw;
-			height: 7vw;
+		:deep(.el-upload) {
+			border-radius: 50%;
+      overflow: hidden;
+      img {
+        width: 100%;
+      }
 		}
 	}
 	.user-desc {

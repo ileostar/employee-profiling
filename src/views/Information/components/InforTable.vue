@@ -8,7 +8,6 @@
 			:height="tableHeight"
 			fixed
 			@column-sort="onSort"
-      @click="demo"
 		/>
 	</div>
 </template>
@@ -29,8 +28,6 @@ const tableHeight = ref(550)
 // 获取表格容器的引用
 const tableContainer = ref(null)
 
-const data = ref<Array<any>>([])
-
 // 监听表格容器尺寸的变化，并更新表格的宽度和高度
 watchEffect(() => {
 	if (tableContainer.value) {
@@ -38,6 +35,8 @@ watchEffect(() => {
 		tableHeight.value = (tableContainer.value as HTMLElement).offsetHeight
 	}
 })
+
+const data = ref<Array<any>>([])
 
 // 员工信息表头
 const generateColumns = (props?: any) =>
@@ -63,10 +62,6 @@ const generateData = (columns: ReturnType<typeof generateColumns>) =>
 const columns = generateColumns()
 // 监听Employeeist的更新变化
 watchEffect(() => data.value = generateData(columns));
-
-function demo() {
-	console.log(data)
-}
 
 columns[0].sortable = true
 

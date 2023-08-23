@@ -9,6 +9,7 @@ export type Infos = {
 	salt?: string
 	createdTime?: string
 	role?: string
+  avatar?: string
 }
 
 export const useUsersStore = defineStore('users',() => {

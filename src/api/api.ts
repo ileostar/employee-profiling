@@ -109,6 +109,14 @@ export default {
 		// 查询员工信息所有单位的方法
 		return http.get('/employee/selectByUnit')
 	},
+	uploadEmployee: (params: { filename : File }) => {
+		// 查询员工信息所有单位的方法
+		return http.post('/employee/upload',params)
+	},
+	downloadEmployeeExcel: () => {
+		// 查询员工信息所有单位的方法
+		return http.get('/employee/downloadexcel')
+	},
 
 	/**
 	 * @desc 绩效接口

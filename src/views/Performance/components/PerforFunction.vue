@@ -157,11 +157,11 @@ import { reactive, ref } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import { storeToRefs } from 'pinia'
 import { usePostStore } from '@/stores/post'
-
 const PostStore = usePostStore()
 const { postData: select } = storeToRefs(PostStore)
 const search = ref('')
 const defaultSelect = ref('')
+
 const dialogCreateFormVisible = ref(false)
 const dialogFixFormVisible = ref(false)
 const dialogInFormVisible = ref(false)

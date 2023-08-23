@@ -31,6 +31,8 @@ export const useEmployeeStore = defineStore('employee', () => {
   '是否有作为主要成员参加营销创新项目的经历','是否有参与的视频项目并在省局以上媒体发表情况',
   '是否有参与市局营销竞赛并获奖的情况','是否受到国家局（总公司）表彰','是否受到省局（公司）表彰',
   '是否受到市局（公司）表彰','创建时间'])
+
+  const portraitFeature = ref()
   
   const EmployeeNameList = ref<Array<EmployeeName>>([])
 
@@ -58,6 +60,7 @@ export const useEmployeeStore = defineStore('employee', () => {
     EmployeeList,
     EmployeeNameList,
     EmployeeCloumn,
+    portraitFeature,
     addEmployeeList,
     updateCreatedTimeList,
     updateEmployeeList,

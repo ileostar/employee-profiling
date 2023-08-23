@@ -13,27 +13,27 @@ import { usePostStore } from '@/stores/post'
 import { storeToRefs } from 'pinia'
 
 // 主页面
-import Home from '@/layouts/Home.vue'
+const Home = () => import('@/layouts/Home.vue')
 // 登录注册
-import Login from '@/views/Login/Login.vue'
-import Register from '@/views/Register/Register.vue'
+const Login = () => import('@/views/Login/Login.vue')
+const Register = () => import('@/views/Register/Register.vue')
 // 信息维护
-import Charts from '@/views/Charts/Charts.vue'
-import Information from '@/views/Information/Information.vue'
-import Performance from '@/views/Performance/Performance.vue'
-import TagManage from '@/views/TagManage/TagManage.vue'
-import AccountManage from '@/views/AccountManage/AccountManage.vue'
+const Charts = () =>  import('@/views/Charts/Charts.vue')
+const Information = () => import('@/views/Information/Information.vue')
+const Performance = () => import('@/views/Performance/Performance.vue')
+const TagManage = () => import('@/views/TagManage/TagManage.vue')
+const AccountManage = () => import('@/views/AccountManage/AccountManage.vue')
 // 员工画像
-import EmployeePortrait from '@/views/EmployeePortrait/EmployeePortrait.vue'
+const EmployeePortrait = () => import('@/views/EmployeePortrait/EmployeePortrait.vue')
 // 岗位画像
-import OverallPortrait from '@/views/OverallPortrait/OverallPortrait.vue'
-import PositionPortrait from '@/views/PositionPortrait/PositionPortrait.vue'
+const OverallPortrait = () => import('@/views/OverallPortrait/OverallPortrait.vue')
+const PositionPortrait = () => import('@/views/PositionPortrait/PositionPortrait.vue')
 // 人岗匹配
-import Matching from '@/views/Matching/Matching.vue'
+const Matching = () => import('@/views/Matching/Matching.vue')
 // 缺省页
-import NotFound from '@/views/NotFound/NotFound.vue'
-import NotAuth from '@/views/NotAuth/NotAuth.vue'
-import NotServer from '@/views/NotServer/NotServer.vue'
+const NotFound = () => import('@/views/NotFound/NotFound.vue')
+const NotAuth = () => import('@/views/NotAuth/NotAuth.vue')
+const NotServer = () => import('@/views/NotServer/NotServer.vue')
 
 declare module 'vue-router' {
 	interface RouteMeta {
@@ -148,11 +148,11 @@ const routes: Array<RouteRecordRaw> = [
 						// eslint-disable-next-line @typescript-eslint/no-unused-vars
 						async beforeEnter(_to, _from, next) {
 							const performanceStore = usePerformanceStore()
-							const { performanceData } = storeToRefs(performanceStore)
-							if(_.isEmpty(performanceData.value)) {
+							const { performanceList } = storeToRefs(performanceStore)
+							if(_.isEmpty(performanceList.value)) {
 								const res = await api.selectPerformane()
 								if(res.data.state === 200) {
-									performanceStore.updatePerformanceData(res.data.data)
+									performanceStore.updatePerformanceList(res.data.data)
 									console.log('performanceData:',res.data.data);               
 								} else {
 									return
@@ -228,6 +228,8 @@ const routes: Array<RouteRecordRaw> = [
 						const res = await api.selectAllEmployee({ createdTime: createdTime.value, pageNum: 1, pageSize: 12 });
 						if (res.data.state === 200) {
 							employeeStore.updateEmployeeNameList(res.data.data);
+							const res2 = await api.getPostFeatures({createdTime: createdTime.value,name: res.data.data[0]})
+							if(res2.data.state === 200) { /* empty */ }
 						} else {
 							next();
 						}
