@@ -84,9 +84,9 @@ export type Employee = {
 	unit?: string
 }
 
-export type searchEmployee = {
-  post: string
-  conditions: string | number
+export type Search = {
+  post?: string
+  conditions?: string
 }
 
 export type AnalyzeRelation = {
@@ -108,4 +108,16 @@ export type SelectAllEmployee = {
   createdTime: string
   pageNum: number
   pageSize: number
+}
+
+export type Performance = {
+  createdTime?: string,
+  employeeId?: number,
+  factor?: number,
+  id?: number,
+  name?: string,
+  number?: number,
+  post?: string,
+  scores?: number,
+  unit?: string
 }

@@ -1,5 +1,5 @@
 import http from '../util/http'
-import { AnalyzeRelation, Employee, LoginReg, OverallPortrait, SelectAllEmployee, Tag, fixPassword, fixUsername, searchEmployee } from './type'
+import { AnalyzeRelation, Employee, LoginReg, OverallPortrait, Search, SelectAllEmployee, Tag, fixPassword, fixUsername } from './type'
 
 export default {
 	/**
@@ -65,7 +65,7 @@ export default {
 		// 员工信息修改方法，必须传入id
 		return http.put('/employee/update', params)
 	},
-	findByPostAndCondition: (params: searchEmployee) => {
+	findByPostAndCondition: (params: Search) => {
 		// 员工信息修改方法，必须传入id
 		return http.get('/employee/findByPostAndCondition', params)
 	},
@@ -141,10 +141,6 @@ export default {
 		// 修改员工绩效的方法 要求前端表单能修改的字段只有绩效,为方便前端更新数据，新增成功后自动返回新增的数据
 		return http.put('/performane/update', params)
 	},
-	findByUnitAndCondition: (params: Employee) => {
-		// 用于右上角的查询，根据岗位和员工编号或岗位和员工姓名进行查询，注意编号和姓名的数据类型是不一样的，会根据传入的数据自动判断是姓名还是编号
-		return http.get('/performane/findByUnitAndCondition', params)
-	},
 	selectPerformane: () => {
 		//  员工绩效查询方法,查询所有数据,用于前端展示
 		return http.get('/performane/select')
@@ -167,7 +163,7 @@ export default {
 	},
 	findByNameAndCreatedTime: (params: Employee) => {
 		//  员工绩效根据员工姓名和日期查询方法，用于快速填写表单
-		return http.get('/performane/findByNameAndCreatedTime', params)
+		return http.get('/performane//performane/findByNameAndCreatedTimeNew', params)
 	},
 	findByNumber: (params: Employee) => {
 		//  员工绩效根据员工编号查询方法，用于快速填写表单
@@ -176,5 +172,9 @@ export default {
 	findByNumberAndCreatedTime: (params: Employee) => {
 		//  员工绩效根据员工编号和日期查询方法，用于快速填写表单
 		return http.get('/performane/findByNumberAndCreatedTime', params)
+	},
+	findPerByPostAndCondition: (params: Search) => {
+		//  用于右上角的查询，根据岗位和员工编号或岗位和员工姓名进行查询，注意编号和姓名的数据类型是不一样的，会根据传入的数据自动判断是姓名还是编号
+		return http.get('/performane/findByPostAndCondition', params)
 	},
 }

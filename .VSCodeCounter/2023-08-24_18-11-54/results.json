@@ -1,0 +1,404 @@
+{
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/.eslintrc.yml": {
+		"language": "YAML",
+		"code": 30,
+		"comment": 0,
+		"blank": 1
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/tsconfig.json": {
+		"language": "JSON with Comments",
+		"code": 25,
+		"comment": 7,
+		"blank": 4
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/.env": {
+		"language": "Properties",
+		"code": 5,
+		"comment": 0,
+		"blank": 0
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/vite.config.ts": {
+		"language": "TypeScript",
+		"code": 48,
+		"comment": 8,
+		"blank": 4
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/index.html": {
+		"language": "HTML",
+		"code": 13,
+		"comment": 0,
+		"blank": 1
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/tsconfig.node.json": {
+		"language": "JSON",
+		"code": 10,
+		"comment": 0,
+		"blank": 1
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/README.md": {
+		"language": "Markdown",
+		"code": 13,
+		"comment": 0,
+		"blank": 8
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/package.json": {
+		"language": "JSON",
+		"code": 79,
+		"comment": 0,
+		"blank": 1
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/.prettierrc.yaml": {
+		"language": "YAML",
+		"code": 17,
+		"comment": 0,
+		"blank": 1
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/api/type.ts": {
+		"language": "TypeScript",
+		"code": 115,
+		"comment": 0,
+		"blank": 8
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/commitlint.config.cjs": {
+		"language": "JavaScript",
+		"code": 6,
+		"comment": 4,
+		"blank": 1
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/vite-env.d.ts": {
+		"language": "TypeScript",
+		"code": 9,
+		"comment": 1,
+		"blank": 3
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/declare/myenv.d.ts": {
+		"language": "TypeScript",
+		"code": 9,
+		"comment": 0,
+		"blank": 2
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/api/api.ts": {
+		"language": "TypeScript",
+		"code": 124,
+		"comment": 52,
+		"blank": 5
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/OverallPortrait/OverallPortrait.vue": {
+		"language": "Vue",
+		"code": 118,
+		"comment": 0,
+		"blank": 6
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/public/logo.svg": {
+		"language": "XML",
+		"code": 2214,
+		"comment": 0,
+		"blank": 1
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/pnpm-lock.yaml": {
+		"language": "YAML",
+		"code": 8239,
+		"comment": 0,
+		"blank": 871
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/NotServer/NotServer.vue": {
+		"language": "Vue",
+		"code": 11,
+		"comment": 0,
+		"blank": 3
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/components/userInfos/userInfos.vue": {
+		"language": "Vue",
+		"code": 132,
+		"comment": 0,
+		"blank": 13
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/TagManage/TagManage.vue": {
+		"language": "Vue",
+		"code": 193,
+		"comment": 0,
+		"blank": 14
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/Register/Register.vue": {
+		"language": "Vue",
+		"code": 166,
+		"comment": 1,
+		"blank": 15
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/PositionPortrait/PositionPortrait.vue": {
+		"language": "Vue",
+		"code": 157,
+		"comment": 0,
+		"blank": 8
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/OverallPortrait/components/OverallSelect.vue": {
+		"language": "Vue",
+		"code": 154,
+		"comment": 0,
+		"blank": 8
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/Performance/Performance.vue": {
+		"language": "Vue",
+		"code": 33,
+		"comment": 1,
+		"blank": 3
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/NotAuth/NotAuth.vue": {
+		"language": "Vue",
+		"code": 11,
+		"comment": 0,
+		"blank": 3
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/NotFound/NotFound.vue": {
+		"language": "Vue",
+		"code": 11,
+		"comment": 0,
+		"blank": 3
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/styles/iconfont.scss": {
+		"language": "SCSS",
+		"code": 47,
+		"comment": 0,
+		"blank": 14
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/styles/reset.scss": {
+		"language": "SCSS",
+		"code": 208,
+		"comment": 10,
+		"blank": 39
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/styles/common.scss": {
+		"language": "SCSS",
+		"code": 30,
+		"comment": 1,
+		"blank": 5
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/Login/Login.vue": {
+		"language": "Vue",
+		"code": 163,
+		"comment": 1,
+		"blank": 20
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/Information/Information.vue": {
+		"language": "Vue",
+		"code": 33,
+		"comment": 1,
+		"blank": 3
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/Performance/components/PerforTable.vue": {
+		"language": "Vue",
+		"code": 81,
+		"comment": 0,
+		"blank": 15
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/Performance/components/PerforFunction.vue": {
+		"language": "Vue",
+		"code": 296,
+		"comment": 0,
+		"blank": 20
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/util/http.ts": {
+		"language": "TypeScript",
+		"code": 88,
+		"comment": 2,
+		"blank": 8
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/Matching/components/MatchingPost.vue": {
+		"language": "Vue",
+		"code": 56,
+		"comment": 0,
+		"blank": 3
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/Matching/Matching.vue": {
+		"language": "Vue",
+		"code": 78,
+		"comment": 1,
+		"blank": 6
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/EmployeePortrait/EmployeePortrait.vue": {
+		"language": "Vue",
+		"code": 120,
+		"comment": 0,
+		"blank": 8
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/util/iconfont.js": {
+		"language": "JavaScript",
+		"code": 68,
+		"comment": 0,
+		"blank": 1
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/Matching/components/MatchingAnalyze.vue": {
+		"language": "Vue",
+		"code": 331,
+		"comment": 0,
+		"blank": 13
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/Charts/Charts.vue": {
+		"language": "Vue",
+		"code": 56,
+		"comment": 1,
+		"blank": 3
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/EmployeePortrait/components/EmployeeInfo.vue": {
+		"language": "Vue",
+		"code": 353,
+		"comment": 0,
+		"blank": 5
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/Information/components/InforFunction.vue": {
+		"language": "Vue",
+		"code": 1213,
+		"comment": 1,
+		"blank": 32
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/Information/components/InforTable.vue": {
+		"language": "Vue",
+		"code": 80,
+		"comment": 0,
+		"blank": 16
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/components/svgIcon/svgIcon.vue": {
+		"language": "Vue",
+		"code": 35,
+		"comment": 0,
+		"blank": 3
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/AccountManage/AccountManage.vue": {
+		"language": "Vue",
+		"code": 182,
+		"comment": 0,
+		"blank": 18
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/Charts/components/SmallChart.vue": {
+		"language": "Vue",
+		"code": 70,
+		"comment": 0,
+		"blank": 3
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/Charts/components/TagChart.vue": {
+		"language": "Vue",
+		"code": 85,
+		"comment": 0,
+		"blank": 6
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/components/employeeTagCard/employeeTagCard.vue": {
+		"language": "Vue",
+		"code": 38,
+		"comment": 0,
+		"blank": 3
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/components/noResultYet/noResultYet.vue": {
+		"language": "Vue",
+		"code": 32,
+		"comment": 0,
+		"blank": 3
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/main.ts": {
+		"language": "TypeScript",
+		"code": 25,
+		"comment": 0,
+		"blank": 8
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/views/Charts/components/PostChart.vue": {
+		"language": "Vue",
+		"code": 144,
+		"comment": 0,
+		"blank": 9
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/assets/svg/noResultTwo.svg": {
+		"language": "XML",
+		"code": 1,
+		"comment": 0,
+		"blank": 0
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/App.vue": {
+		"language": "Vue",
+		"code": 35,
+		"comment": 5,
+		"blank": 5
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/stores/users.ts": {
+		"language": "TypeScript",
+		"code": 47,
+		"comment": 0,
+		"blank": 9
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/router/index.ts": {
+		"language": "TypeScript",
+		"code": 356,
+		"comment": 9,
+		"blank": 8
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/assets/svg/noResultYet.svg": {
+		"language": "XML",
+		"code": 1,
+		"comment": 0,
+		"blank": 0
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/stores/tag.ts": {
+		"language": "TypeScript",
+		"code": 17,
+		"comment": 0,
+		"blank": 5
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/stores/performance.ts": {
+		"language": "TypeScript",
+		"code": 25,
+		"comment": 0,
+		"blank": 5
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/stores/post.ts": {
+		"language": "TypeScript",
+		"code": 50,
+		"comment": 0,
+		"blank": 7
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/stores/Matching.ts": {
+		"language": "TypeScript",
+		"code": 16,
+		"comment": 1,
+		"blank": 5
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/stores/loading.ts": {
+		"language": "TypeScript",
+		"code": 17,
+		"comment": 6,
+		"blank": 4
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/layouts/Home.vue": {
+		"language": "Vue",
+		"code": 39,
+		"comment": 1,
+		"blank": 3
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/stores/employee.ts": {
+		"language": "TypeScript",
+		"code": 58,
+		"comment": 1,
+		"blank": 11
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/layouts/components/HomeMain.vue": {
+		"language": "Vue",
+		"code": 7,
+		"comment": 0,
+		"blank": 3
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/stores/chart.ts": {
+		"language": "TypeScript",
+		"code": 36,
+		"comment": 1,
+		"blank": 4
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/layouts/components/HomeHeader.vue": {
+		"language": "Vue",
+		"code": 83,
+		"comment": 0,
+		"blank": 5
+	},
+	"file:///e%3A/hc/%E5%A4%96%E5%8C%85/employee-Profiling/src/layouts/components/HomeAside.vue": {
+		"language": "Vue",
+		"code": 117,
+		"comment": 4,
+		"blank": 11
+	}
+}

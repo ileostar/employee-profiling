@@ -1,0 +1,16 @@
+"filename", "language", "TypeScript", "Vue", "comment", "blank", "total"
+"e:\hc\外包\employee-Profiling\src\api\api.ts", "TypeScript", 6, 0, 2, 0, 8
+"e:\hc\外包\employee-Profiling\src\api\type.ts", "TypeScript", 11, 0, 0, 1, 12
+"e:\hc\外包\employee-Profiling\src\components\noResultYet\noResultYet.vue", "Vue", 0, -1, 0, 0, -1
+"e:\hc\外包\employee-Profiling\src\components\userInfos\userInfos.vue", "Vue", 0, 48, 0, 6, 54
+"e:\hc\外包\employee-Profiling\src\router\index.ts", "TypeScript", 10, 0, 0, 0, 10
+"e:\hc\外包\employee-Profiling\src\stores\employee.ts", "TypeScript", 2, 0, 0, 1, 3
+"e:\hc\外包\employee-Profiling\src\stores\performance.ts", "TypeScript", 3, 0, 0, 0, 3
+"e:\hc\外包\employee-Profiling\src\stores\users.ts", "TypeScript", 1, 0, 0, 0, 1
+"e:\hc\外包\employee-Profiling\src\views\Information\components\InforFunction.vue", "Vue", 0, 523, 1, 13, 537
+"e:\hc\外包\employee-Profiling\src\views\Information\components\InforTable.vue", "Vue", 0, 2, 0, -1, 1
+"e:\hc\外包\employee-Profiling\src\views\OverallPortrait\OverallPortrait.vue", "Vue", 0, 49, 0, 2, 51
+"e:\hc\外包\employee-Profiling\src\views\OverallPortrait\components\OverallSelect.vue", "Vue", 0, 30, 0, 0, 30
+"e:\hc\外包\employee-Profiling\src\views\Performance\components\PerforFunction.vue", "Vue", 0, 70, 0, 13, 83
+"e:\hc\外包\employee-Profiling\src\views\Performance\components\PerforTable.vue", "Vue", 0, 4, 0, 3, 7
+"Total", "-", 33, 725, 3, 38, 799

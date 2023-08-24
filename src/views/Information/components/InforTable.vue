@@ -18,6 +18,7 @@ import { TableV2SortOrder } from 'element-plus'
 import type { SortBy } from 'element-plus'
 import { useEmployeeStore } from '@/stores/employee'
 import { storeToRefs } from 'pinia'
+import * as _ from 'lodash'
 
 const EmployeeStore = useEmployeeStore()
 const { EmployeeCloumn,EmployeeList } = storeToRefs(EmployeeStore)
@@ -48,16 +49,21 @@ const generateColumns = (props?: any) =>
 		width: 120,
 	}))
 
-const generateData = (columns: ReturnType<typeof generateColumns>) => 
-	EmployeeList.value.map((row: { [s: string]: unknown } | ArrayLike<unknown>) => {
-		const rowData: { [key: string]: any } = {};
-		columns.forEach((column: { dataKey: string | number }, columnIndex: number) => {
+const generateData = (columns: ReturnType<typeof generateColumns>) => {
+	if(!_.isEmpty(EmployeeList.value)){
+		return EmployeeList.value.map((row: { [s: string]: unknown } | ArrayLike<unknown>) => {
+			const rowData: { [key: string]: any } = {};
+			columns.forEach((column: { dataKey: string | number }, columnIndex: number) => {
 			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-			rowData[column.dataKey] = Object.entries(row).map(([_key, value]) => value)[columnIndex+1]
-		});
+				rowData[column.dataKey] = Object.entries(row).map(([_key, value]) => value)[columnIndex+1]
+			});
 
-		return rowData;
-	})
+			return rowData;
+		})
+	} else {
+		return []
+	}
+}
 
 const columns = generateColumns()
 // 监听Employeeist的更新变化

@@ -213,7 +213,7 @@ const { smallChartData,postChartData } = storeToRefs(ChartStore)
 const { postData: select } = storeToRefs(PostStore)
 
 const search = ref('')
-const defaultSelect = ref('')
+const defaultSelect = ref<string>('')
 const currentDateList = ref<string[]>([])
 
 // 控制对话框显示
@@ -976,10 +976,22 @@ const beforeAvatarUpload = (file: any): boolean=> {
  * @desc: 搜索
  */
 const searchEmployee = async () => {
-	const res = await api.findByPostAndCondition({ post: defaultSelect.value,conditions: search.value })
+	const req = ref({})
+	if(search.value===''&&defaultSelect.value==='') return
+	if(search.value!==''&&defaultSelect.value==='') req.value = {
+		conditions: search.value
+	}
+	if(defaultSelect.value!==''&&search.value==='') req.value = {
+		post: defaultSelect.value
+	}
+	if(defaultSelect.value!==''&&search.value!=='') req.value = {
+		post: defaultSelect.value,
+		conditions: search.value
+	}
+	const res = await api.findByPostAndCondition(req.value)
 	if(res.data.state === 200) {
 		EmployeeStore.updateEmployeeList(res.data.data)
-		console.log(res.data.data)
+		console.log(res.data)
 		const { EmployeeList }  = storeToRefs(EmployeeStore)
 		console.log(EmployeeList.value);   
 		ElMessage.success('查询成功!')
