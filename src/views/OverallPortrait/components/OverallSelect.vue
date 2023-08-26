@@ -91,6 +91,15 @@ const ageGroup = ref({
 	minAge: '',
 	maxAge: ''
 })
+
+type Overall = {
+	unit?: string,
+	post?: string,
+	sex?: string,
+	degree?: string,
+	createdTime?: string
+}
+
 const overallOptions = reactive({
 	unit: '',
 	post: '',
@@ -124,8 +133,15 @@ const handleAnalyze = async () => {
 		ageGroup.value = { minAge: '50', maxAge: '100' }
 		break;
 	}
+	const req:Overall = {};
+	for (const key in overallOptions) {
+		const value = overallOptions[key as keyof typeof overallOptions];
+		if (value !== '') {
+			req[key as keyof typeof overallOptions] = value;
+		}
+	}
 	const res = await api.overallPortrait({
-		...overallOptions,
+		...req,
 		...ageGroup.value
 	})
 	if(res.data.state === 200) {

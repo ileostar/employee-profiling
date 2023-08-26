@@ -1,25 +1,22 @@
 <template>
 	<div class="employee-info common-layout">
-		<h1 class="title">员工画像</h1>
+		<h1 class="title">员工画像 {{props.employee}}</h1>
 		<div class="fenge"></div>
 		<div class="main-content">
 			<div class="content-left">
 				<div class="content-left-information">
 					<li>员工基本信息</li>
 					<el-descriptions align="center" border size="small" :column="3">
-						<el-descriptions-item label="姓名">Suzhou</el-descriptions-item>
-						<el-descriptions-item label="性别">Suzhou</el-descriptions-item>
-						<el-descriptions-item label="层级">Suzhou</el-descriptions-item>
-						<el-descriptions-item label="部门">Suzhou</el-descriptions-item>
-						<el-descriptions-item label="岗位">Suzhou</el-descriptions-item>
-						<el-descriptions-item label="单位">Suzhou</el-descriptions-item>
-						<el-descriptions-item label="年龄">Suzhou</el-descriptions-item>
-						<el-descriptions-item label="工龄">Suzhou</el-descriptions-item>
-						<el-descriptions-item label="员工编号">Suzhou</el-descriptions-item>
-						<el-descriptions-item label="学历">Suzhou</el-descriptions-item>
-						<el-descriptions-item label="专业">Suzhou</el-descriptions-item>
+						<el-descriptions-item label="姓名">{{employeeInfos.name}}</el-descriptions-item>
+						<el-descriptions-item label="性别">{{employeeInfos.sex}}</el-descriptions-item>
+						<el-descriptions-item label="员工编号">{{employeeInfos.number}}</el-descriptions-item>
+						<el-descriptions-item label="单位">{{employeeInfos.unit}}</el-descriptions-item>
+						<el-descriptions-item label="年龄">{{employeeInfos.age}}</el-descriptions-item>
+						<el-descriptions-item label="烟草工作年限">{{employeeInfos.seniority}}</el-descriptions-item>
+						<el-descriptions-item label="岗位">{{employeeInfos.post}}</el-descriptions-item>
+						<el-descriptions-item label="学历">{{employeeInfos.degree}}</el-descriptions-item>
 						<el-descriptions-item label="是否中共党员">
-							Suzhou
+							{{employeeInfos.status}}
 						</el-descriptions-item>
 					</el-descriptions>
 				</div>
@@ -38,15 +35,16 @@
 					<li>个人简介</li>
 					<el-card shadow="hover">
 						<p>
-							本人名为张三，今年30岁，已加入中国共产党现在所处的岗位是客户专员，部门是营销部，专业是工商管理，有体育特长。有QC项日获奖经历。是省局创客工作室成员，考过计算机二级证书和三级营销师、经济师。
+							本人名为{{employeeInfos.name}}，今年{{employeeInfos.age}}岁，{{employeeInfos.status!='群众'?`目前是${employeeInfos.status}`:''}}现在所处的岗位是{{employeeInfos.post}}，我<span v-for="tag,index in tags" :key="tag">{{tag}}{{index===tags.length-1?'。':','}}</span>
 						</p>
 					</el-card>
 				</div>
 				<div class="content-right-post">
 					<li>岗位特征分析</li>
 					<div class="content-right-post-content">
-						<p>对绩效影响较大字段：</p>
-						<p>能力提升建议：</p>
+						<p>对绩效影响较大字段：{{ postIntroductInfo.join('、') }} </p>
+						<p>能力提升建议：{{ suggestion.join('、') }}
+            </p>
 					</div>
 				</div>
 			</div>
@@ -58,15 +56,15 @@
 							<p>该员工与当前岗位匹配分析：</p>
 							<div class="box1-card">
 								<div class="box1-card-left">
-									<p>88.8%</p>
+									<p>{{ matchingNumber+'%' }}</p>
 								</div>
 								<div class="box1-card-right">
 									<div class="card-information-header">
 										<el-icon><CaretRight /></el-icon>
 										<p>{{ postName }}</p>
 									</div>
-									<p class="card-information-content">
-										该岗位优秀画像特征：{{ postIntroductInfo }}
+									<p class="card-information-content" :title="postIntroductInfo.join('、')">
+										该岗位优秀画像特征：{{ postIntroductInfo.join('、') }}
 									</p>
 								</div>
 							</div>
@@ -79,7 +77,7 @@
 										<p>> 当前岗位优秀标签</p>
 									</template>
 									<template v-slot:default>
-										<el-tag class="ml-2" type="info">Tag 3</el-tag>
+										<el-tag class="ml-2" type="info" v-for="tag in postIntroductInfo" :key="tag" :title="tag">{{tag}}</el-tag>
 									</template>
 								</employeeTagCard>
 								<employeeTagCard class="box2-card-content second">
@@ -87,7 +85,7 @@
 										<p>> 该员工对应标签情况</p>
 									</template>
 									<template v-slot:default>
-										<el-tag class="ml-2" type="info">Tag 3</el-tag>
+										<el-tag class="ml-2" type="info" v-for="tag in employeeMatchingTag" :key="tag" :title="tag">{{tag}}</el-tag>
 									</template>
 								</employeeTagCard>
 							</div>
@@ -129,66 +127,96 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { ref, watchEffect } from 'vue'
 import employeeTagCard from '@/components/employeeTagCard/employeeTagCard.vue'
+// import { useEmployeeStore } from '@/stores/employee'
+// import { storeToRefs } from 'pinia'
 
-const tags = ref([
-	'标签1',
-	'标签2',
-	'标签3',
-	'标签4',
-	'标签2',
-	'标签3',
-	'标签4',
-	'标签2',
-	'标签3',
-	'标签4',
-	'标签2',
-	'标签3',
-	'标签4',
-	'标签2',
-	'标签3',
-	'标签4',
+// const employeeStore = useEmployeeStore()
+// const { createdTime, EmployeeNameList,portraitFeature } = storeToRefs(employeeStore)
+
+const props = defineProps(['employee'])
+
+const employeeInfos = ref({
+	name: 'A001',
+	sex: '男',
+	number: '11001',
+	unit: 'A单位',
+	age: 43,
+	post: '市场经理',
+	seniority: 16,
+	degree: '大学',
+	status: '中共党员',
+})
+
+const tags = ref<Array<string>>([
+	'公文写作能力较好',
+	'沟通能力较好',
+	'三级烟草制品购销职业资格（最高级别）',
+	'有省局轮训经历',
+	'近两年参与线下授课经历',
+	'是否受到市局（公司）表彰',
+	'是体育特长',
+	'初级经济师',
 ])
-const postName = ref('会计师')
-const postIntroductInfo = ref(
-	'有QC项目获奖情况、有体育特长、初级经济师、中共党员、有文学特长、有艺术特长',
-)
+
+const suggestion = ref<Array<string>>([
+	'有QC项目获奖情况', 
+])
+
+const postName = ref('市场经理')
+const matchingNumber = ref('90.3')
+const postIntroductInfo = ref<Array<string>>([
+	'有QC项目获奖情况', 
+	'有体育特长', 
+	'初级经济师', 
+	'有文学特长', 
+	'有艺术特长',
+	'近两年参与线下授课经历',
+	'是否受到市局（公司）表彰',
+])
+
+// 员工对应情况
+const employeeMatchingTag = ref<Array<string>>([])
+
+watchEffect(() => {
+	employeeMatchingTag.value = tags.value.filter(tag => postIntroductInfo.value.includes(tag));
+})
 const tableData = [
 	{
-		postName: '会计师',
-		matchingNumber: '86.3',
-		maxMatching: '90.3',
-		minMatching: '72.3',
-		averageMatching: '86.3',
+		postName: '市场经理',
+		matchingNumber: '90.3',
+		maxMatching: '94.3',
+		minMatching: '80.3',
+		averageMatching: '85.9',
 	},
 	{
-		postName: '会计师',
-		matchingNumber: '86.3',
-		maxMatching: '90.3',
-		minMatching: '72.3',
-		averageMatching: '86.3',
+		postName: '客户专员',
+		matchingNumber: '86.6',
+		maxMatching: '90.2',
+		minMatching: '79.6',
+		averageMatching: '85.5',
 	},
 	{
-		postName: '会计师',
-		matchingNumber: '86.3',
-		maxMatching: '90.3',
-		minMatching: '72.3',
-		averageMatching: '86.3',
+		postName: '信息专员',
+		matchingNumber: '85.2',
+		maxMatching: '95.6',
+		minMatching: '77.9',
+		averageMatching: '87.3',
 	},
 	{
-		postName: '会计师',
-		matchingNumber: '86.3',
-		maxMatching: '90.3',
-		minMatching: '72.3',
-		averageMatching: '86.3',
+		postName: '综合管理员',
+		matchingNumber: '83.3',
+		maxMatching: '92.1',
+		minMatching: '80.3',
+		averageMatching: '86.1',
 	},
 	{
-		postName: '会计师',
-		matchingNumber: '86.3',
-		maxMatching: '90.3',
-		minMatching: '72.3',
-		averageMatching: '86.3',
+		postName: '终端专员',
+		matchingNumber: '81.9',
+		maxMatching: '93.7',
+		minMatching: '78.9',
+		averageMatching: '85.3',
 	},
 ]
 </script>
@@ -244,14 +272,14 @@ const tableData = [
 			.content-right-post {
 				display: flex;
 				flex-direction: column;
-				height: 20%;
+				height: 25%;
 				.content-right-post-content {
 					padding-top: 1vh;
 					height: 100%;
 					p {
 						font-size: 0.6vh;
 						overflow: hidden;
-						height: 45%;
+						height: 50%;
 					}
 				}
 			}
@@ -271,7 +299,7 @@ const tableData = [
 						overflow: hidden;
 						.box1-card {
 							overflow: hidden;
-							margin: 1.2vh 2vh 0;
+							margin: 1.2vh 1vh 0;
 							display: flex;
 							height: 70%;
 							border-radius: 10vh;
@@ -282,7 +310,7 @@ const tableData = [
 								justify-content: center;
 								align-items: center;
 								padding: 1vh 2vh;
-								width: 30%;
+								width: 35%;
 								background-color: #37827d;
 								color: #fff;
 								p {

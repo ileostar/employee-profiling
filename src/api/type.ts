@@ -95,13 +95,13 @@ export type AnalyzeRelation = {
 }
 
 export type OverallPortrait = {
-  createdTime: string
-  degree: string
-  maxAge: string
-  minAge: string
-  post: string
-  sex: string
-  unit: string
+  createdTime?: string
+  degree?: string
+  maxAge?: string
+  minAge?: string
+  post?: string
+  sex?: string
+  unit?: string
 }
 
 export type SelectAllEmployee = {

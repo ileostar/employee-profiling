@@ -228,8 +228,20 @@ const routes: Array<RouteRecordRaw> = [
 						const res = await api.selectAllEmployee({ createdTime: createdTime.value, pageNum: 1, pageSize: 12 });
 						if (res.data.state === 200) {
 							employeeStore.updateEmployeeNameList(res.data.data);
-							const res2 = await api.getPostFeatures({createdTime: createdTime.value,name: res.data.data[0]})
-							if(res2.data.state === 200) { /* empty */ }
+							employeeStore.updatePageNumber(res.data.message);
+							employeeStore.updateCurrentEmployee(res.data.data[0].name)
+							// 查询当前员工信息
+							const res2 = await api.findByNumberAndCreatedTime({createdTime: createdTime.value,number: res.data.data[0].number})
+							if(res2.data.state === 200) { 
+								employeeStore.updatePortraitFeature(res2.data.data)
+								console.log('PortraitFeature:',res2.data.data);
+                
+							}
+							const res3 = await api.getPostFeatures({createdTime: createdTime.value,number: res.data.data[0].number})
+							if(res3.data.state === 200) { 
+								employeeStore.updateCurrentEmployeeInfos(res3.data.data)
+								console.log('currentEmployeeInfos:',res3.data.data);
+							}
 						} else {
 							next();
 						}

@@ -14,7 +14,7 @@
 
 <script lang="ts" setup>
 import { ref, watchEffect } from 'vue'
-import { TableV2SortOrder } from 'element-plus'
+import { TableV2FixedDir,TableV2SortOrder } from 'element-plus'
 import type { SortBy } from 'element-plus'
 import { useEmployeeStore } from '@/stores/employee'
 import { storeToRefs } from 'pinia'
@@ -46,7 +46,7 @@ const generateColumns = (props?: any) =>
 		key: item,
 		dataKey: item,
 		title: item,
-		width: 120,
+		width: 120
 	}))
 
 const generateData = (columns: ReturnType<typeof generateColumns>) => {
@@ -59,7 +59,8 @@ const generateData = (columns: ReturnType<typeof generateColumns>) => {
 			});
 
 			return rowData;
-		})
+		},
+		)
 	} else {
 		return []
 	}
@@ -70,6 +71,7 @@ const columns = generateColumns()
 watchEffect(() => data.value = generateData(columns));
 
 columns[0].sortable = true
+columns[columns.length - 1].fixed = TableV2FixedDir.RIGHT
 
 const sortState = ref<SortBy>({
 	key: 'column-0',

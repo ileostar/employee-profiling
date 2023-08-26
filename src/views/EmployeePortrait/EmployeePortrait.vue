@@ -7,7 +7,7 @@
 					v-model="input3"
 					class="w-50 m-2"
 					size="small"
-					placeholder="请输入员工姓名"
+					placeholder="请输入员工姓名或编号"
 					:prefix-icon="Search"
 				/>
 			</div>
@@ -17,16 +17,16 @@
           class="el-menu-vertical-demo"
           >
           <el-menu-item v-for="item in EmployeeNameList" :key="item.id" :index="`${item.id}`" @click="handleSelect(item)">
-            <span>{{item.name}}</span>
+            <span :title="`员工编号：${item.number}`">{{item.name}}</span>
           </el-menu-item>
         </el-menu>
       </div>
 			<div class="portrait-aside-pagination">
-        <el-pagination small layout="prev, pager, next" :total="40" :hide-on-single-page="value"/>
+        <el-pagination small layout="prev, pager, next" @current-change="handlePageChange" pager-count="3" :total="pageNumber?Number(pageNumber):0" :page-size="12" :hide-on-single-page="value"/>
       </div>
 		</div>
 		<div class="employee-portrait-main">
-			<EmployeeInfo />
+			<EmployeeInfo :employee="currentEmployee===''?EmployeeNameList[0].name:currentEmployee"/>
 		</div>
 	</div>
 </template>
@@ -37,20 +37,32 @@ import { Search } from '@element-plus/icons-vue'
 import EmployeeInfo from './components/EmployeeInfo.vue'
 import { EmployeeName, useEmployeeStore } from '@/stores/employee'
 import { storeToRefs } from 'pinia'
+import api from '@/api/api'
 
 const employeeStore = useEmployeeStore()
-const { EmployeeNameList } = storeToRefs(employeeStore)
+const { createdTime, EmployeeNameList, pageNumber,currentEmployee } = storeToRefs(employeeStore)
 
-const currentEmployee = ref<string>('')
-// const currentEmployee = ref<string>('')
+const handlePageChange = async (value: number) => {
+	const res = await api.selectAllEmployee({ createdTime: createdTime.value, pageNum: value, pageSize: 12 });
+	if (res.data.state === 200) {
+		employeeStore.updateEmployeeNameList(res.data.data);
+	} 
+}
 
 const input3 = ref('')
 const value = ref(false)
 
-const handleSelect = (item: EmployeeName) => {
+const handleSelect = async (item: EmployeeName) => {
 	currentEmployee.value = item.name
-	console.log(currentEmployee.value);
-  
+	// 查询当前员工信息
+	const res2 = await api.findByNumberAndCreatedTime({createdTime: createdTime.value,number: item.number})
+	if(res2.data.state === 200) { 
+		employeeStore.updatePortraitFeature(res2.data.data)
+	}
+	const res3 = await api.getPostFeatures({createdTime: createdTime.value,number: item.number})
+	if(res3.data.state === 200) { 
+		employeeStore.updateCurrentEmployeeInfos(res3.data.data)
+	}
 }
 </script>
 
@@ -60,7 +72,7 @@ const handleSelect = (item: EmployeeName) => {
 	width: 86vw;
 	.employee-portrait-aside {
 		height: 93.5vh;
-		width: 14vw;
+		width: 15.8vw;
 		padding: 2vh;
 		border-right: 2px solid #ebeef5;
 		background-color: #f5f6f6;
@@ -98,12 +110,12 @@ const handleSelect = (item: EmployeeName) => {
       }
 		}
     .portrait-aside-pagination {
-      overflow: hidden;
       display: flex;
       justify-content: center;
-      align-items: center;
+      overflow: hidden;
       width: 100%;
       :deep(.el-pagination) {
+        width: 100%;
         width: 100%;
         background-color: transparent;
         button {

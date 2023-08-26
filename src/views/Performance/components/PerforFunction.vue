@@ -106,7 +106,44 @@
 		</template>
 	</el-dialog>
 	<el-dialog v-model="dialogFixFormVisible" title="修改">
-    111
+
+		<el-form :model="form" :rules="formRules" ref="ruleFormRef">
+      <el-form-item v-for="field, key in formField" :key="field.label" :label="field.label" :prop="key">
+        <template v-if="field.label === '创建时间'">
+          <el-select v-model="form.createdTime" class="m-2" placeholder="选择创建时间">
+            <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
+          </el-select>
+        </template>
+        <template v-else-if="field.label === '岗位'">
+          <el-select v-model="form.post" class="m-2" placeholder="选择岗位">
+            <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
+          </el-select>
+        </template>
+        <template v-else-if="field.label.startsWith('是否')">
+          <el-radio-group v-model="form[key]">
+            <el-radio label="是" />
+            <el-radio label="否" />
+          </el-radio-group>
+        </template>
+        <template v-else-if="field.label === '性别'">
+          <el-radio-group v-model="form[key]">
+            <el-radio label="男" />
+            <el-radio label="女" />
+          </el-radio-group>
+        </template>
+        <template v-else>     
+          <el-input v-model="form[key]" autocomplete="off"></el-input>
+        </template>
+      </el-form-item>
+		</el-form>
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button @click="dialogCreateFormVisible = false">取消</el-button>
+				<el-button type="info" @click="submitCreatedForm(ruleFormRef)">
+					确定
+				</el-button>
+			</span>
+		</template>
 	</el-dialog>
 	<el-dialog v-model="dialogInFormVisible" title="导入">
     111
@@ -126,12 +163,10 @@ import { usePerformanceStore } from '@/stores/performance'
 import { FormInstance } from 'element-plus'
 import { Performance } from '@/api/type'
 
-
 const PostStore = usePostStore()
 const performanceStore = usePerformanceStore()
 const { postData: select } = storeToRefs(PostStore)
 const { performanceList } = storeToRefs(performanceStore)
-
 
 const search = ref('')
 const defaultSelect = ref('')

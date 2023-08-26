@@ -5,6 +5,15 @@ import { defineStore } from 'pinia'
 export type EmployeeName = {
   id: number
   name: string
+  number: number
+}
+
+export type EmployeeInfos = {
+  id: number
+  name: string
+  unit: string
+  post: string
+  createdTime: string
 }
 
 export const useEmployeeStore = defineStore('employee', () => {
@@ -32,10 +41,30 @@ export const useEmployeeStore = defineStore('employee', () => {
   '是否有参与市局营销竞赛并获奖的情况','是否受到国家局（总公司）表彰','是否受到省局（公司）表彰',
   '是否受到市局（公司）表彰','创建时间'])
 
-  const portraitFeature = ref()
+  // 画像信息
+  const currentEmployee = ref<string>('')
+  const currentEmployeeInfos = ref<EmployeeInfos>()
+  const portraitFeature = ref<Array<any>>([])
   
+  // 画像侧边栏
   const EmployeeNameList = ref<Array<EmployeeName>>([])
+  const pageNumber = ref<number>()
 
+  function updateCurrentEmployee(payload: string) {
+		currentEmployee.value = payload
+	}
+
+  function updateCurrentEmployeeInfos(payload: EmployeeInfos) {
+		currentEmployeeInfos.value = payload
+	}
+
+  function updatePortraitFeature(payload: Array<any>) {
+		portraitFeature.value = payload
+	}
+
+  function updatePageNumber(payload: number) {
+		pageNumber.value = payload
+	}
 
 	function updateCreatedTimeList(payload: Array<string>) {
 		createdTimeList.value = payload
@@ -58,12 +87,23 @@ export const useEmployeeStore = defineStore('employee', () => {
 		createdTime,
 		createdTimeList,
     EmployeeList,
+    currentEmployee,
     EmployeeNameList,
+    pageNumber,
     EmployeeCloumn,
     portraitFeature,
+    currentEmployeeInfos,
     addEmployeeList,
     updateCreatedTimeList,
     updateEmployeeList,
-    updateEmployeeNameList
+    updateEmployeeNameList,
+    updatePortraitFeature,
+    updatePageNumber,
+    updateCurrentEmployee,
+    updateCurrentEmployeeInfos
+  }
+},{
+  persist: {
+    paths: ['createdTime']
   }
 })

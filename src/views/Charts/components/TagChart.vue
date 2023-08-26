@@ -28,7 +28,7 @@ const init = async () => {
 		},
 		series: [
 			{
-				name: 'Access From',
+				name: '人数',
 				type: 'pie',
 				radius: ['40%', '70%'],
 				avoidLabelOverlap: false,
@@ -52,11 +52,11 @@ const init = async () => {
 					show: false,
 				},
 				data: [
-					{ value: 1048, name: 'Search Engine' },
-					{ value: 735, name: 'Direct' },
-					{ value: 580, name: 'Email' },
-					{ value: 484, name: 'Union Ads' },
-					{ value: 300, name: 'Video Ads' },
+					{ value: 32, name: '是否有体育特长' },
+					{ value: 21, name: '是否有艺术特长' },
+					{ value: 36, name: '公文写作能力' },
+					{ value: 14, name: '数据分析能力' },
+					{ value: 10, name: '是否有省局轮训经历' },
 				],
 			},
 		],
