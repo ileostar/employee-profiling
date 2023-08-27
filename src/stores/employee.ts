@@ -30,6 +30,7 @@ export const useEmployeeStore = defineStore('employee', () => {
 	const currentEmployee = ref<string>('')
 	const currentEmployeeInfos = ref<EmployeeInfos>()
 	const portraitFeature = ref<Employee>({})
+	const tagEmployeeInfo = ref<Array<string>>([])
   
 	// 画像侧边栏
 	const EmployeeNameList = ref<Array<EmployeeName>>([])
@@ -68,6 +69,10 @@ export const useEmployeeStore = defineStore('employee', () => {
 		EmployeeNameList.value = payload
 	}
 
+	function updateTagEmployeeInfo(payload: Array<string>) {
+		tagEmployeeInfo.value = payload
+	}
+
 	const refreshEmployeeList = async () => {
 		const res = await api.selectEmployee({createdTime: createdTime.value})
 		if(res.data.state===200) {
@@ -87,8 +92,8 @@ export const useEmployeeStore = defineStore('employee', () => {
 			updateCurrentEmployeeInfos(res3.data.data)
 		}
 		const res4 = await api.getEmployeeNiceFeatures(req)
-		if(res3.data.state === 200) { 
-			updateCurrentEmployeeInfos(res3.data.data)
+		if(res4.data.state === 200) { 
+			updateTagEmployeeInfo(res4.data.data)
 		}
 	}
 
@@ -103,6 +108,7 @@ export const useEmployeeStore = defineStore('employee', () => {
 		currentEmployeeInfos,
 		dialogFixFormVisible,
 		form2,
+		tagEmployeeInfo,
 		addEmployeeList,
 		updateCreatedTimeList,
 		updateEmployeeList,
@@ -112,6 +118,7 @@ export const useEmployeeStore = defineStore('employee', () => {
 		updateCurrentEmployee,
 		updateCurrentEmployeeInfos,
 		refreshEmployeeList,
+		updateTagEmployeeInfo,
 		ToggleEmployee
 	}
 },{

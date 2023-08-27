@@ -231,21 +231,7 @@ const routes: Array<RouteRecordRaw> = [
 							employeeStore.updatePageNumber(res.data.message);
 							employeeStore.updateCurrentEmployee(res.data.data[0].name)
 							// 查询当前员工信息
-							const res2 = await api.getEmployeeMessage({createdTime: createdTime.value,number: res.data.data[0].number})
-							if(res2.data.state === 200) { 
-								employeeStore.updatePortraitFeature(res2.data.data)
-								console.log('PortraitFeature:',res2.data.data);
-							}
-							const res3 = await api.getPostFeatures({createdTime: createdTime.value,number: res.data.data[0].number})
-							if(res3.data.state === 200) { 
-								employeeStore.updateCurrentEmployeeInfos(res3.data.data)
-								console.log('currentEmployeeInfos:',res3.data.data);
-							}
-							const res4 = await api.getEmployeeNiceFeatures({createdTime: createdTime.value,number: res.data.data[0].number})
-							if(res3.data.state === 200) { 
-								employeeStore.updateCurrentEmployeeInfos(res3.data.data)
-								console.log('currentEmployeeInfos:',res3.data.data);
-							}
+							employeeStore.ToggleEmployee(res.data.data[0].number)
 						} else {
 							next();
 						}
