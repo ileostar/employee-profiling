@@ -111,13 +111,13 @@ export type SelectAllEmployee = {
 }
 
 export type Performance = {
-  createdTime?: string,
-  employeeId?: number,
-  factor?: number,
-  id?: number,
-  name?: string,
-  number?: number,
-  post?: string,
-  scores?: number,
+  createdTime?: string
+  employeeId?: number
+  factor?: number
+  id?: number
+  name?: string
+  number?: number
+  post?: string
+  scores?: number
   unit?: string
 }

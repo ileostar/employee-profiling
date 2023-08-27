@@ -204,7 +204,7 @@ import * as _ from 'lodash'
 const ChartStore = useChartStore()
 const EmployeeStore = useEmployeeStore()
 const PostStore = usePostStore()
-const { createdTime: currentDate,createdTimeList: options,EmployeeNameList }  = storeToRefs(EmployeeStore)
+const { createdTime: currentDate,createdTimeList: options,EmployeeNameList,dialogFixFormVisible,form2 }  = storeToRefs(EmployeeStore)
 const { smallChartData,postChartData } = storeToRefs(ChartStore)
 const { postData: select } = storeToRefs(PostStore)
 
@@ -214,7 +214,6 @@ const currentDateList = ref<string[]>([])
 
 // 控制对话框显示
 const dialogCreateFormVisible = ref(false)
-const dialogFixFormVisible = ref(false)
 const dialogInFormVisible = ref(false)
 
 // 新建表单
@@ -589,7 +588,6 @@ watchEffect(() => {
 })
 
 // 修改表单
-const form2 = ref<Employee>({})
 const ruleForm2Ref = ref<FormInstance>()
 const formField2 = reactive({
 	name: {

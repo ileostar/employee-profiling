@@ -39,7 +39,7 @@
 			</el-button>
 			<el-button
 				class="funtion-button-item"
-				@click="dialogFixFormVisible = true"
+				@click="openEdit"
 				type="default"
 				text
 			>
@@ -81,6 +81,9 @@
             <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
           </el-select>
         </template>
+        <template v-else-if="field.label === '姓名'">
+          <el-input v-model="form.name" @blur="autofill" autocomplete="off"></el-input>
+        </template>
         <template v-else-if="field.label.startsWith('是否')">
           <el-radio-group v-model="form[key]">
             <el-radio label="是" />
@@ -107,41 +110,43 @@
 			</span>
 		</template>
 	</el-dialog>
-	<el-dialog v-model="dialogFixFormVisible" title="修改">
-
-		<el-form :model="form" :rules="formRules" ref="ruleFormRef">
-      <el-form-item v-for="field, key in formField" :key="field.label" :label="field.label" :prop="key">
+	<el-dialog v-model="dialogEditFormVisible" title="修改">
+		<el-form :model="formEdit" :rules="formEditRules" ref="ruleEditFormRef">
+      <el-form-item v-for="field, key in formEditField" :key="field.label" :label="field.label" :prop="key">
         <template v-if="field.label === '创建时间'">
-          <el-select v-model="form.createdTime" class="m-2" placeholder="选择创建时间">
+          <el-select v-model="formEdit.createdTime" class="m-2" placeholder="选择创建时间">
             <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
           </el-select>
         </template>
+        <template v-else-if="field.label === '姓名'">
+          <el-input v-model="formEdit.name" @blur="autoEditfill" autocomplete="off"></el-input>
+        </template>
         <template v-else-if="field.label === '岗位'">
-          <el-select v-model="form.post" class="m-2" placeholder="选择岗位">
+          <el-select v-model="formEdit.post" class="m-2" placeholder="选择岗位">
             <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
           </el-select>
         </template>
         <template v-else-if="field.label.startsWith('是否')">
-          <el-radio-group v-model="form[key]">
+          <el-radio-group v-model="formEdit[key]">
             <el-radio label="是" />
             <el-radio label="否" />
           </el-radio-group>
         </template>
         <template v-else-if="field.label === '性别'">
-          <el-radio-group v-model="form[key]">
+          <el-radio-group v-model="formEdit[key]">
             <el-radio label="男" />
             <el-radio label="女" />
           </el-radio-group>
         </template>
         <template v-else>     
-          <el-input v-model="form[key]" autocomplete="off"></el-input>
+          <el-input v-model="formEdit[key]" autocomplete="off"></el-input>
         </template>
       </el-form-item>
 		</el-form>
 		<template #footer>
 			<span class="dialog-footer">
-				<el-button @click="dialogCreateFormVisible = false">取消</el-button>
-				<el-button type="info" @click="submitCreatedForm(ruleFormRef)">
+				<el-button @click="dialogEditFormVisible = false">取消</el-button>
+				<el-button type="info" @click="submitEditForm(ruleEditFormRef)">
 					确定
 				</el-button>
 			</span>
@@ -173,6 +178,7 @@
 </template>
 
 <script lang="ts" setup>
+import { Performance } from '@/api/type'
 import { reactive, ref, watchEffect } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import { storeToRefs } from 'pinia'
@@ -180,19 +186,17 @@ import { usePostStore } from '@/stores/post'
 import api from '@/api/api'
 import { usePerformanceStore } from '@/stores/performance'
 import { ElMessage, FormInstance } from 'element-plus'
-import { Performance } from '@/api/type'
 
 const PostStore = usePostStore()
 const performanceStore = usePerformanceStore()
 const { postData: select } = storeToRefs(PostStore)
-const { performanceList } = storeToRefs(performanceStore)
+const { dialogEditFormVisible,formEdit } = storeToRefs(performanceStore)
 
 const search = ref('')
 const defaultSelect = ref('')
 const currentDateList = ref<string[]>([])
 
 const dialogCreateFormVisible = ref(false)
-const dialogFixFormVisible = ref(false)
 const dialogInFormVisible = ref(false)
 
 // 上传路径
@@ -200,7 +204,7 @@ const uploadUrl = import.meta.env.VITE_AXIOS_BASE_URI + 'performane/upload'
 // 下载路径
 const download = import.meta.env.VITE_AXIOS_BASE_URI + 'performane/downloadexcel'
 
-const form = reactive<Performance>({})
+const form = ref<Performance>({})
 const formField = reactive({
 	name:  {
 		value: '',
@@ -295,6 +299,93 @@ watchEffect(() => {
 	})()
 })
 
+const formEditField = reactive({
+	name:  {
+		value: '',
+		label: '姓名',
+		type: '',
+	},
+	number: {
+		value: '',
+		label: '员工编号',
+		type: '',
+	},
+	post: {
+		value: '',
+		label: '岗位',
+		type: '',
+	},
+	unit: {
+		value: '',
+		label: '单位',
+		type: '',
+	},
+	scores: {
+		value: '',
+		label: '月度绩效',
+		type: '',
+	},
+	createdTime: {
+		value: '',
+		label: '创建时间',
+		type: '',
+	}
+})
+const formEditRules = reactive({
+	createdTime: {
+		required: true,
+		message: '请选择创建时间',
+		trigger: 'change'
+	},
+	name: {
+		required: true,
+		message: '请输入姓名',
+		trigger: 'blur'
+	},
+	number: {
+		required: true,
+		message: '请输入员工编号',
+		trigger: 'blur'
+	},
+	post: {
+		required: true,
+		message: '请选择岗位',
+		trigger: 'blur'
+	},
+	unit: {
+		required: true,
+		message: '请输入单位',
+		trigger: 'blur'
+	},
+	scores: {
+		required: true,
+		message: '请输入月度绩效',
+		trigger: 'blur'
+	},
+})
+const ruleEditFormRef = ref<FormInstance>()
+
+
+const autofill = async () => {
+	const res = await api.findByName({name: form.value.name as string})
+	if ( res.data.state === 200 ) {
+		form.value = {
+			name: form.value.name,
+			...res.data.data[0]
+		}
+	}
+}
+
+const autoEditfill = async () => {
+	const res = await api.findByName({name: formEdit.value.name as string})
+	if ( res.data.state === 200 ) {
+		formEdit.value = {
+			name: formEdit.value.name,
+			...res.data.data[0]
+		}
+	}
+}
+
 /**
  * @param: 当前点击岗位对象
  * @desc: 切换当前下拉菜单显示
@@ -325,13 +416,41 @@ const searchPerformance = async () => {
 	}
 }
 
+const openEdit = () => {
+	formEdit.value = {}
+	dialogEditFormVisible.value = true
+}
+
 // 新建
 const submitCreatedForm = (formEl: FormInstance | undefined) => {
 	if (!formEl) return
 	formEl.validate(async(valid) => {
 		if (valid) {
-			const res = await api.insertPerformane(form)
-			performanceList.value.push(res.data.data)
+			const res = await api.insertPerformane(form.value)
+			if(res.data.state === 200){
+				performanceStore.refreshPerformance()
+				dialogCreateFormVisible.value = false
+				ElMessage.success('添加成功')
+			} else {
+				ElMessage.error('员工表中没有改员工，请先在员工信息中添加')
+			}
+		}
+	})
+}
+
+// 修改
+const submitEditForm =  (formEl: FormInstance | undefined) => {
+	if (!formEl) return
+	formEl.validate(async(valid) => {
+		if (valid) {
+			const res = await api.updatePerformane(formEdit.value)
+			if (res.data.state === 200) {
+				performanceStore.refreshPerformance()
+				dialogEditFormVisible.value = false
+				ElMessage.success('修改成功')
+			} else {
+				ElMessage.error('修改失败')
+			}
 		}
 	})
 }

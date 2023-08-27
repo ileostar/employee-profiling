@@ -1,86 +1,82 @@
 <template>
 	<div class="tableContainer" ref="tableContainer">
-		<el-table-v2
-			:columns="columns"
-			:data="data"
-			:sort-by="sortState"
-			:width="tableWidth"
-			:height="tableHeight"
-			fixed
-			@column-sort="onSort"
-		/>
+    <el-table :data="tableData" style="width: 100%;height: 100%;" stripe scrollbar-always-on="true">
+      <el-table-column prop="id" sortable label="序号" width="90" />
+      <el-table-column prop="number" sortable label="员工编号" width="120" />
+      <el-table-column prop="name" label="员工姓名" width="120" />
+      <el-table-column prop="unit" label="单位" width="120" />
+      <el-table-column prop="post" label="岗位" width="120" />
+      <el-table-column prop="createdTime" label="考核时间" width="120"/>
+      <el-table-column prop="scores" sortable label="月度绩效"/>
+      <el-table-column fixed="right" label="操作" width="120">
+        <template #default="scope">
+          <el-button link type="primary" size="small" @click="editCurrentEmployee(scope.row)">
+            编辑</el-button
+          >
+          <el-popconfirm
+							title="你确定要删除当前用户吗?"
+							width="220"
+							@confirm="deleteIndexUser(scope.row)"
+						>
+							<template #reference>
+								<el-button link type="danger" size="small">删除</el-button>
+							</template>
+						</el-popconfirm>
+        </template>
+      </el-table-column>
+    </el-table>
 	</div>
 </template>
 
 <script lang="ts" setup>
-import { ref, watchEffect } from 'vue'
-import { TableV2SortOrder } from 'element-plus'
-import type { SortBy } from 'element-plus'
 import { usePerformanceStore } from '@/stores/performance'
 import { storeToRefs } from 'pinia'
-import * as _ from 'lodash'
+import api from '@/api/api'
+import { ElMessage } from 'element-plus'
+import { toRaw } from 'vue'
 
 const performanceStore = usePerformanceStore()
-const { performanceColumn, performanceList } = storeToRefs(performanceStore)
+const { performanceList:tableData,dialogEditFormVisible,formEdit } = storeToRefs(performanceStore)
 
-const tableWidth = ref(1125)
-const tableHeight = ref(550)
+type performanceRow = {
+  id: number
+  number: number
+  name: string
+  unit: string
+  post: string
+  createdTime: string
+  scores: number
+}
 
-// 获取表格容器的引用
-const tableContainer = ref(null)
+/**
+ * Handles the edit operation for the given performance row.
+ *
+ * @param {performanceRow} row - The performance row to be edited.
+ */
+const editCurrentEmployee = async (row: performanceRow) => {
+	const data = toRaw(row)
+	dialogEditFormVisible.value = true
+	formEdit.value = data
+	console.log(row)
+}
 
-// 监听表格容器尺寸的变化，并更新表格的宽度和高度
-watchEffect(() => {
-	if (tableContainer.value) {
-		tableWidth.value = (tableContainer.value as HTMLElement).offsetWidth
-		tableHeight.value = (tableContainer.value as HTMLElement).offsetHeight
-	}
-})
-
-const data = ref<Array<any>>([])
-
-// 员工信息表头
-const generateColumns = (props?: any) =>
-	performanceColumn.value.map((item: string) => ({
-		...props,
-		key: item,
-		dataKey: item,
-		title: item,
-		width: 120,
-	}))
-
-const generateData = (columns: ReturnType<typeof generateColumns>) => {
-	if(!_.isEmpty(performanceList.value)){
-		return performanceList.value.map((row: { [s: string]: unknown } | ArrayLike<unknown>) => {
-			const rowData: { [key: string]: any } = {};
-			columns.forEach((column: { dataKey: string | number }, columnIndex: number) => {
-			// eslint-disable-next-line @typescript-eslint/no-unused-vars
-				rowData[column.dataKey] = Object.entries(row).map(([_key, value]) => value)[columnIndex+1]
-			});
-
-			return rowData;
-		})
+/**
+ * Deletes the user at the specified index.
+ *
+ * @param {performanceRow} row - The row containing the user data.
+ * @return {Promise<void>} - A promise that resolves when the user is deleted.
+ */
+const deleteIndexUser = async (row: performanceRow) => {
+	const deleteData = toRaw(row)
+	const res = await api.deletePerformane({ id: deleteData.id })
+	if (res.data.state === 200) {
+		performanceStore.refreshPerformance()
+		ElMessage.success('删除成功')
 	} else {
-		return []
+		ElMessage.error(res.data.message)
 	}
 }
 
-const columns = generateColumns()
-// 监听Employeeist的更新变化
-watchEffect(() => data.value = generateData(columns) as any[]);
-
-columns[0].sortable = true
-
-const sortState = ref<SortBy>({
-	key: 'column-0',
-	order: TableV2SortOrder.ASC,
-})
-
-const onSort = (sortBy: SortBy) => {
-	console.log(sortBy)
-	data.value = data.value.reverse()
-	sortState.value = sortBy
-}
 </script>
 
 <style lang="scss" scoped>

@@ -1,5 +1,5 @@
 import http from '../util/http'
-import { AnalyzeRelation, Employee, LoginReg, OverallPortrait, Search, SelectAllEmployee, Tag, fixPassword, fixUsername } from './type'
+import { Performance, AnalyzeRelation, Employee, LoginReg, OverallPortrait, Search, SelectAllEmployee, Tag, fixPassword, fixUsername } from './type'
 
 export default {
 	/**
@@ -57,9 +57,9 @@ export default {
 		// 员工信息新建方法，员工编号number是必须的，为保证能根据number查询该记录
 		return http.post('/employee/insert', params)
 	},
-	deleteEmployee: (params: { id: number }) => {
+	deleteEmployee: (params: number) => {
 		// 员工信息删除方法，需传入员工信息id
-		return http.delete('/employee/delete', params)
+		return http.delete('/employee/delete?id='+params)
 	},
 	updateEmployee: (params: Employee) => {
 		// 员工信息修改方法，必须传入id
@@ -125,7 +125,7 @@ export default {
 	/**
 	 * @desc 绩效接口
 	 */
-	insertPerformane: (params: Employee) => {
+	insertPerformane: (params: Performance) => {
 		// 员工绩效新增方法，除factor和employee字段其他都不能为空，填入员工编号或员工姓名时会自动填入其他信息，不能自己更改,为方便前端更新数据，新增成功后自动返回新增的数据
 		return http.post('/performane/insert', params)
 	},
@@ -141,7 +141,7 @@ export default {
 		// 用于总体画像页面，各岗位人数以及匹配系数,需要传入的参数有日期类型都是string，日期格式例如”2023-05“
 		return http.get('/performane/overallPortrait', params)
 	},
-	update: (params: Employee) => {
+	updatePerformane: (params: Performance) => {
 		// 修改员工绩效的方法 要求前端表单能修改的字段只有绩效,为方便前端更新数据，新增成功后自动返回新增的数据
 		return http.put('/performane/update', params)
 	},
@@ -161,7 +161,7 @@ export default {
 		//  用于数据分析页面，各岗位人数以及匹配系数,需要传入的参数有日期类型都是string，日期格式例如”2023-05“
 		return http.get('/performane/dataAnalysis2', params)
 	},
-	findByName: (params: Employee) => {
+	findByName: (params: { name: string}) => {
 		//  员工绩效根据员工姓名查询方法，用于快速填写表单
 		return http.get('/performane/findByName', params)
 	},
