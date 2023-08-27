@@ -55,7 +55,7 @@ const value = ref(false)
 const handleSelect = async (item: EmployeeName) => {
 	currentEmployee.value = item.name
 	// 查询当前员工信息
-	const res2 = await api.findByNumberAndCreatedTime({createdTime: createdTime.value,number: item.number})
+	const res2 = await api.getEmployeeMessage({createdTime: createdTime.value,number: item.number})
 	if(res2.data.state === 200) { 
 		employeeStore.updatePortraitFeature(res2.data.data)
 	}

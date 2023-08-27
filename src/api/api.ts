@@ -121,6 +121,10 @@ export default {
 		// 查询员工信息所有单位的方法
 		return http.get('/employee/downloadexcel')
 	},
+	getEmployeeNiceFeatures: (params: { createdTime: string, number: number }) => {
+		// 查询员工信息所有单位的方法
+		return http.get('/employee/EmployeeNiceFeatures',params)
+	},
 
 	/**
 	 * @desc 绩效接口

@@ -129,25 +129,13 @@
 <script lang="ts" setup>
 import { ref, watchEffect } from 'vue'
 import employeeTagCard from '@/components/employeeTagCard/employeeTagCard.vue'
-// import { useEmployeeStore } from '@/stores/employee'
-// import { storeToRefs } from 'pinia'
+import { storeToRefs } from 'pinia'
+import { useEmployeeStore } from '@/stores/employee'
 
-// const employeeStore = useEmployeeStore()
-// const { createdTime, EmployeeNameList,portraitFeature } = storeToRefs(employeeStore)
+const employeeStore = useEmployeeStore()
+const { portraitFeature:employeeInfos } = storeToRefs(employeeStore)
 
 const props = defineProps(['employee'])
-
-const employeeInfos = ref({
-	name: 'A001',
-	sex: '男',
-	number: '11001',
-	unit: 'A单位',
-	age: 43,
-	post: '市场经理',
-	seniority: 16,
-	degree: '大学',
-	status: '中共党员',
-})
 
 const tags = ref<Array<string>>([
 	'公文写作能力较好',
