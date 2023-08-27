@@ -101,6 +101,10 @@ export default {
 		// 查询员工信息所有月份的方法
 		return http.get('/employee/selectByCreatedTime')
 	},
+	getPostCountFactorByName: (params: { createdTime: string, name: string }) => {
+		// 查出画像特征,也就是员工拥有的优秀特征,需要传入的参数有员工姓名和日期，类型都是string，日期格式例如”2023-05“
+		return http.get('/employee/PostCountFactorByName',params)
+	},
 	getPostFeatures: (params: { createdTime: string, number: number }) => {
 		// 查出画像特征,也就是员工拥有的优秀特征,需要传入的参数有员工姓名和日期，类型都是string，日期格式例如”2023-05“
 		return http.get('/employee/PostFeatures',params)
@@ -176,5 +180,5 @@ export default {
 	findByNumberAndCreatedTime: (params: { createdTime: string,number: number }) => {
 		//  用于右上角的查询，根据岗位和员工编号或岗位和员工姓名进行查询，注意编号和姓名的数据类型是不一样的，会根据传入的数据自动判断是姓名还是编号
 		return http.get('/performane/findByNumberAndCreatedTime', params)
-	},
+	}
 }

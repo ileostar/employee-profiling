@@ -193,7 +193,7 @@ const onSubmitPersonPost =(formEl: FormInstance | undefined) => {
 	formEl.validate(async (valid) => {
 		if (valid) {
 			const res = await api.getEmployeeAndPostMatching({ ...formPersonPost,createdTime: createdTime.value })
-			const res2 = await api.getPostFeatures({createdTime:createdTime.value,name:formPersonPost.name})
+			const res2 = await api.getPostCountFactorByName({createdTime:createdTime.value,name:formPersonPost.name})
 			if(res.data.state === 200 && res2.data.state === 200) {
 				analyzePersonPost.value = true
 				PersonPostTableData.value = []

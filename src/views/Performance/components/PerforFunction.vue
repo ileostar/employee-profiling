@@ -55,15 +55,17 @@
 				<el-icon><Upload /></el-icon>
 				<p>导入</p>
 			</el-button>
-			<el-button
-				class="funtion-button-item"
-				@click="dialogOutFormVisible = true"
-				type="default"
-				text
-			>
-				<el-icon><Download /></el-icon>
-				<p>导出</p>
-			</el-button>
+      
+      <a :href="download">
+        <el-button
+          class="funtion-button-item"
+          type="default"
+          text
+        >
+          <el-icon><Download /></el-icon>
+          <p>导出</p>
+        </el-button>
+      </a>
 		</div>
 	</div>
 	<el-dialog v-model="dialogCreateFormVisible" title="新建">
@@ -146,10 +148,27 @@
 		</template>
 	</el-dialog>
 	<el-dialog v-model="dialogInFormVisible" title="导入">
-    111
-	</el-dialog>
-	<el-dialog v-model="dialogOutFormVisible" title="导出">
-    111
+    <el-upload
+    class="upload-demo"
+    drag
+    multiple
+    :action="uploadUrl"
+    :headers="{ 'Accept': '*/*' }"
+    :data="{ 'Content-Type': 'multipart/form-data' }"
+    :on-success="handleUploadSuccess"
+    :on-error="handleUploadError"
+    :before-upload="beforeUpload"
+  >
+    <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+    <div class="el-upload__text">
+      Drop file here or <em>click to upload</em>
+    </div>
+    <template #tip>
+      <div class="el-upload__tip">
+        Please upload the xls/xlsx file
+      </div>
+    </template>
+    </el-upload>
 	</el-dialog>
 </template>
 
@@ -160,7 +179,7 @@ import { storeToRefs } from 'pinia'
 import { usePostStore } from '@/stores/post'
 import api from '@/api/api'
 import { usePerformanceStore } from '@/stores/performance'
-import { FormInstance } from 'element-plus'
+import { ElMessage, FormInstance } from 'element-plus'
 import { Performance } from '@/api/type'
 
 const PostStore = usePostStore()
@@ -175,8 +194,11 @@ const currentDateList = ref<string[]>([])
 const dialogCreateFormVisible = ref(false)
 const dialogFixFormVisible = ref(false)
 const dialogInFormVisible = ref(false)
-const dialogOutFormVisible = ref(false)// 新建表单
 
+// 上传路径
+const uploadUrl = import.meta.env.VITE_AXIOS_BASE_URI + 'performane/upload'
+// 下载路径
+const download = import.meta.env.VITE_AXIOS_BASE_URI + 'performane/downloadexcel'
 
 const form = reactive<Performance>({})
 const formField = reactive({
@@ -312,6 +334,50 @@ const submitCreatedForm = (formEl: FormInstance | undefined) => {
 			performanceList.value.push(res.data.data)
 		}
 	})
+}
+
+/**
+ * 导入前校验
+ *
+ * @param {any} file - The file object to be validated.
+ * @return {boolean} - Returns true if the file extension is either 'xls' or 'xlsx', otherwise returns false.
+ */
+const beforeUpload = (file: any): boolean=> {
+	var testmsg=file.name.substring(file.name.lastIndexOf('.')+1)
+	const extension = testmsg === 'xls'
+	const extension2 = testmsg === 'xlsx'
+
+	if(!extension && !extension2) {
+		ElMessage.error('请上传xls/xlsx格式的文件！');
+		return false;
+	}
+	return (extension || extension2)
+}
+/**
+ * Handles the upload success event.
+ *
+ * @return {void} 
+ */
+const handleUploadSuccess = async() => {
+	const res = await api.selectPerformane()
+	if(res.data.state === 200) {
+		performanceStore.updatePerformanceList(res.data.data)
+		console.log('performanceData:',res.data.data);               
+	} else {
+		return
+	}
+	ElMessage.success('上传成功!')
+}
+/**
+ * Handles upload errors.
+ *
+ * @param {string} res - The error response.
+ * @return {void} No return value.
+ */
+const handleUploadError =(res: string) => {
+	console.log('err' + res);
+  
+	ElMessage.error('上传失败!')
 }
 </script>
 

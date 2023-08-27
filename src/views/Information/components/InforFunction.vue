@@ -64,7 +64,7 @@
 				<el-icon><Upload /></el-icon>
 				<p>导入</p>
 			</el-button>
-      <a :href="download">
+      <a :href="download" download>
         <el-button
           class="funtion-button-item"
           type="default"
@@ -184,7 +184,7 @@
         Please upload the xls/xlsx file
       </div>
     </template>
-  </el-upload>
+    </el-upload>
 	</el-dialog>
 </template>
 
@@ -943,7 +943,7 @@ const nextNum = ref<number>()
 // 上传
 const uploadUrl = import.meta.env.VITE_AXIOS_BASE_URI + 'employee/upload'
 
-const download = import.meta.env.VITE_AXIOS_BASE_URI + '/employee/download'
+const download = import.meta.env.VITE_AXIOS_BASE_URI + 'employee/downloadexcel'
 
 /**
  * @param: 当前点击岗位对象
@@ -971,7 +971,11 @@ const beforeUpload = (file: any): boolean=> {
 	return (extension || extension2)
 }
 
-const handleUploadSuccess =() => {
+const handleUploadSuccess = async () => {
+	const res2 = await api.selectEmployee({createdTime: currentDate.value})
+	if(res2.data.state===200) {
+		EmployeeStore.updateEmployeeList(res2.data.data)
+	}
 	ElMessage.success('上传成功!')
 }
 const handleUploadError =(res: string) => {
