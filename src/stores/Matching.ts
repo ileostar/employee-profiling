@@ -4,10 +4,11 @@ import { defineStore } from 'pinia'
 type TableData = {
   name: string,
   post: string,
-  employeeNumber: string,
-  postMaxNumber: string,
-  postMinNumber: string,
-  averageNumber: string,
+  number: number,
+  max: number,
+  min: number,
+  factor: number,
+  avg: number,
 }
 
 // page store

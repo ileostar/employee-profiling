@@ -22,17 +22,17 @@
 import SmallChart from './components/SmallChart.vue'
 import TagChart from './components/TagChart.vue'
 import PostChart from './components/PostChart.vue'
-import image1 from '@/assets/images/icon-1.png'
-import image2 from '@/assets/images/icon-2.png'
-import image3 from '@/assets/images/icon-3.png'
-import image4 from '@/assets/images/icon-4.png'
+import image1 from '@/assets/images/总体画像系数.png'
+import image2 from '@/assets/images/员工总数.png'
+import image3 from '@/assets/images/平均年龄.png'
+import image4 from '@/assets/images/岗位管理.png'
 import chart1 from '@/assets/images/chart-1.png'
 import chart2 from '@/assets/images/chart-2.png'
 import chart3 from '@/assets/images/chart-3.png'
 import chart4 from '@/assets/images/chart-4.png'
 import { useChartStore } from '@/stores/chart'
 import { storeToRefs } from 'pinia'
-const image = Array.of(image2, image1, image3, image4)
+const image = Array.of(image1, image2, image3, image4)
 const chart = Array.of(chart2, chart1, chart3, chart4)
 const chartStore = useChartStore()
 const { smallChartData } = storeToRefs(chartStore)

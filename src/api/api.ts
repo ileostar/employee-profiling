@@ -113,6 +113,10 @@ export default {
 		// 查出画像特征,也就是员工拥有的优秀特征,需要传入的参数有员工姓名和日期，类型都是string，日期格式例如”2023-05“
 		return http.get('/employee/PostFeaturesByName',params)
 	},
+	getPostFeaturesByNumberAndPost: (params: { createdTime: string, number: string,post:string }) => {
+		// 查出画像特征,也就是员工拥有的优秀特征,需要传入的参数有员工姓名和日期，类型都是string，日期格式例如”2023-05“
+		return http.get('/employee/PostFeaturesByNumberAndPost',params)
+	},
 	selectByUnit: () => {
 		// 查询员工信息所有单位的方法
 		return http.get('/employee/selectByUnit')

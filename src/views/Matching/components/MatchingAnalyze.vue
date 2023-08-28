@@ -17,17 +17,17 @@
 							clearable
 						/>
 					</el-form-item>
-					<el-form-item prop="post">
+					<el-form-item class="select" prop="post">
 						<el-select
 							v-model="formPersonPost.post"
 							placeholder="输入岗位名称"
 							clearable
 						>
-            <el-option label="客户专员" value="客户专员" />
-            <el-option label="信息专员" value="信息专员" />
-            <el-option label="市场经理" value="市场经理" />
-            <el-option label="综合管理员" value="综合管理员" />
-            <el-option label="终端专员" value="终端专员" />
+              <el-option label="客户专员" value="客户专员" />
+              <el-option label="信息专员" value="信息专员" />
+              <el-option label="市场经理" value="市场经理" />
+              <el-option label="综合管理员" value="综合管理员" />
+              <el-option label="终端专员" value="终端专员" />
             </el-select>
 					</el-form-item>
 					<el-form-item>
@@ -44,14 +44,26 @@
               <div class="personPostTable">
                 <el-table :data="PersonPostTableData" border size="small" stripe style="width: 99%">
                   <el-table-column prop="name" label="员工姓名" width="70"/>
+                  <el-table-column prop="number" label="岗位编号" width="70" />
                   <el-table-column prop="post" label="岗位名称" width="70" />
-                  <el-table-column prop="employeeNumber" label="员工匹配系数" width="90" />
-                  <el-table-column prop="postMaxNumber" label="岗位最高匹配系数" width="115" />
-                  <el-table-column prop="postMinNumber" label="岗位最高匹配系数" width="115" />
-                  <el-table-column prop="averageNumber" label="平均匹配系数"/>
+                  <el-table-column prop="factor" label="员工匹配系数" width="90" />
+                  <el-table-column prop="max" label="岗位最高匹配系数" width="115" />
+                  <el-table-column prop="min" label="岗位最低匹配系数" width="115" />
+                  <el-table-column prop="avg" label="平均匹配系数"/>
                 </el-table>
               </div>
-              <h3>标签匹配分析</h3>
+              <h3>
+                <span>标签匹配分析</span>
+                <el-select v-if="emloyeeNumberOptions.length>1" v-model="currentEmloyeeNumber" placeholder="选择其他员工">
+                  <el-option
+                    v-for="item in emloyeeNumberOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                    :disabled="item.disabled?item.disabled:false"
+                  />
+                </el-select>
+              </h3>
               <div class="personPostAnalyze">
                 <employeeTagCard class="box-card-content">
                   <template v-slot:header>
@@ -139,6 +151,7 @@ import { ElMessage, FormInstance } from 'element-plus'
 import { useEmployeeStore } from '@/stores/employee'
 import { storeToRefs } from 'pinia'
 import { useMatchingStore } from '@/stores/Matching'
+import * as _ from 'lodash'
 
 const matchingStore = useMatchingStore()
 const employeeStore = useEmployeeStore()
@@ -185,6 +198,19 @@ type Infos = {
   [key: string]: unknown
 }
 
+type emloyeeNumberOption = {
+  value: string
+  label: string
+  disabled?: boolean
+}
+
+const currentEmloyeeNumber = ref('')
+const emloyeeNumberOptions = ref<Array<emloyeeNumberOption>>([
+	{
+		value: '1',
+		label: '1',
+	}
+])
 // 保存岗位匹配分析结果
 const currentPostMatchingTable = ref<Array<Infos>>([])
 
@@ -194,20 +220,38 @@ const onSubmitPersonPost =(formEl: FormInstance | undefined) => {
 	formEl.validate(async (valid) => {
 		if (valid) {
 			const res = await api.getEmployeeAndPostMatching({ ...formPersonPost,createdTime: createdTime.value })
-			const res2 = await api.getPostFeaturesByName({createdTime:createdTime.value,name:formPersonPost.name})
-			if(res.data.state === 200 && res2.data.state === 200) {
+			if(res.data.state === 200) {
 				analyzePersonPost.value = true
 				PersonPostTableData.value = []
-				PersonPostTableData.value.push({
-					name: formPersonPost.name,
-					post: formPersonPost.post,
-					employeeNumber: res.data.data[formPersonPost.post][0].toFixed(2),
-					postMaxNumber: res.data.data[formPersonPost.post][1].toFixed(2),
-					postMinNumber: res.data.data[formPersonPost.post][2].toFixed(2),
-					averageNumber: res.data.data[formPersonPost.post][3].toFixed(2),
+				const log = res.data.data?.map((item: { number: any; post: any; min: any; max: any; factor: any; avg: any }) => {
+					const { number, post, min, max, factor, avg } = item
+					return {
+						number,
+						max: Number(max).toFixed(2),
+						min: Number(min).toFixed(2),
+						factor: Number(factor).toFixed(2),
+						avg: Number(avg).toFixed(2),
+						post,
+						name: formPersonPost.name
+					}
 				})
-				console.log('getEmployeeAndPostMatching标签匹配情况：',res.data.data.employeeGoodFeaturesMessage);
-				console.log('getPostCountFactorByName标签匹配情况：',res2.data.data);
+				PersonPostTableData.value = [...log]
+
+				currentEmloyeeNumber.value = res.data.data[0]?.number
+
+				emloyeeNumberOptions.value = res.data.data.map((item: { number: any; post: any; min: any; max: any; factor: any; avg: any }) => {
+					return {
+						value: item.number,
+						label: item.number,
+						disabled: !_.isEmpty(currentEmloyeeNumber.value)&&currentEmloyeeNumber.value===item.number?true:false
+					}
+				})
+				const res2 = await api.getPostFeaturesByNumberAndPost({createdTime:createdTime.value,number:currentEmloyeeNumber.value,post:formPersonPost.post})
+
+				if(res2.data.state === 200)
+        
+					console.log('getEmployeeAndPostMatching标签匹配情况：',res.data.data);
+				console.log('getPostFeaturesByNumberAndPost标签匹配情况：',res2.data.data);
 				currentTagAnalyzeResult.value.post = formPersonPost.post
 				currentTagAnalyzeResult.value.name = formPersonPost.name
 				currentTagAnalyzeResult.value.employeeTag = res2.data.data.employeeGoodFeaturesMessage.filter( (item:string) => item != null)
@@ -253,6 +297,12 @@ onUnmounted(() => {
 	width: 100%;
 	border-radius: 1vh;
 	overflow: hidden;
+  :deep(.el-input,.el-input--suffix) {
+    width: 100%;
+    height: 4.5vh;
+    font-size: 2vh;
+    line-height: 4.5vh;
+  }
 	.content-left {
 		border-right: 2px solid #ebeef5;
 
@@ -285,6 +335,9 @@ onUnmounted(() => {
           font-weight: 400;
           border-left: .2vw solid #97c1be;
           padding-left: .5vw;
+          .el-select {
+            padding-left: 1vw;
+          }
         }
       }
       .personPostAnalyze {
@@ -320,12 +373,22 @@ onUnmounted(() => {
 				display: flex;
 				height: 20%;
 				margin: 3vh 3vh;
+        :deep(.el-form-item__label) {
+          font-size: 2vh;
+        }
+					.el-button {
+						width: 100%;
+						height: 4.5vh;
+						font-size: 2vh;
+						border: none;
+						background-color: #4e8984;
+					}
 
 				.el-button {
 					border: none;
 					background-color: #4e8984;
 				}
-			}
+        }
 		}
 		.content-right-matching {
 			height: 80%;
