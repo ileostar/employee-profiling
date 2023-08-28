@@ -1,6 +1,7 @@
 <!-- eslint-disable vue/no-deprecated-router-link-tag-prop -->
 <template>
 	<div class="login">
+    <header>基于员工画像的绩效结果评估系统</header>
 		<el-form
 			ref="ruleFormRef"
 			:model="ruleForm"
@@ -130,6 +131,13 @@ const resetForm = (formEl: FormInstance | undefined) => {
 	background: url('@/assets/images/background.png') no-repeat;
 	background-position: center center;
 	background-size: cover;
+  header {
+    position: absolute;
+    z-index: 33;
+    font-size: 3vw;
+    top: 12vh;
+    color: #fff;
+  }
 	.el-form {
 		width: 390px;
 		height: 280px;

@@ -2,7 +2,7 @@
 	<div class="home-header">
 		<div class="home-header-left">
 			<img src="@/assets/images/logo.png" alt="" />
-			<a href="#" class="home-header-link">基于员工画像的绩效结果评估研究</a>
+			<a href="#" class="home-header-link">基于员工画像的绩效结果评估系统</a>
 		</div>
 		<div class="home-header-right">
 			<el-dropdown>

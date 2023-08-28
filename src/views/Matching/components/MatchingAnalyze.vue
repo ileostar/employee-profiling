@@ -184,6 +184,7 @@ type Infos = {
 	factor: ''
   [key: string]: unknown
 }
+
 // 保存岗位匹配分析结果
 const currentPostMatchingTable = ref<Array<Infos>>([])
 
@@ -193,7 +194,7 @@ const onSubmitPersonPost =(formEl: FormInstance | undefined) => {
 	formEl.validate(async (valid) => {
 		if (valid) {
 			const res = await api.getEmployeeAndPostMatching({ ...formPersonPost,createdTime: createdTime.value })
-			const res2 = await api.getPostCountFactorByName({createdTime:createdTime.value,name:formPersonPost.name})
+			const res2 = await api.getPostFeaturesByName({createdTime:createdTime.value,name:formPersonPost.name})
 			if(res.data.state === 200 && res2.data.state === 200) {
 				analyzePersonPost.value = true
 				PersonPostTableData.value = []
@@ -205,7 +206,8 @@ const onSubmitPersonPost =(formEl: FormInstance | undefined) => {
 					postMinNumber: res.data.data[formPersonPost.post][2].toFixed(2),
 					averageNumber: res.data.data[formPersonPost.post][3].toFixed(2),
 				})
-				console.log('标签匹配情况：',res.data.data.employeeGoodFeaturesMessage);
+				console.log('getEmployeeAndPostMatching标签匹配情况：',res.data.data.employeeGoodFeaturesMessage);
+				console.log('getPostCountFactorByName标签匹配情况：',res2.data.data);
 				currentTagAnalyzeResult.value.post = formPersonPost.post
 				currentTagAnalyzeResult.value.name = formPersonPost.name
 				currentTagAnalyzeResult.value.employeeTag = res2.data.data.employeeGoodFeaturesMessage.filter( (item:string) => item != null)
