@@ -21,6 +21,10 @@
 					autocomplete="off"
 				/>
 			</el-form-item>
+			<el-form-item class="code item" label="验证码" prop="code" >
+				<el-input v-model="ruleForm.username" type="text" autocomplete="off" />
+        <img class="codeImg">
+			</el-form-item>
 			<el-form-item class="login-button">
 				<el-button type="primary" @click="submitForm(ruleFormRef)"  @keydown.enter="keyDown($event)">
 					登陆
@@ -134,13 +138,15 @@ const resetForm = (formEl: FormInstance | undefined) => {
   header {
     position: absolute;
     z-index: 33;
-    font-size: 3vw;
+    font-family: Georgia, serif;
+    font-size: 3.2vw;
+    font-weight: bold;
     top: 12vh;
-    color: #fff;
+    color: #d8d8d8;
   }
 	.el-form {
 		width: 390px;
-		height: 280px;
+		height: 330px;
 		padding: 30px;
 		box-sizing: border-box;
 		background-color: #b9b9b9;
@@ -153,6 +159,23 @@ const resetForm = (formEl: FormInstance | undefined) => {
 		backdrop-filter: blur(30px);
 		border-radius: 25px;
 		box-shadow: inset 0 0 80px rgba(191, 172, 172, 0.3);
+
+    .code {
+      display: flex;
+      justify-content: center;
+      .el-input {
+        width: 150px;
+      }
+      .codeImg {
+        display: block;
+        overflow: hidden;
+        flex: 1;
+        padding-left: 10px;
+        height: 100%;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+    }
 
 		.item .el-form-item__label {
 			color: aliceblue;
@@ -169,7 +192,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
 		}
 
 		.el-form-item {
-			margin-bottom: 22px;
+			margin-bottom: 19px;
 		}
 
 		.title {

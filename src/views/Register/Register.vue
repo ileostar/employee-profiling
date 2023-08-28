@@ -132,9 +132,11 @@ const resetForm = (formEl: FormInstance | undefined) => {
   header {
     position: absolute;
     z-index: 33;
-    font-size: 3vw;
+    font-family: Georgia, serif;
+    font-size: 3.2vw;
+    font-weight: bold;
     top: 12vh;
-    color: #fff;
+    color: #d8d8d8;
   }
 	.el-form {
 		width: 390px;
