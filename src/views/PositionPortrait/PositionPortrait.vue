@@ -35,7 +35,7 @@
 					</div>
 					<div class="content-matching">
 						<li>员工匹配度</li>
-						<el-table :data="analyzeMatchingList" height="310" style="width: 100%">
+						<el-table :data="analyzeMatchingList" scrollbar-always-on height="310" style="width: 100%">
 							<el-table-column prop="id" label="序号" width="120" />
 							<el-table-column prop="number" label="员工编号" width="120" />
 							<el-table-column prop="name" label="员工姓名" />

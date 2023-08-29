@@ -26,7 +26,7 @@ const props = defineProps({
 	header {
 		height: 4vh;
 		text-align: left;
-		padding: 0 1vh;
+		padding: 0 .7vh;
 		line-height: 4vh;
 	}
 	.driver {

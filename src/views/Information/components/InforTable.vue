@@ -5,7 +5,7 @@
       <el-table-column fixed="right" label="操作" width="120">
         <template #default="scope">
           <el-button link type="primary" size="small" @click="editCurrentEmployee(scope.row)">
-            编辑</el-button
+            修改</el-button
           >
           <el-popconfirm
 							title="你确定要删除当前用户吗?"

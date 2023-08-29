@@ -1,17 +1,17 @@
 <template>
 	<div class="tableContainer" ref="tableContainer">
     <el-table :data="tableData" style="width: 100%;height: 100%;" stripe scrollbar-always-on="true">
-      <el-table-column prop="id" sortable label="序号" width="90" />
-      <el-table-column prop="number" sortable label="员工编号" width="120" />
-      <el-table-column prop="name" label="员工姓名" width="120" />
-      <el-table-column prop="unit" label="单位" width="120" />
-      <el-table-column prop="post" label="岗位" width="120" />
-      <el-table-column prop="createdTime" label="考核时间" width="120"/>
+      <el-table-column prop="id" sortable label="序号" width="100" />
+      <el-table-column prop="number" sortable label="员工编号" width="130" />
+      <el-table-column prop="name" label="员工姓名" width="140" />
+      <el-table-column prop="unit" label="单位" width="130" />
+      <el-table-column prop="post" label="岗位" width="130" />
+      <el-table-column prop="createdTime" label="考核时间" width="130"/>
       <el-table-column prop="scores" sortable label="月度绩效"/>
-      <el-table-column fixed="right" label="操作" width="120">
+      <el-table-column fixed="right" label="操作" width="130">
         <template #default="scope">
           <el-button link type="primary" size="small" @click="editCurrentEmployee(scope.row)">
-            编辑</el-button
+            修改</el-button
           >
           <el-popconfirm
 							title="你确定要删除当前用户吗?"

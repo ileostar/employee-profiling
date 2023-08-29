@@ -1,10 +1,10 @@
 <template>
-	<RouterView class="root" />
-  <!-- <router-view  class="root" v-slot="{ Component }">
+	<!-- <RouterView class="root" /> -->
+  <router-view  class="root" v-slot="{ Component }">
     <transition name="slide-fade" mode="out-in" :duration="{ enter: 500, leave: 300 }">
       <component :is="Component" />
     </transition>
-  </router-view> -->
+  </router-view>
 </template>
 
 <script setup lang="ts"></script>
@@ -17,6 +17,7 @@
 .root {
 	height: 100vh;
 	width: 100vw;
+  min-width: 1500px;
 }
 .icon {
 	width: 1.6em;

@@ -27,6 +27,11 @@ div {
 	box-sizing: border-box;
 }
 
+/* 隐藏滚动条 */
+::-webkit-scrollbar {
+  display: none;
+}
+
 /*设置默认字体*/
 body {
 	font-size: 14px;
@@ -202,13 +207,6 @@ textarea {
 	overflow: auto;
 }
 
-button,
-html [type='button'],
-[type='reset'],
-[type='submit'] {
-	-webkit-appearance: button;
-}
-
 button::-moz-focus-inner,
 [type='button']::-moz-focus-inner,
 [type='reset']::-moz-focus-inner,
@@ -233,11 +231,6 @@ button:-moz-focusring,
 [type='number']::-webkit-inner-spin-button,
 [type='number']::-webkit-outer-spin-button {
 	height: auto;
-}
-
-[type='search'] {
-	-webkit-appearance: textfield;
-	outline-offset: -2px;
 }
 
 [type='search']::-webkit-search-cancel-button,

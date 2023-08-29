@@ -7,7 +7,7 @@
 					v-model="input3"
 					class="w-50 m-2"
 					size="small"
-					placeholder="请输入员工姓名或编号"
+					placeholder="姓名、编号、单位、岗位"
 					:prefix-icon="Search"
 				/>
 			</div>
@@ -55,14 +55,7 @@ const value = ref(false)
 const handleSelect = async (item: EmployeeName) => {
 	currentEmployee.value = item.name
 	// 查询当前员工信息
-	const res2 = await api.getEmployeeMessage({createdTime: createdTime.value,number: item.number})
-	if(res2.data.state === 200) { 
-		employeeStore.updatePortraitFeature(res2.data.data)
-	}
-	const res3 = await api.getPostFeatures({createdTime: createdTime.value,number: item.number})
-	if(res3.data.state === 200) { 
-		employeeStore.updateCurrentEmployeeInfos(res3.data.data)
-	}
+	employeeStore.ToggleEmployee(item.number)
 }
 </script>
 
@@ -82,6 +75,11 @@ const handleSelect = async (item: EmployeeName) => {
 			height: 8vh;
 			justify-content: space-between;
 			margin-bottom: 2vh;
+      .el-input {
+        width: 100%;
+        height: 4vh;
+        font-size: 1.5vh;
+      }
 			.aside-title {
 				font-size: 2vh;
 			}

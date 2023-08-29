@@ -76,35 +76,37 @@
       </a>
 		</div>
 	</div>
-	<el-dialog v-model="dialogCreateFormVisible" @close="resetForm" title="新建">
-		<el-form :model="form" :rules="formRules" ref="ruleFormRef">
-      <el-form-item v-for="field, key in formField" :key="field.label" :label="field.label" :prop="key">
-        <template v-if="field.label === '创建时间'">
-          <el-select v-model="form.createdTime" class="m-2" placeholder="选择创建时间">
-            <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
-          </el-select>
-        </template>
-        <template v-else-if="field.label === '岗位'">
-          <el-select v-model="form.post" class="m-2" placeholder="选择岗位">
-            <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
-          </el-select>
-        </template>
-        <template v-else-if="field.label.startsWith('是否')">
-          <el-radio-group v-model="form[key]">
-            <el-radio label="是" />
-            <el-radio label="否" />
-          </el-radio-group>
-        </template>
-        <template v-else-if="field.label === '性别'">
-          <el-radio-group v-model="form[key]">
-            <el-radio label="男" />
-            <el-radio label="女" />
-          </el-radio-group>
-        </template>
-        <template v-else>     
-          <el-input v-model="form[key]" autocomplete="off"></el-input>
-        </template>
-      </el-form-item>
+	<el-dialog v-model="dialogCreateFormVisible" @close="resetForm" title="新建员工信息">
+		<el-form :model="form" :rules="formRules" ref="ruleFormRef"  label-position="left" label-width="auto"> 
+      <el-row :gutter="5">
+        <el-form-item v-for="field, key in formField" :key="field.label" :label="field.label" :prop="key" >
+          <template v-if="field.label === '创建时间'">
+            <el-select v-model="form.createdTime" class="m-2" placeholder="选择创建时间">
+              <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
+            </el-select>
+          </template>
+          <template v-else-if="field.label === '岗位'">
+            <el-select v-model="form.post" class="m-2" placeholder="选择岗位">
+              <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
+            </el-select>
+          </template>
+          <template v-else-if="field.label.startsWith('是否')">
+            <el-radio-group v-model="form[key]">
+              <el-radio label="是" />
+              <el-radio label="否" />
+            </el-radio-group>
+          </template>
+          <template v-else-if="field.label === '性别'">
+            <el-radio-group v-model="form[key]">
+              <el-radio label="男" />
+              <el-radio label="女" />
+            </el-radio-group>
+          </template>
+          <template v-else>     
+            <el-input v-model="form[key]" autocomplete="off"></el-input>
+          </template>
+        </el-form-item>
+      </el-row>
 		</el-form>
 		<template #footer>
 			<span class="dialog-footer">
@@ -115,7 +117,7 @@
 			</span>
 		</template>
 	</el-dialog>
-	<el-dialog v-model="dialogFixFormVisible" @close="resetForm" title="修改">
+	<el-dialog v-model="dialogFixFormVisible" @close="resetForm" title="修改员工信息">
 		<el-form :model="form2" :rules="formRules2" ref="ruleForm2Ref">
       <el-form-item v-for="field, key in formField2" :key="field.label" :label="field.label" :prop="key">
         <template v-if="field.label === '创建时间'">
@@ -164,6 +166,7 @@
 		</template>
 	</el-dialog>
 	<el-dialog v-model="dialogInFormVisible" title="导入">
+    <a href="src/static/employee.xlsx" download style="display: block;padding-bottom: 1vh;margin-top: -2vh;color: #409eff">员工信息导入模版</a>
     <el-upload
     class="upload-demo"
     drag
@@ -177,11 +180,11 @@
   >
     <el-icon class="el-icon--upload"><upload-filled /></el-icon>
     <div class="el-upload__text">
-      Drop file here or <em>click to upload</em>
+      拖动文件到这或者 <em>点击上传</em>
     </div>
     <template #tip>
       <div class="el-upload__tip">
-        Please upload the xls/xlsx file
+        请上传 xls/xlsx 文件
       </div>
     </template>
     </el-upload>

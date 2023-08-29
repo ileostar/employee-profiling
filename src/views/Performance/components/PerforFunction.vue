@@ -68,7 +68,7 @@
       </a>
 		</div>
 	</div>
-	<el-dialog v-model="dialogCreateFormVisible" title="新建">
+	<el-dialog v-model="dialogCreateFormVisible" title="新建绩效成绩">
 		<el-form :model="form" :rules="formRules" ref="ruleFormRef">
       <el-form-item v-for="field, key in formField" :key="field.label" :label="field.label" :prop="key">
         <template v-if="field.label === '创建时间'">
@@ -110,7 +110,7 @@
 			</span>
 		</template>
 	</el-dialog>
-	<el-dialog v-model="dialogEditFormVisible" title="修改">
+	<el-dialog v-model="dialogEditFormVisible" title="修改绩效成绩">
 		<el-form :model="formEdit" :rules="formEditRules" ref="ruleEditFormRef">
       <el-form-item v-for="field, key in formEditField" :key="field.label" :label="field.label" :prop="key">
         <template v-if="field.label === '创建时间'">
@@ -152,7 +152,8 @@
 			</span>
 		</template>
 	</el-dialog>
-	<el-dialog v-model="dialogInFormVisible" title="导入">
+	<el-dialog v-model="dialogInFormVisible" title="导入绩效成绩">
+    <a href="src/static/performance.xlsx" download style="display: block;padding-bottom: 1vh;margin-top: -2vh;color: #409eff">绩效成绩导入模版</a>
     <el-upload
     class="upload-demo"
     drag
@@ -166,11 +167,11 @@
   >
     <el-icon class="el-icon--upload"><upload-filled /></el-icon>
     <div class="el-upload__text">
-      Drop file here or <em>click to upload</em>
+      拖动文件到这或者 <em>点击上传</em>
     </div>
     <template #tip>
       <div class="el-upload__tip">
-        Please upload the xls/xlsx file
+        请上传 xls/xlsx 文件
       </div>
     </template>
     </el-upload>

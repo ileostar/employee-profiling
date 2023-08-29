@@ -45,22 +45,21 @@
                 <el-table :data="PersonPostTableData" border size="small" stripe style="width: 99%">
                   <el-table-column prop="name" label="员工姓名" width="70"/>
                   <el-table-column prop="number" label="岗位编号" width="70" />
-                  <el-table-column prop="post" label="岗位名称" width="70" />
+                  <el-table-column prop="post" label="岗位名称" width="90" />
                   <el-table-column prop="factor" label="员工匹配系数" width="90" />
                   <el-table-column prop="max" label="岗位最高匹配系数" width="115" />
                   <el-table-column prop="min" label="岗位最低匹配系数" width="115" />
-                  <el-table-column prop="avg" label="平均匹配系数"/>
+                  <el-table-column prop="avg" label="平均匹配系数"  width="115"/>
                 </el-table>
               </div>
               <h3>
-                <span>标签匹配分析</span>
-                <el-select v-if="emloyeeNumberOptions.length>1" v-model="currentEmloyeeNumber" placeholder="选择其他员工">
+                <span>标签匹配分析&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#64b3ae">{{emloyeeNumberOptions.length>1?'其他员工:':''}}</span></span>
+                <el-select v-if="emloyeeNumberOptions.length>1" style="width: 35%;" v-model="currentEmloyeeNumber"  @change="changeEmloyeeNumber" placeholder="选择其他员工">
                   <el-option
                     v-for="item in emloyeeNumberOptions"
                     :key="item.value"
                     :label="item.label"
                     :value="item.value"
-                    :disabled="item.disabled?item.disabled:false"
                   />
                 </el-select>
               </h3>
@@ -70,17 +69,17 @@
                     <p>> {{currentTagAnalyzeResult.post}}优秀画像</p>
                   </template>
                   <template v-slot:default>
-                    <el-tag class="ml-2" v-for="item in currentTagAnalyzeResult.postTag" :key="item" type="info">
-                      <p :title="item">{{item}}</p>
+                    <el-tag class="ml-2" v-for="item in currentHandleTagAnalyzeResult" :key="item" type="info">
+                      <p :title="item">{{handleStringLength(item)}}</p>
                     </el-tag>
                   </template>
                 </employeeTagCard>
                 <employeeTagCard class="box-card-content second">
                   <template v-slot:header>
-                    <p>> {{currentTagAnalyzeResult.name}}</p>
+                    <p>> {{currentTagAnalyzeResult.name}}优秀画像</p>
                   </template>
                   <template v-slot:default>
-                    <el-tag class="ml-2" v-for="item in currentTagAnalyzeResult.employeeTag" :key="item" type="info">
+                    <el-tag class="ml-2" v-for="item in currentHandleTagEmployeeAnalyzeResult" :key="item" type="info">
                       <p :title="item">{{item}}</p>
                     </el-tag>
                   </template>
@@ -128,12 +127,13 @@
               :default-sort="{ prop: 'factor', order: 'descending' }"
               :data="currentPostMatchingTable" 
               style="width: 100%"
+              scrollbar-always-on
               >
               <el-table-column fixed prop="number" label="员工编号" width="80" />
               <el-table-column prop="name" label="员工姓名" width="90" />
               <el-table-column prop="post" label="目前岗位" width="90" />
               <el-table-column prop="scores" sortable label="月度绩效" width="110" />
-              <el-table-column prop="factor" sortable label="与当前岗位匹配度"/>
+              <el-table-column prop="factor" sortable label="与当前岗位匹配度" />
             </el-table>
           </template>
 				</noResultYet>
@@ -143,7 +143,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onUnmounted, reactive, ref } from 'vue'
+import { onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
 import noResultYet from '@/components/noResultYet/noResultYet.vue'
 import employeeTagCard from '@/components/employeeTagCard/employeeTagCard.vue'
 import api from '@/api/api'
@@ -156,73 +156,93 @@ import * as _ from 'lodash'
 const matchingStore = useMatchingStore()
 const employeeStore = useEmployeeStore()
 const { createdTime } = storeToRefs(employeeStore)
-const { PersonPostTableData } = storeToRefs(matchingStore)
+const { PersonPostTableData,formPersonPost,emloyeeNumberOptions,currentEmloyeeNumber,currentTagAnalyzeResult,currentPostMatchingTable,formPostMatching } = storeToRefs(matchingStore)
 // 控制结果页面显示，没有数据的时候显示空
 const analyzePersonPost = ref(false)
 const analyzePostMatching = ref(false)
 
+onMounted(() => {
+	saveState()
+})
+
+const saveState = () => {
+	if(!_.isEmpty(currentTagAnalyzeResult.value)){
+		analyzePersonPost.value = true
+	} 
+	if(!_.isEmpty(currentPostMatchingTable.value)){
+		analyzePostMatching.value = true
+	}
+}
+
+const currentHandleTagAnalyzeResult = ref<Array<string>>([])
+const currentHandleTagEmployeeAnalyzeResult = ref<Array<string>>([])
+
+// 重新排序，字符少的排在前面
+watchEffect(() => {
+	currentHandleTagAnalyzeResult.value = currentTagAnalyzeResult.value.postTag.sort(function(a, b) {
+		return  b!.length-a!.length;
+	}) as string[]
+	currentHandleTagEmployeeAnalyzeResult.value = currentTagAnalyzeResult.value.employeeTag.sort(function(a, b) {
+		return  b!.length-a!.length;
+	}) as string[]
+})
+
+// 处理字符串长度
+const handleStringLength = (item:string) => {
+	// 定义字符串和长度限制
+	const maxLength = 15;
+	const ellipsis = '...';
+	let halfLength = 0;
+
+	// 检查字符串长度并进行省略
+	if (item.length > maxLength) {
+		// 超过最大长度，省略到最大长度的一半
+		halfLength = Math.floor(maxLength);
+		item = item.substring(0, halfLength) + ellipsis;
+	} else if (item.length > maxLength / 2) {
+		// 在一半长度和最大长度之间，省略到最大长度的一半
+		halfLength = Math.floor(maxLength / 2);
+		item = item.substring(0, halfLength) + ellipsis;
+	}
+
+	return item
+}
+
+// 人岗匹配切换编号分析表单
+const changeEmloyeeNumber = async () => {
+  
+	const res2 = await api.getPostFeaturesByNumberAndPost({createdTime:createdTime.value,number:Number(currentEmloyeeNumber.value),post:formPersonPost.value.post})
+
+	if(res2.data.state === 200){
+		currentTagAnalyzeResult.value.post = formPersonPost.value.post
+		currentTagAnalyzeResult.value.name = formPersonPost.value.name
+		currentTagAnalyzeResult.value.employeeTag = res2.data.data.employeeGoodFeaturesMessage.filter( (item:string) => item != null)
+		currentTagAnalyzeResult.value.postTag = res2.data.data.postGoodFeaturesMessage
+	}  
+}
+
 // 人岗匹配分析表单
 const ruleFormRef = ref<FormInstance>()
-const formPersonPost = reactive({
-	name: '',
-	post: '',
-})
 const ruleFormPersonPost = reactive({
 	name: { required: true, message: '请输入员工姓名', trigger: 'blur'
 	},
 	post: { required: true, message: '请输入岗位名称', trigger: 'blur' },
 })
-// 保存人岗匹配分析结果
-const currentTagAnalyzeResult = ref({
-	name: '',
-	post: '',
-	employeeTag: [],
-	postTag: [],
-})
 
 // 岗位匹配分析表单
 const ruleMatchingFormRef = ref<FormInstance>()
-const formPostMatching = reactive({
-	post: ''
-})
 const ruleFormPostMatching = reactive({
 	post: { required: true, message: '请输入岗位名称', trigger: 'blur' },
 })
-
-type Infos = {
-	number: '',
-	name: '',
-	post: '',
-	scores: '',
-	factor: ''
-  [key: string]: unknown
-}
-
-type emloyeeNumberOption = {
-  value: string
-  label: string
-  disabled?: boolean
-}
-
-const currentEmloyeeNumber = ref('')
-const emloyeeNumberOptions = ref<Array<emloyeeNumberOption>>([
-	{
-		value: '1',
-		label: '1',
-	}
-])
-// 保存岗位匹配分析结果
-const currentPostMatchingTable = ref<Array<Infos>>([])
 
 // 提交人岗匹配分析表单
 const onSubmitPersonPost =(formEl: FormInstance | undefined) => {
 	if (!formEl) return
 	formEl.validate(async (valid) => {
 		if (valid) {
-			const res = await api.getEmployeeAndPostMatching({ ...formPersonPost,createdTime: createdTime.value })
+			const res = await api.getEmployeeAndPostMatching({ ...formPersonPost.value,createdTime: createdTime.value })
 			if(res.data.state === 200) {
 				analyzePersonPost.value = true
-				PersonPostTableData.value = []
 				const log = res.data.data?.map((item: { number: any; post: any; min: any; max: any; factor: any; avg: any }) => {
 					const { number, post, min, max, factor, avg } = item
 					return {
@@ -232,7 +252,7 @@ const onSubmitPersonPost =(formEl: FormInstance | undefined) => {
 						factor: Number(factor).toFixed(2),
 						avg: Number(avg).toFixed(2),
 						post,
-						name: formPersonPost.name
+						name: formPersonPost.value.name
 					}
 				})
 				PersonPostTableData.value = [...log]
@@ -242,20 +262,17 @@ const onSubmitPersonPost =(formEl: FormInstance | undefined) => {
 				emloyeeNumberOptions.value = res.data.data.map((item: { number: any; post: any; min: any; max: any; factor: any; avg: any }) => {
 					return {
 						value: item.number,
-						label: item.number,
-						disabled: !_.isEmpty(currentEmloyeeNumber.value)&&currentEmloyeeNumber.value===item.number?true:false
+						label: item.number
 					}
 				})
-				const res2 = await api.getPostFeaturesByNumberAndPost({createdTime:createdTime.value,number:currentEmloyeeNumber.value,post:formPersonPost.post})
+				const res2 = await api.getPostFeaturesByNumberAndPost({createdTime:createdTime.value,number:Number(currentEmloyeeNumber.value),post:formPersonPost.value.post})
 
-				if(res2.data.state === 200)
-        
-					console.log('getEmployeeAndPostMatching标签匹配情况：',res.data.data);
-				console.log('getPostFeaturesByNumberAndPost标签匹配情况：',res2.data.data);
-				currentTagAnalyzeResult.value.post = formPersonPost.post
-				currentTagAnalyzeResult.value.name = formPersonPost.name
-				currentTagAnalyzeResult.value.employeeTag = res2.data.data.employeeGoodFeaturesMessage.filter( (item:string) => item != null)
-				currentTagAnalyzeResult.value.postTag = res2.data.data.postGoodFeaturesMessage
+				if(res2.data.state === 200){
+					currentTagAnalyzeResult.value.post = formPersonPost.value.post
+					currentTagAnalyzeResult.value.name = formPersonPost.value.name
+					currentTagAnalyzeResult.value.employeeTag = res2.data.data.employeeGoodFeaturesMessage.filter( (item:string) => item != null)
+					currentTagAnalyzeResult.value.postTag = res2.data.data.postGoodFeaturesMessage
+				}       
 			}else {
 				ElMessage.error('请正确填写表单！')
 				return false
@@ -269,7 +286,7 @@ const onSubmitPostMatching = (formEl: FormInstance | undefined) => {
 	if (!formEl) return
 	formEl.validate(async (valid) => {
 		if (valid) {
-			const res = await api.findPostFactorDesc({ ...formPostMatching,createdTime: createdTime.value })
+			const res = await api.findPostFactorDesc({ ...formPostMatching.value,createdTime: createdTime.value })
 			if(res.data.state === 200) {
 				analyzePostMatching.value = true
 				currentPostMatchingTable.value = res.data.data
@@ -285,7 +302,6 @@ const onSubmitPostMatching = (formEl: FormInstance | undefined) => {
 onUnmounted(() => {
 	analyzePersonPost.value= false
 	analyzePostMatching.value = false
-	PersonPostTableData.value = []
 })
 </script>
 
@@ -307,7 +323,7 @@ onUnmounted(() => {
 		border-right: 2px solid #ebeef5;
 
 		.content-left-information {
-			height: 20%;
+			height: 17%;
 			.el-form {
 				margin: 3vh 0;
 				height: 100%;
@@ -344,7 +360,7 @@ onUnmounted(() => {
         display: flex;
         width: 100%;
         .el-tag {
-            overflow: hidden;
+          overflow: hidden;
           color: #fff;
           background-color: #64b3ae;
           border-radius: 1.2vh;
@@ -353,7 +369,7 @@ onUnmounted(() => {
             overflow: hidden;
             text-overflow: ellipsis;
             white-space: nowrap;
-            margin-right: .5vw;
+            margin-right: .2vw;
           }
         }
         
