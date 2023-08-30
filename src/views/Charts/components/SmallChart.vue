@@ -3,7 +3,7 @@
 		<img class="small-icon" :src="props.image" alt="" />
 		<div class="content">
 			<div class="chart-text">
-				<div class="title">{{ Number(props.chartData[1]).toFixed(2) }}</div>
+				<div class="title">{{ handleNumber(Number(props.chartData[1])) }}</div>
 				<p class="text">{{ props.chartData[0] }}</p>
 			</div>
 			<div class="chart">
@@ -14,6 +14,17 @@
 </template>
 
 <script lang="ts" setup>
+
+const handleNumber = (num: number) => {
+	if (Number.isInteger(num)) { // 判断是否为整数
+		return num; // 返回不变的整数
+	} else if (typeof num === 'number') { // 判断是否为小数
+		return num.toFixed(2); // 保留两位小数并返回
+	} else {
+		return num; // 如果不是数字类型，则返回原始值
+	}
+}
+
 const props = defineProps({
 	image: {
 		type: String,

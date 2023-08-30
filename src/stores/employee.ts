@@ -122,7 +122,7 @@ export const useEmployeeStore = defineStore('employee', () => {
 			updateTagEmployeeInfo(res3.data.data)
 		}
 
-		const res4 = await api.getPostFeaturesByNumberAndPost({...req,post:portraitFeature.value.post as string})
+		const res4 = await api.getPostFeatures({...req})
 		if(res4.data.state === 200) { 
 			updatePostTagEmployeeInfo(res4.data.data)
 		}

@@ -87,7 +87,7 @@ const init = async () => {
 				emphasis: {
 					label: {
 						show: true,
-						fontSize: 30,
+						fontSize: 25,
 						fontWeight: 'bold',
 					},
 				},

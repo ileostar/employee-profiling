@@ -61,7 +61,7 @@
 								<div class="box1-card-right">
 									<div class="card-information-header">
 										<el-icon><CaretRight /></el-icon>
-										<p>{{ currentEmployeeAndPostAnalyze?.post }}</p>
+										<p>{{employeeInfos.post}}</p>
 									</div>
 									<p class="card-information-content" :title="handlePostGoodFeaturesMessage?.join('、')">
 										该岗位优秀画像特征：{{ handlePostGoodFeaturesMessage?.join('、') }}
