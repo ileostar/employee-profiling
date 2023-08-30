@@ -1,18 +1,61 @@
 <template>
 	<div class="tag-charts">
 		<h2 class="tag-title">标签维度</h2>
+    <div class="tag-select">
+      <p><strong>当前岗位：</strong>{{currentClickEmployee}}</p>
+      <el-select v-model="currentSelectOption" class="m-2" small @change="handleSelectChange" :default-first-option="true">
+        <el-option
+          v-for="item in selectOptions"
+          :key="item"
+          :label="item"
+          :value="item"
+        />
+      </el-select>
+    </div>
 		<div class="tag-chart" ref="chart"></div>
 	</div>
 </template>
 
 <script lang="ts" setup>
+import { useChartStore } from '@/stores/chart'
 import * as echarts from 'echarts'
-import { onMounted, ref } from 'vue'
+import * as _ from 'lodash'
+import { storeToRefs } from 'pinia'
+import { nextTick, onMounted, ref, watchEffect } from 'vue'
+
+const chartStore = useChartStore()
+const { tagChartData,currentClickEmployee,selectOptions,currentSelectOption } = storeToRefs(chartStore)
+
+// 饼图数据
+const tagPieChartData = ref<Array<any>>()
+
+watchEffect(() => {
+	if(_.isEmpty(tagChartData.value)) return false
+	tagPieChartData.value = Object.entries(tagChartData.value[currentSelectOption.value].count).map(item => ({
+		value: item[1],
+		name: item[0]
+	}))
+	nextTick(() => {
+		init()
+	})
+})
 
 // 一进来就调用
 onMounted(() => {
 	init()
 })
+
+const handleSelectChange = () => {
+	if(_.isEmpty(tagChartData.value)) return false
+	tagPieChartData.value = Object.entries(tagChartData.value[currentSelectOption.value].count).map(item => ({
+		value: item[1],
+		name: item[0]
+	}))
+  
+	nextTick(() => {
+		init()
+	})
+}
 
 const chart = ref()
 
@@ -44,24 +87,21 @@ const init = async () => {
 				emphasis: {
 					label: {
 						show: true,
-						fontSize: 40,
+						fontSize: 30,
 						fontWeight: 'bold',
 					},
 				},
 				labelLine: {
 					show: false,
 				},
-				data: [
-					{ value: 32, name: '是否有体育特长' },
-					{ value: 21, name: '是否有艺术特长' },
-					{ value: 36, name: '公文写作能力' },
-					{ value: 14, name: '数据分析能力' },
-					{ value: 10, name: '是否有省局轮训经历' },
-				],
+				data: tagPieChartData.value,
 			},
 		],
 	}
 	myChart.setOption(option)
+
+	console.log(tagChartData.value);
+  
 }
 </script>
 
@@ -82,6 +122,17 @@ const init = async () => {
 		font-weight: 400;
 		letter-spacing: 2px;
 	}
+  .tag-select {
+    display: flex;
+    align-items: center;
+    width: 100%;
+    padding-left: 2vw;
+    justify-content: space-between;
+    :deep(.el-select) {
+      padding-right: 2vw;
+      width: 23vw;
+    }
+  }
 	.tag-chart {
 		width: 40vw;
 		height: 64vh;

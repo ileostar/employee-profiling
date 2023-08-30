@@ -129,7 +129,7 @@ export const useEmployeeStore = defineStore('employee', () => {
 
 		const res5 = await api.getPostCountFactorByNumber(req)
 		if(res5.data.state === 200) {
-			const handleRes5 = res5.data.data.map(item => {
+			const handleRes5 = res5.data.data.map((item:postCountFactor) => {
 				const {post,factor,max,min,avg} = item
 				return {
 					post,

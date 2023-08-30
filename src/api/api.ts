@@ -53,6 +53,10 @@ export default {
 	/**
 	 * @desc 员工接口
 	 */
+	cockpit: (params: {createdTime: string,post: string}) => {
+		// 员工信息新建方法，员工编号number是必须的，为保证能根据number查询该记录
+		return http.get('/employee/cockpit', params)
+	},
 	insertEmployee: (params: Employee) => {
 		// 员工信息新建方法，员工编号number是必须的，为保证能根据number查询该记录
 		return http.post('/employee/insert', params)

@@ -85,9 +85,9 @@ const routes: Array<RouteRecordRaw> = [
 							const { createdTime } = storeToRefs(employeeStore)
 							if (_.isEmpty(PostInfo.value) || _.isEmpty(Info.value)) {
 								if(_.isEmpty(createdTime.value)) { 
-									const res3 = await api.getCreatedTime()
-									if (res3.data.state === 200) {
-										employeeStore.updateCreatedTimeList(res3.data.data)
+									const res = await api.getCreatedTime()
+									if (res.data.state === 200) {
+										employeeStore.updateCreatedTimeList(res.data.data)
 									} else {
 										return
 									}
@@ -95,11 +95,13 @@ const routes: Array<RouteRecordRaw> = [
 								const req = {
 									createdTime: createdTime.value,
 								}
-								const res = await api.dataAnalysis1(req)
+								const res1 = await api.dataAnalysis1(req)
 								const res2 = await api.dataAnalysis2(req)
-								if (res.data.state === 200 && res2.data.state) {
-									chartStore.updateSmallChartData(res.data.data)
+                
+								if (res1.data.state === 200 && res2.data.state) {
+									chartStore.updateSmallChartData(res1.data.data)
 									chartStore.updatePostChartData(res2.data.data)
+									chartStore.updateTagChartData(req.createdTime)
 								} else {
 									return
 								}

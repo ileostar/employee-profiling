@@ -7,12 +7,15 @@
 
 <script lang="ts" setup>
 import { useChartStore } from '@/stores/chart'
+import { useEmployeeStore } from '@/stores/employee'
 import * as echarts from 'echarts'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
 
+const employeeStore = useEmployeeStore()
 const chartStore = useChartStore()
-const { postChartData } = storeToRefs(chartStore)
+const { postChartData, currentClickEmployee } = storeToRefs(chartStore)
+const { createdTime } = storeToRefs(employeeStore)
 
 // 筛选数据，处理无脑后端写的数据
 const postAverageName = Object.keys(postChartData.value).filter((item) =>
@@ -123,7 +126,19 @@ const init = async () => {
 		],
 	}
 	myChart.setOption(option)
+	// 监听点击事件，并获取当前柱体信息
+	myChart.on('click', params => {
+		// 当前点击的柱体索引
+		const dataIndex = params.dataIndex;
+
+		// 在这里根据需要进行相应的处理
+		console.log('当前点击的柱体值：', postName[dataIndex]);
+		currentClickEmployee.value = postName[dataIndex]
+    
+		chartStore.updateTagChartData(createdTime.value)
+	});
 }
+
 </script>
 
 <style lang="scss" scoped>
