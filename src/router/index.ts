@@ -384,7 +384,7 @@ router.afterEach((_to, _from) => {
 	setTimeout(function(){
 		const loadingStore = useLoading()
 		loadingStore.onLoading(false)
-	},500)
+	},1000)
 });
 
 export default router

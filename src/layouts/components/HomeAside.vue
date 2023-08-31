@@ -123,6 +123,7 @@ const handleClose = (key: string, keyPath: string[]) => {
 .el-menu-item span,
 .el-sub-menu span {
 	font-size: 1vw;
+  padding-left: 2.5vh;
 }
 .icon {
 	width: 1.5vw;

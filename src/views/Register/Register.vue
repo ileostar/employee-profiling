@@ -144,7 +144,6 @@ const resetForm = (formEl: FormInstance | undefined) => {
 		padding: 30px;
 		box-sizing: border-box;
 		background-color: #b9b9b9;
-		margin-left: -30px;
 		border-radius: 20px;
 		color: aliceblue;
 

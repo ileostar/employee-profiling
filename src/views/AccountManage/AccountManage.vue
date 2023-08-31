@@ -4,10 +4,10 @@
 		<div class="account-table my-table">
 			<el-table :data="tableData" stripe style="width: 100%">
 				<el-table-column
-					v-for="(prop, index) of tableProps"
+					v-for="(prop, index) of tableProps.slice(0, 4)"
 					:key="index"
 					:prop="prop"
-					:label="prop"
+					:label="handleReflection(prop)"
 					:width="prop === 'createdTime' ? 230 : 100"
 				/>
 				<el-table-column align="right">
@@ -76,6 +76,19 @@ import { ElMessage, FormInstance, FormRules } from 'element-plus'
 
 const userStore = useUsersStore()
 const { allUsers } = storeToRefs(userStore)
+
+const tablePropsReflection = ref<{
+  [key: string]: string;
+}>({
+	id: '序号',
+	username: '用户名',
+	role: '权限',
+	createdTime: '创建时间',
+})
+
+const handleReflection = (key: string) => {
+	return tablePropsReflection.value[key]
+}
 
 // 过滤管理员
 const tableData = computed(() => {

@@ -128,8 +128,10 @@ const resetForm = (formEl: FormInstance | undefined) => {
 
 <style lang="scss">
 .login {
+  overflow: hidden;
 	display: flex;
 	width: 100vw;
+  height: 100vh;
 	justify-content: center;
 	align-items: center;
 	background: url('@/assets/images/background.png') no-repeat;
@@ -137,6 +139,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
 	background-size: cover;
   header {
     position: absolute;
+    margin: auto;
     z-index: 33;
     font-family: Georgia, serif;
     font-size: 3.2vw;
@@ -150,7 +153,6 @@ const resetForm = (formEl: FormInstance | undefined) => {
 		padding: 30px;
 		box-sizing: border-box;
 		background-color: #b9b9b9;
-		margin-left: -30px;
 		border-radius: 20px;
 		color: aliceblue;
 

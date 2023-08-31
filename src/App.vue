@@ -22,6 +22,5 @@ const { loading: isshow } = storeToRefs(loadingStore)
 .root {
 	height: 100vh;
 	width: 100vw;
-  min-width: 1500px;
 }
 </style>

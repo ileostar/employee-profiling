@@ -9,7 +9,7 @@
 				closable
 				:disable-transitions="false"
 				@click="editTagBox(tag as Infos)"
-				@close="deleteIndexTag(tag as Infos)"
+				@close="open(tag as Infos)"
 			>
 				{{ tag.features }}
 			</el-tag>
@@ -62,7 +62,7 @@
 
 <script setup lang="ts">
 import { reactive, ref } from 'vue'
-import { ElInput, ElMessage } from 'element-plus'
+import { ElInput, ElMessage,ElMessageBox } from 'element-plus'
 import { Infos, useTagStore } from '@/stores/tag'
 import { storeToRefs } from 'pinia'
 import api from '@/api/api'
@@ -141,6 +141,22 @@ const deleteIndexTag = async (tag: Infos) => {
 	} else {
 		ElMessage.error('权限不足')
 	}
+}
+
+// 删除确认弹框
+const open = (tag: Infos) => {
+	ElMessageBox.confirm(
+		'请确定你是否要删除改标签?',
+		'删除标签',
+		{
+			confirmButtonText: '删除',
+			cancelButtonText: '取消',
+			type: 'warning',
+		}
+	)
+		.then(() => {
+			deleteIndexTag(tag)
+		})
 }
 
 // 修改标签
