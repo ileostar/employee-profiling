@@ -10,6 +10,7 @@ import { useChartStore } from '@/stores/chart'
 import { useEmployeeStore } from '@/stores/employee'
 import { usePerformanceStore } from '@/stores/performance'
 import { usePostStore } from '@/stores/post'
+import { useLoading } from '@/stores/loading'
 import { storeToRefs } from 'pinia'
 
 // 主页面
@@ -358,8 +359,12 @@ const router = createRouter({
 router.beforeEach((to, _from, next) => {
 	const userStore = useUsersStore()
 	const { token, infos } = storeToRefs(userStore)
+  
+	const loadingStore = useLoading()
+	loadingStore.onLoading(true)
+
 	if (to.meta.auth && _.isEmpty(infos.value)) {
-		if (token.value) {
+		if (token.value) {	
 			next()
 		} else {
 			next('/login')
@@ -371,6 +376,15 @@ router.beforeEach((to, _from, next) => {
 			next()
 		}
 	}
+
 })
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+router.afterEach((_to, _from) => {
+	setTimeout(function(){
+		const loadingStore = useLoading()
+		loadingStore.onLoading(false)
+	},500)
+});
 
 export default router
