@@ -43,7 +43,7 @@
 					<li>岗位特征分析</li>
 					<div class="content-right-post-content">
 						<p :title="postTagEmployeeInfos?.postGoodFeaturesMessage.join('、')"><strong>对绩效影响较大字段：</strong>{{ postTagEmployeeInfos?.postGoodFeaturesMessage.join('、') }} </p>
-						<p :title="postTagEmployeeInfos?.employeeBadFeaturesMessage.join('、')"><strong>能力提升建议：</strong>{{ postTagEmployeeInfos?.employeeBadFeaturesMessage.filter(item=>item!==null).join('、') }}
+						<p :title="postTagEmployeeInfos?.employeeBadFeaturesMessage.filter(item=>item!==null).join('、')"><strong>能力提升建议：</strong>{{ postTagEmployeeInfos?.employeeBadFeaturesMessage.filter(item=>item!==null).join('、') }}
             </p>
 					</div>
 				</div>
@@ -251,6 +251,9 @@ watchEffect(() => {
             overflow: hidden;
             margin-bottom: .3vh;
 					}
+          p:last-child {
+            -webkit-line-clamp: 2;
+          }
 				}
 			}
 		}

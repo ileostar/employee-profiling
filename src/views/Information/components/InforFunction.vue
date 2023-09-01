@@ -76,37 +76,73 @@
       </a>
 		</div>
 	</div>
-	<el-dialog v-model="dialogCreateFormVisible" @close="resetForm" title="新建员工信息">
-		<el-form :model="form" :rules="formRules" ref="ruleFormRef"  label-position="center"> 
+	<el-dialog class="dialogCreate" v-model="dialogCreateFormVisible" @close="resetForm" title="新建员工信息">
+		<el-form :model="form" :rules="formRules" ref="ruleFormRef"  label-position="top" label-width="130px"> 
       <el-row>
-        <el-col v-for="(field, key) in formField" :key="field.label" :span="field.span || 24">
-          <el-form-item :label="field.label" :prop="key">
-              <template v-if="field.label === '创建时间'">
-                <el-select v-model="form.createdTime" class="m-2" placeholder="选择创建时间">
-                  <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
-                </el-select>
-              </template>
-              <template v-else-if="field.label === '岗位'">
-                <el-select v-model="form.post" class="m-2" placeholder="选择岗位">
-                  <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
-                </el-select>
-              </template>
-              <template v-else-if="field.label.includes('是否')">
-                <el-radio-group v-model="form[key]">
-                  <el-radio label="是" />
-                  <el-radio label="否" />
-                </el-radio-group>
-              </template>
-              <template v-else-if="field.label === '性别'">
-                <el-radio-group v-model="form[key]">
-                  <el-radio label="男" />
-                  <el-radio label="女" />
-                </el-radio-group>
-              </template>
-              <template v-else>
-                <el-input v-model="form[key]" autocomplete="off" maxlength="20px"></el-input>
-              </template>
-          </el-form-item>
+        <el-col v-for="(field, key) in formField" :key="field.label" :span="12">
+          <el-space
+            fill
+            wrap
+            fill-ratio="80"
+            direction="horizontal"
+            style="width: 96%"
+          >
+            <el-form-item :label="field.label" :prop="key">
+                <template v-if="field.label === '创建时间'">
+                  <el-select v-model="form.createdTime" class="m-2" placeholder="选择创建时间" >
+                    <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
+                  </el-select>
+                </template>
+                <template v-else-if="field.label === '岗位'">
+                  <el-select v-model="form.post" class="m-2" placeholder="选择岗位">
+                    <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
+                  </el-select>
+                </template>
+                <template v-else-if="field.label === '最高学历'">
+                  <el-select v-model="form.post" class="m-2" placeholder="选择岗位">
+                    <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
+                  </el-select>
+                </template>
+                <template v-else-if="numberInput.includes(field.label)">
+                  <el-input-number v-model="form[key]" :min="1" :max="100" />
+                </template>
+                <template v-else-if="field.label === '生育情况'">
+                  <el-select v-model="form[key]" class="m-2" placeholder="选择生育情况">
+                    <el-option v-for="item in fertilitySituation" :key="item" :value="item" :label="item"/>
+                  </el-select>
+                </template>
+                <template v-else-if="field.label === '政治面貌'">
+                  <el-select v-model="form[key]" class="m-2" placeholder="选择政治面貌">
+                    <el-option v-for="item in politicalStatus" :key="item" :value="item" :label="item"/>
+                  </el-select>
+                </template>
+                <template v-else-if="levelTags.includes(field.label)">
+                  <el-select v-model="form[key]" class="m-2" placeholder="选择能力水平">
+                    <el-option v-for="item in tagLevel" :key="item" :value="item" :label="item"/>
+                  </el-select>
+                </template>
+                <template v-else-if="dialectTags.includes(field.label)">
+                  <el-select v-model="form[key]" class="m-2" placeholder="选择语言水平">
+                    <el-option v-for="item in dialectSituation" :key="item" :value="item" :label="item"/>
+                  </el-select>
+                </template>
+                <template v-else-if="field.label.includes('是否')">
+                  <el-radio-group v-model="form[key]">
+                    <el-radio label="是" />
+                    <el-radio label="否" />
+                  </el-radio-group>
+                </template>
+                <template v-else-if="field.label === '性别'">
+                  <el-radio-group v-model="form[key]">
+                    <el-radio label="男" />
+                    <el-radio label="女" />
+                  </el-radio-group>
+                </template>
+                <template v-else>
+                  <el-input v-model="form[key]" autocomplete="off" maxlength="11"></el-input>
+                </template>
+            </el-form-item>
+          </el-space>       
         </el-col>
       </el-row>
 		</el-form>
@@ -120,43 +156,83 @@
 		</template>
 	</el-dialog>
 	<el-dialog v-model="dialogFixFormVisible" @close="resetForm" title="修改员工信息">
-		<el-form :model="form2" :rules="formRules2" ref="ruleForm2Ref">
-      <el-form-item v-for="field, key in formField2" :key="field.label" :label="field.label" :prop="key">
-        <template v-if="field.label === '创建时间'">
-          <el-select v-model="form2.createdTime" class="m-2" placeholder="选择创建时间" @change="pairingCreatedTime">
-            <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
-          </el-select>
-        </template>
-        <template v-else-if="field.label === '姓名'" >
-          <el-input v-model="form2.name" @blur="autofill" autocomplete="off" placeholder="填写姓名自动匹配,请优先填写姓名"></el-input>
-        </template>
-        <template v-else-if="field.label === '员工编号'" >     
-          <el-input v-model="form2.number" autocomplete="off" v-if="namesake.length<2"></el-input>          
-          <el-select v-model="form2.number" class="m-2" v-else @change="autofill2(form2.number as number)">
-            <el-option v-for="num in namesake" :key="num.number" :value="num.number" :label="num.number"/>
-          </el-select>
-        </template>
-        <template v-else-if="field.label === '岗位'">
-          <el-select v-model="form2.post" class="m-2" placeholder="选择岗位">
-            <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
-          </el-select>
-        </template>
-        <template v-else-if="field.label.startsWith('是否')">
-          <el-radio-group v-model="form2[key]">
-            <el-radio label="是" />
-            <el-radio label="否" />
-          </el-radio-group>
-        </template>
-        <template v-else-if="field.label === '性别'">
-          <el-radio-group v-model="form2[key]">
-            <el-radio label="男" />
-            <el-radio label="女" />
-          </el-radio-group>
-        </template>
-        <template v-else>     
-          <el-input v-model="form2[key]" autocomplete="off"></el-input>
-        </template>
-      </el-form-item>
+		<el-form :model="form2" :rules="formRules2" ref="ruleForm2Ref"   label-position="top" label-width="130px">
+      <el-row>
+        <el-col v-for="(field, key) in formField2" :key="field.label" :span="12">
+          <el-space
+            fill
+            wrap
+            fill-ratio="80"
+            direction="horizontal"
+            style="width: 96%"
+          >
+          <el-form-item :label="field.label" :prop="key">
+            <template v-if="field.label === '创建时间'">
+              <el-select v-model="form2.createdTime" class="m-2" placeholder="选择创建时间" @change="pairingCreatedTime">
+                <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
+              </el-select>
+            </template>
+            <template v-else-if="field.label === '姓名'" >
+              <el-input v-model="form2.name" @blur="autofill" autocomplete="off" placeholder="填写姓名自动匹配,请优先填写姓名"></el-input>
+            </template>
+            <template v-else-if="field.label === '员工编号'" >     
+              <el-input v-model="form2.number" autocomplete="off" v-if="namesake.length<2"></el-input>          
+              <el-select v-model="form2.number" class="m-2" v-else @change="autofill2(form2.number as number)">
+                <el-option v-for="num in namesake" :key="num.number" :value="num.number" :label="num.number"/>
+              </el-select>
+            </template>
+            <template v-else-if="field.label === '岗位'">
+              <el-select v-model="form2.post" class="m-2" placeholder="选择岗位">
+                <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
+              </el-select>
+            </template>
+            <template v-else-if="field.label === '最高学历'">
+              <el-select v-model="form2.post" class="m-2" placeholder="选择岗位">
+                <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
+              </el-select>
+            </template>
+            <template v-else-if="numberInput.includes(field.label)">
+              <el-input-number v-model="form2[key]" :min="1" :max="100" />
+            </template>
+            <template v-else-if="field.label === '生育情况'">
+              <el-select v-model="form2[key]" class="m-2" placeholder="选择生育情况">
+                <el-option v-for="item in fertilitySituation" :key="item" :value="item" :label="item"/>
+              </el-select>
+            </template>
+            <template v-else-if="field.label === '政治面貌'">
+              <el-select v-model="form2[key]" class="m-2" placeholder="选择政治面貌">
+                <el-option v-for="item in politicalStatus" :key="item" :value="item" :label="item"/>
+              </el-select>
+            </template>
+            <template v-else-if="levelTags.includes(field.label)">
+              <el-select v-model="form2[key]" class="m-2" placeholder="选择能力水平">
+                <el-option v-for="item in tagLevel" :key="item" :value="item" :label="item"/>
+              </el-select>
+            </template>
+            <template v-else-if="dialectTags.includes(field.label)">
+              <el-select v-model="form2[key]" class="m-2" placeholder="选择语言水平">
+                <el-option v-for="item in dialectSituation" :key="item" :value="item" :label="item"/>
+              </el-select>
+            </template>
+            <template v-else-if="field.label.includes('是否')">
+              <el-radio-group v-model="form2[key]">
+                <el-radio label="是" />
+                <el-radio label="否" />
+              </el-radio-group>
+            </template>
+            <template v-else-if="field.label === '性别'">
+              <el-radio-group v-model="form2[key]">
+                <el-radio label="男" />
+                <el-radio label="女" />
+              </el-radio-group>
+            </template>
+            <template v-else>     
+              <el-input v-model="form2[key]" autocomplete="off"></el-input>
+            </template>
+          </el-form-item>
+         </el-space>   
+        </el-col>
+      </el-row>
 		</el-form>
 		<template #footer>
 			<span class="dialog-footer">
@@ -215,6 +291,14 @@ const { postData: select } = storeToRefs(PostStore)
 const search = ref('')
 const defaultSelect = ref<string>('')
 const currentDateList = ref<string[]>([])
+
+const tagLevel = ref(['很好','较好','一般'])  // 能力等级
+const politicalStatus = ref(['中共党员','共青团员','群众'])  // 政治面貌
+const dialectSituation = ref(['会说','能听不会说','基本听不懂'])  // 方言情况
+const fertilitySituation= ref(['一孩','二孩','三孩及以上','无'])  // 生育情况
+const levelTags = ref(['公文写作能力','数据分析能力','新媒体营销技术水平','业务规章制度掌握和执行能力','创新能力（意识、行为和成效）','沟通能力','营销策划及执行能力','团队意识及协作能力'])
+const dialectTags = ref(['当地主要使用的方言掌握情况','粤语掌握情况','普通话标准情况'])
+const numberInput = ref(['年龄（周岁）','烟草工作年限'])
 
 // 控制对话框显示
 const dialogCreateFormVisible = ref(false)
@@ -347,37 +431,37 @@ const formField = reactive({
 	fifteen: {
 		value: '',
 		label: '是否二级烟草制品购销职业资格',
-		span: 24
+		span: 12
 	},
 	sixteen: {
 		value: '',
 		label: '是否三级烟草制品购销职业资格',
-		span: 24
+		span: 12
 	},
 	seventeen: {
 		value: '',
 		label: '是否四级烟草制品购销职业资格',
-		span: 24
+		span: 12
 	},
 	eighteen: {
 		value: '',
 		label: '是否五级烟草制品购销职业资格',
-		span: 24
+		span: 12
 	},
 	nineteen: {
 		value: '',
 		label: '是否具有中级以上计算机方面的资格证书',
-		span: 24
+		span: 12
 	},
 	twenty: {
 		value: '',
 		label: '是否有参加市局组织的新媒体培训经历',
-		span: 24
+		span: 12
 	},
 	twentyOne: {
 		value: '',
 		label: '是否有参加市局组织的数据分析培训经历',
-		span: 24
+		span: 12
 	},
 	twentyTwo: {
 		value: '',
@@ -407,12 +491,12 @@ const formField = reactive({
 	twentySeven: {
 		value: '',
 		label: '近两年是否有参与内训师相关竞赛的经历',
-		span: 24
+		span: 12
 	},
 	twentyEight: {
 		value: '',
 		label: '近两年是否有参加视频课程开发经历',
-		span: 24
+		span: 12
 	},
 	twentyNine: {
 		value: '',
@@ -437,12 +521,12 @@ const formField = reactive({
 	thirtyThree: {
 		value: '',
 		label: '是否有参加省局专项工作的经历',
-		span: 24
+		span: 12
 	},
 	thirtyFour: {
 		value: '',
 		label: '当地主要使用的方言掌握情况',
-		span: 24
+		span: 12
 	},
 	thirtyFive: {
 		value: '',
@@ -467,17 +551,17 @@ const formField = reactive({
 	thirtyNine: {
 		value: '',
 		label: '是否在工作地（区/县/市）定居',
-		span: 24
+		span: 12
 	},
 	forty: {
 		value: '',
 		label: '是否有任职营销以外岗位的工作经历',
-		span: 24
+		span: 12
 	},
 	fortyOne: {
 		value: '',
 		label: '是否有任职当前岗位以外营销岗位的工作经历',
-		span: 24
+		span: 12
 	},
 	fortyTwo: {
 		value: '',
@@ -497,42 +581,42 @@ const formField = reactive({
 	fortyFive: {
 		value: '',
 		label: '是否有论文发表或获奖情况',
-		span: 24
+		span: 12
 	},
 	fortySix: {
 		value: '',
 		label: '是否有文章在省局以上媒体发表情况',
-		span: 24
+		span: 12
 	},
 	fortySeven: {
 		value: '',
 		label: '是否有参与数字化转型项目情况',
-		span: 24
+		span: 12
 	},
 	fortyEight: {
 		value: '',
 		label: '是否有作为主要成员参加营销创新项目的经历',
-		span: 24
+		span: 12
 	},
 	fortyNine: {
 		value: '',
 		label: '是否有参与的视频项目并在省局以上媒体发表情况',
-		span: 24
+		span: 12
 	},
 	fifty: {
 		value: '',
 		label: '是否有参与市局营销竞赛并获奖的情况',
-		span: 24
+		span: 12
 	},
 	fiftyOne: {
 		value: '',
 		label: '是否受到国家局（总公司）表彰',
-		span: 24
+		span: 12
 	},
 	fiftyTwo: {
 		value: '',
 		label: '是否受到省局（公司）表彰',
-		span: 24
+		span: 12
 	},
 	fiftyThree: {
 		value: '',
@@ -1259,11 +1343,10 @@ const resetForm = () => {
 			}
 		}
 	}
-  .el-form {
-    /* 其他label根据宽度自动撑开 */
-    :deep(.el-form-item) {
-      padding-left: 1vw;
-    }
+}
+.el-dialog {
+  .el-select {
+    width: 100%;
   }
 }
 </style>

@@ -69,37 +69,49 @@
 		</div>
 	</div>
 	<el-dialog v-model="dialogCreateFormVisible" title="新建绩效成绩">
-		<el-form :model="form" :rules="formRules" ref="ruleFormRef">
-      <el-form-item v-for="field, key in formField" :key="field.label" :label="field.label" :prop="key">
-        <template v-if="field.label === '创建时间'">
-          <el-select v-model="form.createdTime" class="m-2" placeholder="选择创建时间">
-            <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
-          </el-select>
-        </template>
-        <template v-else-if="field.label === '岗位'">
-          <el-select v-model="form.post" class="m-2" placeholder="选择岗位">
-            <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
-          </el-select>
-        </template>
-        <template v-else-if="field.label === '姓名'">
-          <el-input v-model="form.name" @blur="autofill" autocomplete="off"></el-input>
-        </template>
-        <template v-else-if="field.label.startsWith('是否')">
-          <el-radio-group v-model="form[key]">
-            <el-radio label="是" />
-            <el-radio label="否" />
-          </el-radio-group>
-        </template>
-        <template v-else-if="field.label === '性别'">
-          <el-radio-group v-model="form[key]">
-            <el-radio label="男" />
-            <el-radio label="女" />
-          </el-radio-group>
-        </template>
-        <template v-else>     
-          <el-input v-model="form[key]" autocomplete="off"></el-input>
-        </template>
-      </el-form-item>
+		<el-form :model="form" :rules="formRules" ref="ruleFormRef" label-position="top" label-width="130px">
+      <el-row>
+        <el-col v-for="field, key in formField" :key="field.label" :span="12">
+          <el-space
+            fill
+            wrap
+            fill-ratio="80"
+            direction="horizontal"
+            style="width: 96%"
+          >
+            <el-form-item :label="field.label" :prop="key">
+              <template v-if="field.label === '创建时间'">
+                <el-select v-model="form.createdTime" class="m-2" placeholder="选择创建时间">
+                  <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
+                </el-select>
+              </template>
+              <template v-else-if="field.label === '岗位'">
+                <el-select v-model="form.post" class="m-2" placeholder="选择岗位">
+                  <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
+                </el-select>
+              </template>
+              <template v-else-if="field.label === '姓名'">
+                <el-input v-model="form.name" @blur="autofill" autocomplete="off"></el-input>
+              </template>
+              <template v-else-if="field.label.startsWith('是否')">
+                <el-radio-group v-model="form[key]">
+                  <el-radio label="是" />
+                  <el-radio label="否" />
+                </el-radio-group>
+              </template>
+              <template v-else-if="field.label === '性别'">
+                <el-radio-group v-model="form[key]">
+                  <el-radio label="男" />
+                  <el-radio label="女" />
+                </el-radio-group>
+              </template>
+              <template v-else>     
+                <el-input v-model="form[key]" autocomplete="off"></el-input>
+              </template>
+            </el-form-item>
+          </el-space>
+        </el-col>
+      </el-row>
 		</el-form>
 		<template #footer>
 			<span class="dialog-footer">
@@ -111,37 +123,49 @@
 		</template>
 	</el-dialog>
 	<el-dialog v-model="dialogEditFormVisible" title="修改绩效成绩">
-		<el-form :model="formEdit" :rules="formEditRules" ref="ruleEditFormRef">
-      <el-form-item v-for="field, key in formEditField" :key="field.label" :label="field.label" :prop="key">
-        <template v-if="field.label === '创建时间'">
-          <el-select v-model="formEdit.createdTime" class="m-2" placeholder="选择创建时间">
-            <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
-          </el-select>
-        </template>
-        <template v-else-if="field.label === '姓名'">
-          <el-input v-model="formEdit.name" @blur="autoEditfill" autocomplete="off"></el-input>
-        </template>
-        <template v-else-if="field.label === '岗位'">
-          <el-select v-model="formEdit.post" class="m-2" placeholder="选择岗位">
-            <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
-          </el-select>
-        </template>
-        <template v-else-if="field.label.startsWith('是否')">
-          <el-radio-group v-model="formEdit[key]">
-            <el-radio label="是" />
-            <el-radio label="否" />
-          </el-radio-group>
-        </template>
-        <template v-else-if="field.label === '性别'">
-          <el-radio-group v-model="formEdit[key]">
-            <el-radio label="男" />
-            <el-radio label="女" />
-          </el-radio-group>
-        </template>
-        <template v-else>     
-          <el-input v-model="formEdit[key]" autocomplete="off"></el-input>
-        </template>
-      </el-form-item>
+		<el-form :model="formEdit" :rules="formEditRules" ref="ruleEditFormRef"  label-position="top" label-width="130px">
+      <el-row>
+        <el-col  v-for="field, key in formEditField" :key="field.label" :span="12"> 
+          <el-space
+            fill
+            wrap
+            fill-ratio="80"
+            direction="horizontal"
+            style="width: 96%"
+          >
+          <el-form-item :label="field.label" :prop="key">
+            <template v-if="field.label === '创建时间'">
+              <el-select v-model="formEdit.createdTime" class="m-2" placeholder="选择创建时间">
+                <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
+              </el-select>
+            </template>
+            <template v-else-if="field.label === '姓名'">
+              <el-input v-model="formEdit.name" @blur="autoEditfill" autocomplete="off"></el-input>
+            </template>
+            <template v-else-if="field.label === '岗位'">
+              <el-select v-model="formEdit.post" class="m-2" placeholder="选择岗位">
+                <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
+              </el-select>
+            </template>
+            <template v-else-if="field.label.startsWith('是否')">
+              <el-radio-group v-model="formEdit[key]">
+                <el-radio label="是" />
+                <el-radio label="否" />
+              </el-radio-group>
+            </template>
+            <template v-else-if="field.label === '性别'">
+              <el-radio-group v-model="formEdit[key]">
+                <el-radio label="男" />
+                <el-radio label="女" />
+              </el-radio-group>
+            </template>
+            <template v-else>     
+              <el-input v-model="formEdit[key]" autocomplete="off"></el-input>
+            </template>
+          </el-form-item>
+          </el-space>
+        </el-col>
+      </el-row>
 		</el-form>
 		<template #footer>
 			<span class="dialog-footer">
@@ -532,5 +556,10 @@ const handleUploadError =(res: string) => {
 			}
 		}
 	}
+}
+.el-dialog {
+    .el-select {
+        width: 100%;
+    }
 }
 </style>
