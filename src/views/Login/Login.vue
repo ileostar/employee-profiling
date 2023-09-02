@@ -21,10 +21,10 @@
 					autocomplete="off"
 				/>
 			</el-form-item>
-			<!-- <el-form-item class="code item" label="验证码" prop="code" >
+			<el-form-item class="code item" label="验证码" prop="code" >
 				<el-input v-model="ruleForm.username" type="text" autocomplete="off" />
         <img class="codeImg">
-			</el-form-item> -->
+			</el-form-item>
 			<el-form-item class="login-button">
 				<el-button type="primary" @click="submitForm(ruleFormRef)"  @keydown.enter="keyDown($event)">
 					登陆
@@ -149,7 +149,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
   }
 	.el-form {
 		width: 390px;
-		height: 290px;
+		height: 330px;
 		padding: 30px;
 		box-sizing: border-box;
 		background-color: #b9b9b9;

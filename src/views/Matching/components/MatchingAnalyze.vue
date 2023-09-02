@@ -210,7 +210,6 @@ const handleStringLength = (item:string) => {
 
 // 人岗匹配切换编号分析表单
 const changeEmloyeeNumber = async () => {
-  
 	const res2 = await api.getPostFeaturesByNumberAndPost({createdTime:createdTime.value,number:Number(currentEmloyeeNumber.value),post:formPersonPost.value.post})
 
 	if(res2.data.state === 200){
@@ -272,7 +271,9 @@ const onSubmitPersonPost =(formEl: FormInstance | undefined) => {
 					currentTagAnalyzeResult.value.name = formPersonPost.value.name
 					currentTagAnalyzeResult.value.employeeTag = res2.data.data.employeeGoodFeaturesMessage.filter( (item:string) => item != null)
 					currentTagAnalyzeResult.value.postTag = res2.data.data.postGoodFeaturesMessage
-				}       
+				} else {
+					ElMessage.error(res.data.message)
+				}
 			}else {
 				ElMessage.error('请正确填写表单！')
 				return false
@@ -286,14 +287,16 @@ const onSubmitPostMatching = (formEl: FormInstance | undefined) => {
 	if (!formEl) return
 	formEl.validate(async (valid) => {
 		if (valid) {
-			const res = await api.findPostFactorDesc({ ...formPostMatching.value,createdTime: createdTime.value })
+			const res = await api.getEmployeeAndPostSuit({ ...formPostMatching.value,createdTime: createdTime.value })
 			if(res.data.state === 200) {
 				analyzePostMatching.value = true
 				currentPostMatchingTable.value = res.data.data
-			}else {
-				ElMessage.error('请正确填写表单！')
-				return false
+			} else {
+				ElMessage.error(res.data.message)
 			}
+		} else {
+			ElMessage.error('请正确填写表单！')
+			return false
 		}
 	})
 }

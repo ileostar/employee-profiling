@@ -140,6 +140,7 @@ const handleAnalyze = async () => {
 			req[key as keyof typeof overallOptions] = value;
 		}
 	}
+  
 	const res = await api.overallPortrait({
 		...req,
 		...ageGroup.value

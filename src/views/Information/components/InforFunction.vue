@@ -76,7 +76,7 @@
       </a>
 		</div>
 	</div>
-	<el-dialog class="dialogCreate" v-model="dialogCreateFormVisible" @close="resetForm" title="新建员工信息">
+	<el-dialog class="dialogCreate"  v-model="dialogCreateFormVisible" @close="resetForm" title="新建员工信息">
 		<el-form :model="form" :rules="formRules" ref="ruleFormRef"  label-position="top" label-width="130px"> 
       <el-row>
         <el-col v-for="(field, key) in formField" :key="field.label" :span="12">

@@ -30,6 +30,7 @@ export default {
 		return http.get('/user/updateByUsername', params)
 	},
 
+
 	/**
 	 * @desc 标签接口
 	 */
@@ -140,6 +141,10 @@ export default {
 	getEmployeeNiceFeatures: (params: { createdTime: string, number: number }) => {
 		// 查询员工信息所有单位的方法
 		return http.get('/employee/EmployeeNiceFeatures',params)
+	},
+	getEmployeeAndPostSuit: (params: { createdTime: string, post: string }) => {
+		// 查询员工信息所有单位的方法
+		return http.get('/employee/EmployeeAndPostSuit',params)
 	},
 
 	/**
