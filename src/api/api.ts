@@ -146,6 +146,10 @@ export default {
 		// 查询员工信息所有单位的方法
 		return http.get('/employee/EmployeeAndPostSuit',params)
 	},
+	findByCreatedTimeAndCondition: (params: { createdTime: string, conditions: string, pageNum: number, pageSize: number }) => {
+		// 查询员工信息所有单位的方法
+		return http.get('/employee/findByCreatedTimeAndCondition',params)
+	},
 
 	/**
 	 * @desc 绩效接口

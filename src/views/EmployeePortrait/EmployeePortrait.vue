@@ -4,11 +4,12 @@
 			<div class="portrait-aside-header">
 				<p class="aside-title">员工</p>
 				<el-input
-					v-model="input3"
+					v-model="searchInput"
 					class="w-50 m-2"
 					size="small"
 					placeholder="姓名、编号、单位、岗位"
 					:prefix-icon="Search"
+          @input="handleSearch"
 				/>
 			</div>
 			<div class="portrait-aside-body">
@@ -38,20 +39,82 @@ import EmployeeInfo from './components/EmployeeInfo.vue'
 import { EmployeeName, useEmployeeStore } from '@/stores/employee'
 import { storeToRefs } from 'pinia'
 import api from '@/api/api'
+import * as _ from 'lodash'
 
 const employeeStore = useEmployeeStore()
 const { createdTime, EmployeeNameList, pageNumber,currentEmployee } = storeToRefs(employeeStore)
 
-const handlePageChange = async (value: number) => {
-	const res = await api.selectAllEmployee({ createdTime: createdTime.value, pageNum: value, pageSize: 12 });
-	if (res.data.state === 200) {
-		employeeStore.updateEmployeeNameList(res.data.data);
-	} 
-}
-
-const input3 = ref('')
+const searchInput = ref('')
 const value = ref(false)
 
+/**
+ * 防抖函数
+ * Creates a debounced version of a function that delays its execution until after a specified delay period.
+ * 
+ * @param {function} func - The original function to be debounced.
+ * @param {number} delay - The delay period in milliseconds.
+ * @return {function} - The debounced version of the original function.
+ */
+function debounce<T extends (...args: any[]) => void>(func: T, delay: number): (...args: Parameters<T>) => void {
+	let timerId: ReturnType<typeof setTimeout>;
+
+	return function(this: unknown, ...args: Parameters<T>): void {
+		const context = this as unknown as T;
+
+		clearTimeout(timerId);
+
+		timerId = setTimeout(function() {
+			func.apply(context, args);
+		}, delay);
+	}
+}
+
+const search = async () => {
+	if(!_.isEmpty(searchInput.value)){
+		console.log(searchInput.value);
+		const res = await api.findByCreatedTimeAndCondition({createdTime: createdTime.value, pageNum: 1, pageSize: 12,conditions: searchInput.value });
+		if (res.data.state === 200) {
+			employeeStore.updateEmployeeNameList(res.data.data);
+			pageNumber.value = res.data.message
+		} 
+	} else {
+		const res1 = await api.selectAllEmployee({ createdTime: createdTime.value, pageNum: 1, pageSize: 12 });
+		if (res1.data.state === 200) {
+			employeeStore.updateEmployeeNameList(res1.data.data);
+			pageNumber.value = res1.data.message
+		} 
+	}
+}
+
+const handleSearch = debounce(search, 1500)
+
+/**
+ * Handles the page change event.
+ *
+ * @param {number} value - The new page number.
+ * @return {Promise<void>} - A promise that resolves when the page change is handled.
+ */
+const handlePageChange = async (value: number) => {
+	if(_.isEmpty(searchInput.value)) {
+		const res = await api.selectAllEmployee({ createdTime: createdTime.value, pageNum: value, pageSize: 12 });
+		if (res.data.state === 200) {
+			employeeStore.updateEmployeeNameList(res.data.data);
+		} 
+	} else {
+		const res = await api.findByCreatedTimeAndCondition({createdTime: createdTime.value, pageNum: value, pageSize: 12,conditions: searchInput.value });
+		if (res.data.state === 200) {
+			employeeStore.updateEmployeeNameList(res.data.data);
+			pageNumber.value = res.data.message
+		} 
+	}
+}
+
+/**
+ * Handles the selection of an item.
+ *
+ * @param {EmployeeName} item - The item that was selected.
+ * @return {Promise<void>} Returns a promise that resolves when the selection is handled.
+ */
 const handleSelect = async (item: EmployeeName) => {
 	currentEmployee.value = item.name
 	// 查询当前员工信息
