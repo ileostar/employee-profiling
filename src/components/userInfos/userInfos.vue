@@ -1,9 +1,8 @@
 <template>
 	<div class="userInfos">
 		<div class="user-avatar">
-      <el-upload class="avatar" action="#" list-type="picture-card" :auto-upload="false">
-        <img :src="infos.avatar" alt="">
-    
+      <img :src="infos.role === '管理员'?Administrator:OrdinaryUser" alt="">
+      <!-- <el-upload class="avatar" action="#" list-type="picture-card" :auto-upload="false">  
         <template #file="{ file }">
           <div>
             <img class="el-upload-list__item-thumbnail" :src="file.url" alt="" />
@@ -31,7 +30,7 @@
             </span>
           </div>
         </template>
-      </el-upload>
+      </el-upload> -->
     
       <el-dialog v-model="dialogVisible">
         <img w-full :src="dialogImageUrl" alt="Preview Image" />
@@ -56,34 +55,23 @@
 <script lang="ts" setup>
 import api from '@/api/api'
 import { useUsersStore } from '@/stores/users'
-import { ElMessage, UploadFile } from 'element-plus'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
+import Administrator from '@/assets/images/管理员.png'
+import OrdinaryUser from '@/assets/images/普通用户.png'
+import { ElMessage } from 'element-plus'
 
 const userStore = useUsersStore()
 const { infos } = storeToRefs(userStore)
 
 const dialogImageUrl = ref('')
 const dialogVisible = ref(false)
-const disabled = ref(false)
-
-const handleRemove = (file: UploadFile) => {
-	console.log(file)
-}
 
 onMounted(() => {
 	console.log(infos.value.avatar);
   
 })
 
-const handlePictureCardPreview = (file: UploadFile) => {
-	dialogImageUrl.value = file.url!
-	dialogVisible.value = true
-}
-
-const handleDownload = (file: UploadFile) => {
-	console.log(file)
-}
 const drawer = defineProps(['drawer'])
 
 const editUserInfos = async () => {
