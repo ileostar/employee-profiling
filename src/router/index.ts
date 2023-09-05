@@ -31,6 +31,8 @@ const OverallPortrait = () => import('@/views/OverallPortrait/OverallPortrait.vu
 const PositionPortrait = () => import('@/views/PositionPortrait/PositionPortrait.vue')
 // 人岗匹配
 const Matching = () => import('@/views/Matching/Matching.vue')
+// 模型修改
+const ModelModification = () => import('@/views/ModelModification/ModelModification.vue')
 // 缺省页
 const NotFound = () => import('@/views/NotFound/NotFound.vue')
 const NotAuth = () => import('@/views/NotAuth/NotAuth.vue')
@@ -316,6 +318,17 @@ const routes: Array<RouteRecordRaw> = [
 					menu: true,
 					title: '人岗匹配',
 					icon: '#icon-gangweixinxi',
+				},
+			},
+			{
+				path: '/modelModification',
+				name: 'ModelModification',
+				component: ModelModification,
+				meta: {
+					auth: true,
+					menu: true,
+					title: '模型修改',
+					icon: '#icon-moxingjiexi',
 				},
 			},
 		],

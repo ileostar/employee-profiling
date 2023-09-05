@@ -68,6 +68,14 @@
 				<use :xlink:href="Matching.meta?.icon"></use>
 			</svg>
 			<span>{{ Matching.meta?.title }}</span>
+		</el-menu-item>		
+    
+    <!-- 模型修改 -->
+		<el-menu-item v-if="ModelModificationAuth()" :index="ModelModification.path">
+			<svg class="icon" aria-hidden="true">
+				<use :xlink:href="ModelModification.meta?.icon"></use>
+			</svg>
+			<span>{{ ModelModification.meta?.title }}</span>
 		</el-menu-item>
 	</el-menu>
 </template>
@@ -92,11 +100,13 @@ const updatedObj = {
 		infos.value.role === '普通用户' ? item.name !== 'AccountManage' : true,
 	),
 }
+const ModelModificationAuth = () => infos.value.role === '普通用户' ? false : true
 
 const maintenance = [updatedObj]
 const employeePortrait = menu![1]
 const postPortrait = [menu![2]]
 const Matching = menu![3]
+const ModelModification = menu![4]
 
 // console.log('menus:',menus[0].children[0]);
 const handleOpen = (key: string, keyPath: string[]) => {
