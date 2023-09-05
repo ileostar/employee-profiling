@@ -50,7 +50,7 @@ interface Http {
 	) => Promise<AxiosResponse>
 	post: (
 		url: string,
-		data?: Data,
+		data?: Data | Array<string>,
 		config?: AxiosRequestConfig,
 	) => Promise<AxiosResponse>
 	put: (

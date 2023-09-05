@@ -29,6 +29,11 @@ export default {
 		// 修改用户名方法需要传入id和用户名
 		return http.get('/user/updateByUsername', params)
 	},
+	getVerifyCode: () => {
+		// 验证码
+		return http.get('/verifyCode')
+	},
+
 
 
 	/**
@@ -209,5 +214,18 @@ export default {
 	findByNumberAndCreatedTime: (params: { createdTime: string,number: number }) => {
 		//  用于右上角的查询，根据岗位和员工编号或岗位和员工姓名进行查询，注意编号和姓名的数据类型是不一样的，会根据传入的数据自动判断是姓名还是编号
 		return http.get('/performane/findByNumberAndCreatedTime', params)
+	},
+
+	/**
+	 * @desc 人岗匹配分析接口
+	 */
+	searchLabel: (params: string) => {
+		//  标签信息过滤方法，需要传入要求信息
+		return http.get('/Tdetails/searchLabel/'+ params)
+	},
+	searchemployee: (params: Array<string>) => {
+		//  标签信息过滤方法，需要传入要求信息
+		return http.post('/Tdetails/searchemployee', params)
 	}
+
 }

@@ -56,6 +56,10 @@ export const useMatchingStore = defineStore('matching', () => {
 
 	const PersonPostTableData = ref<Array<TableData>>([])
 
+	// 人岗匹配分析表格数据
+	const tableData = ref([])
+	const textarea = ref('')
+
 	return { 
 		PersonPostTableData,
 		formPersonPost,
@@ -63,10 +67,12 @@ export const useMatchingStore = defineStore('matching', () => {
 		currentTagAnalyzeResult,
 		formPostMatching,
 		currentPostMatchingTable,
-		currentEmloyeeNumber
+		currentEmloyeeNumber,
+		tableData,
+		textarea
 	}
 },{
 	persist:{
-		paths: ['formPersonPost','currentEmloyeeNumber','PersonPostTableData','emloyeeNumberOptions','currentTagAnalyzeResult','formPostMatching','currentPostMatchingTable']
+		paths: ['formPersonPost','textarea','currentEmloyeeNumber','PersonPostTableData','emloyeeNumberOptions','currentTagAnalyzeResult','formPostMatching','currentPostMatchingTable','tableData']
 	}
 })
