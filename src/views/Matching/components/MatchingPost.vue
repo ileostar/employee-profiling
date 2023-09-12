@@ -18,7 +18,13 @@
 			<noResultYet class="noResultYet" :size="350" :isShow="!isShowTable">
         <template v-slot:default>        
           <el-table :data="tableData" stripe style="width: 100%;height: 100%;" :scrollbar-always-on="true">
-            <el-table-column v-for="item, index in tableEmployee" :key="item.value" :prop="index" :width="item.width" :label="item.label" sortable/>
+            <!-- <el-table-column v-for="item, index in tableEmployee" :key="item.value" :prop="index" :width="item.width" :label="item.label" sortable/> -->
+            <el-table-column  prop="number" width="140" label="员工编号" sortable/>
+            <el-table-column  prop="name"  label="员工姓名" sortable/>
+            <el-table-column  prop="age" width="160" label="年龄" sortable/>
+            <el-table-column  prop="post" width="140" label="目前岗位" sortable/>
+            <el-table-column  prop="unit" width="140" label="单位" sortable/>
+            <el-table-column  prop="factor" width="160" label="与当前岗位匹配度" sortable/>
           </el-table>
         </template>
 			</noResultYet>
@@ -70,15 +76,12 @@ import noResultYet from '@/components/noResultYet/noResultYet.vue'
 import * as _ from 'lodash'
 import { ElMessage } from 'element-plus'
 import api from '@/api/api'
-import { useEmployeeStore } from '@/stores/employee'
 import { storeToRefs } from 'pinia'
 import { useMatchingStore } from '@/stores/Matching'
 
 const example = '例：我需要一个体力好，有服务意识，并且具备开发能力的员工'
 
-const EmployeeStore = useEmployeeStore()
 const MatchingStore = useMatchingStore()
-const { tableEmployee } = storeToRefs(EmployeeStore)
 const { tableData,textarea } = storeToRefs(MatchingStore)
 
 onMounted(() => {
@@ -102,6 +105,8 @@ const AllTags = ref<Array<string>>([])
 const judgment = () => {
 	if(!_.isEmpty(tableData)) {
 		isShowTable.value = true
+	} else {
+		isShowTable.value = false
 	}
 }
 
@@ -200,6 +205,7 @@ const submitTags = async () => {
     .noResultYet {
       display: block;
       height: 47vh;
+      width: 75%;
       .el-table {
         width: 100%;
         height: 100%;

@@ -1,5 +1,5 @@
 import http from '../util/http'
-import { Performance, AnalyzeRelation, Employee, LoginReg, OverallPortrait, Search, SelectAllEmployee, Tag, fixPassword, fixUsername } from './type'
+import { Performance, AnalyzeRelation, Employee, LoginReg, OverallPortrait, Search, SelectAllEmployee, Tag, fixPassword, fixUsername, updatePassword } from './type'
 
 export default {
 	/**
@@ -29,12 +29,10 @@ export default {
 		// 修改用户名方法需要传入id和用户名
 		return http.get('/user/updateByUsername', params)
 	},
-	getVerifyCode: () => {
-		// 验证码
-		return http.get('/verifyCode')
+	updatePassword: (params: updatePassword) => {
+		// 修改用户名方法需要传入id和用户名
+		return http.get('/user/updatePassword', params)
 	},
-
-
 
 	/**
 	 * @desc 标签接口
@@ -155,6 +153,11 @@ export default {
 		// 查询员工信息所有单位的方法
 		return http.get('/employee/findByCreatedTimeAndCondition',params)
 	},
+	getVerifyCode: () => {
+		// 查询员工信息所有单位的方法
+		return http.get('/verifyCode')
+	},
+
 
 	/**
 	 * @desc 绩效接口

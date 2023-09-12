@@ -22,8 +22,8 @@
 				/>
 			</el-form-item>
 			<el-form-item class="code item" label="验证码" prop="code" >
-				<el-input v-model="ruleForm.username" type="text" autocomplete="off" />
-        <img class="codeImg">
+				<el-input v-model="ruleForm.code" type="text" autocomplete="off" />
+        <img id="codeImg" :src="imgUrl" class="codeImg" @click="refreshImage">
 			</el-form-item>
 			<el-form-item class="login-button">
 				<el-button type="primary" @click="submitForm(ruleFormRef)"  @keydown.enter="keyDown($event)">
@@ -51,6 +51,8 @@ const userStore = useUsersStore()
 
 const ruleFormRef = ref<FormInstance>()
 
+const imgUrl = ref()
+
 // 自定义表单校验规则
 const username = (_rule: any, value: any, callback: any) => {
 	if (value === '') {
@@ -66,26 +68,30 @@ const password = (_rule: any, value: any, callback: any) => {
 		callback()
 	}
 }
+const code = (_rule: any, value: any, callback: any) => {
+	if (value === '') {
+		callback(new Error('请输入验证码'))
+	} else {
+		callback()
+	}
+}
 
 // 表单
 const ruleForm = reactive({
 	username: '',
 	password: '',
+	code: ''
 })
 
 // 表单校验
 const rules = reactive<FormRules>({
 	username: [{ validator: username, trigger: 'blur' }],
 	password: [{ validator: password, trigger: 'blur' }],
+	code: [{ validator: code, trigger: 'blur' }],
 })
 
-// 回车键登录
-const keyDown = (e: { keyCode: number }) => {
-	if (e.keyCode == 13 || e.keyCode == 100) {
-		submitForm(ruleFormRef.value)
-	}
-}
 onMounted(() => {
+	refreshImage()
 	//绑定监听事件
 	window.addEventListener('keydown', keyDown)
 });
@@ -111,6 +117,7 @@ const submitForm = function (formEl: FormInstance | undefined) {
 				router.push('/')
 			} else {
 				ElMessage.error(res.data.message)
+				return false
 			}
 		} else {
 			ElMessage.error('请正确填写表单！')
@@ -119,10 +126,22 @@ const submitForm = function (formEl: FormInstance | undefined) {
 	})
 }
 
+// 回车键登录
+const keyDown = (e: { keyCode: number }) => {
+	if (e.keyCode == 13 || e.keyCode == 100) {
+		submitForm(ruleFormRef.value)
+	}
+}
 // 重置表单
 const resetForm = (formEl: FormInstance | undefined) => {
 	if (!formEl) return
 	formEl.resetFields()
+}
+
+// 刷新验证码
+const refreshImage = () => {
+	// 修改图片的src属性，添加一个时间戳参数来刷新图片
+	imgUrl.value = import.meta.env.VITE_AXIOS_BASE_URI+'/verifyCode?' + Date.now();
 }
 </script>
 
@@ -174,7 +193,6 @@ const resetForm = (formEl: FormInstance | undefined) => {
         flex: 1;
         padding-left: 10px;
         height: 100%;
-        border-radius: 4px;
         cursor: pointer;
       }
     }
@@ -195,6 +213,7 @@ const resetForm = (formEl: FormInstance | undefined) => {
 
 		.el-form-item {
 			margin-bottom: 19px;
+      
 		}
 
 		.title {

@@ -1,0 +1,153 @@
+Date : 2023-09-12 21:17:00
+Directory : e:\hc\外包\employee-Profiling
+Total : 70 files,  15673 codes, 178 comments, 1442 blanks, all 17293 lines
+
+Languages
++--------------------+------------+------------+------------+------------+------------+
+| language           | files      | code       | comment    | blank      | total      |
++--------------------+------------+------------+------------+------------+------------+
+| YAML               |          3 |      5,700 |          0 |        877 |      6,577 |
+| Vue                |         36 |      5,687 |         42 |        358 |      6,087 |
+| XML                |          3 |      2,216 |          0 |          1 |      2,217 |
+| TypeScript         |         16 |      1,583 |        100 |        130 |      1,813 |
+| SCSS               |          3 |        278 |         12 |         57 |        347 |
+| JSON               |          2 |         92 |          0 |          2 |         94 |
+| JavaScript         |          3 |         60 |         17 |          4 |         81 |
+| JSON with Comments |          1 |         25 |          7 |          4 |         36 |
+| Markdown           |          1 |         13 |          0 |          8 |         21 |
+| HTML               |          1 |         13 |          0 |          1 |         14 |
+| Properties         |          1 |          6 |          0 |          0 |          6 |
++--------------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                 | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                    |         70 |     15,673 |        178 |      1,442 |     17,293 |
+| . (Files)                                                                            |         12 |      5,956 |         32 |        900 |      6,888 |
+| public                                                                               |          1 |      2,214 |          0 |          1 |      2,215 |
+| src                                                                                  |         57 |      7,503 |        146 |        541 |      8,190 |
+| src (Files)                                                                          |          3 |         57 |          1 |         15 |         73 |
+| src\api                                                                              |          2 |        272 |         66 |         17 |        355 |
+| src\assets                                                                           |          2 |          2 |          0 |          0 |          2 |
+| src\assets\svg                                                                       |          2 |          2 |          0 |          0 |          2 |
+| src\components                                                                       |          5 |        337 |         29 |         26 |        392 |
+| src\components\employeeTagCard                                                       |          1 |         38 |          0 |          3 |         41 |
+| src\components\loading                                                               |          1 |         69 |          0 |          4 |         73 |
+| src\components\noResultYet                                                           |          1 |         32 |          0 |          3 |         35 |
+| src\components\svgIcon                                                               |          1 |         35 |          0 |          3 |         38 |
+| src\components\userInfos                                                             |          1 |        163 |         29 |         13 |        205 |
+| src\declare                                                                          |          1 |          9 |          0 |          2 |         11 |
+| src\layouts                                                                          |          4 |        255 |          6 |         23 |        284 |
+| src\layouts (Files)                                                                  |          1 |         39 |          1 |          3 |         43 |
+| src\layouts\components                                                               |          3 |        216 |          5 |         20 |        241 |
+| src\router                                                                           |          1 |        379 |         12 |         13 |        404 |
+| src\stores                                                                           |          8 |        753 |         11 |         75 |        839 |
+| src\styles                                                                           |          3 |        278 |         12 |         57 |        347 |
+| src\util                                                                             |          2 |         89 |          2 |          8 |         99 |
+| src\views                                                                            |         26 |      5,072 |          7 |        305 |      5,384 |
+| src\views\AccountManage                                                              |          1 |        193 |          0 |         20 |        213 |
+| src\views\Charts                                                                     |          4 |        420 |          1 |         33 |        454 |
+| src\views\Charts (Files)                                                             |          1 |         56 |          1 |          3 |         60 |
+| src\views\Charts\components                                                          |          3 |        364 |          0 |         30 |        394 |
+| src\views\EmployeePortrait                                                           |          2 |        562 |          0 |         25 |        587 |
+| src\views\EmployeePortrait (Files)                                                   |          1 |        188 |          0 |         13 |        201 |
+| src\views\EmployeePortrait\components                                                |          1 |        374 |          0 |         12 |        386 |
+| src\views\Information                                                                |          3 |      1,430 |          2 |         50 |      1,482 |
+| src\views\Information (Files)                                                        |          1 |         33 |          1 |          3 |         37 |
+| src\views\Information\components                                                     |          2 |      1,397 |          1 |         47 |      1,445 |
+| src\views\Login                                                                      |          1 |        211 |          1 |         24 |        236 |
+| src\views\Matching                                                                   |          3 |        699 |          1 |         48 |        748 |
+| src\views\Matching (Files)                                                           |          1 |         78 |          1 |          6 |         85 |
+| src\views\Matching\components                                                        |          2 |        621 |          0 |         42 |        663 |
+| src\views\ModelModification                                                          |          1 |         43 |          0 |          2 |         45 |
+| src\views\NotAuth                                                                    |          1 |         11 |          0 |          3 |         14 |
+| src\views\NotFound                                                                   |          1 |         11 |          0 |          3 |         14 |
+| src\views\NotServer                                                                  |          1 |         11 |          0 |          3 |         14 |
+| src\views\OverallPortrait                                                            |          2 |        286 |          0 |         17 |        303 |
+| src\views\OverallPortrait (Files)                                                    |          1 |        118 |          0 |          6 |        124 |
+| src\views\OverallPortrait\components                                                 |          1 |        168 |          0 |         11 |        179 |
+| src\views\Performance                                                                |          3 |        655 |          1 |         39 |        695 |
+| src\views\Performance (Files)                                                        |          1 |         33 |          1 |          3 |         37 |
+| src\views\Performance\components                                                     |          2 |        622 |          0 |         36 |        658 |
+| src\views\PositionPortrait                                                           |          1 |        157 |          0 |          8 |        165 |
+| src\views\Register                                                                   |          1 |        175 |          1 |         15 |        191 |
+| src\views\TagManage                                                                  |          1 |        208 |          0 |         15 |        223 |
++--------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| filename                                                                             | language           | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+
+| e:\hc\外包\employee-Profiling\.env                                                     | Properties         |          6 |          0 |          0 |          6 |
+| e:\hc\外包\employee-Profiling\.eslintrc.yml                                            | YAML               |         30 |          0 |          1 |         31 |
+| e:\hc\外包\employee-Profiling\.prettierrc.yaml                                         | YAML               |         17 |          0 |          1 |         18 |
+| e:\hc\外包\employee-Profiling\README.md                                                | Markdown           |         13 |          0 |          8 |         21 |
+| e:\hc\外包\employee-Profiling\commitlint.config.cjs                                    | JavaScript         |          6 |          4 |          1 |         11 |
+| e:\hc\外包\employee-Profiling\index.html                                               | HTML               |         13 |          0 |          1 |         14 |
+| e:\hc\外包\employee-Profiling\package.json                                             | JSON               |         82 |          0 |          1 |         83 |
+| e:\hc\外包\employee-Profiling\pnpm-lock.yaml                                           | YAML               |      5,653 |          0 |        875 |      6,528 |
+| e:\hc\外包\employee-Profiling\public\logo.svg                                          | XML                |      2,214 |          0 |          1 |      2,215 |
+| e:\hc\外包\employee-Profiling\src\App.vue                                              | Vue                |         23 |          0 |          4 |         27 |
+| e:\hc\外包\employee-Profiling\src\api\api.ts                                           | TypeScript         |        157 |         66 |          8 |        231 |
+| e:\hc\外包\employee-Profiling\src\api\type.ts                                          | TypeScript         |        115 |          0 |          9 |        124 |
+| e:\hc\外包\employee-Profiling\src\assets\svg\noResultTwo.svg                           | XML                |          1 |          0 |          0 |          1 |
+| e:\hc\外包\employee-Profiling\src\assets\svg\noResultYet.svg                           | XML                |          1 |          0 |          0 |          1 |
+| e:\hc\外包\employee-Profiling\src\components\employeeTagCard\employeeTagCard.vue       | Vue                |         38 |          0 |          3 |         41 |
+| e:\hc\外包\employee-Profiling\src\components\loading\loading.vue                       | Vue                |         69 |          0 |          4 |         73 |
+| e:\hc\外包\employee-Profiling\src\components\noResultYet\noResultYet.vue               | Vue                |         32 |          0 |          3 |         35 |
+| e:\hc\外包\employee-Profiling\src\components\svgIcon\svgIcon.vue                       | Vue                |         35 |          0 |          3 |         38 |
+| e:\hc\外包\employee-Profiling\src\components\userInfos\userInfos.vue                   | Vue                |        163 |         29 |         13 |        205 |
+| e:\hc\外包\employee-Profiling\src\declare\myenv.d.ts                                   | TypeScript         |          9 |          0 |          2 |         11 |
+| e:\hc\外包\employee-Profiling\src\layouts\Home.vue                                     | Vue                |         39 |          1 |          3 |         43 |
+| e:\hc\外包\employee-Profiling\src\layouts\components\HomeAside.vue                     | Vue                |        126 |          5 |         12 |        143 |
+| e:\hc\外包\employee-Profiling\src\layouts\components\HomeHeader.vue                    | Vue                |         83 |          0 |          5 |         88 |
+| e:\hc\外包\employee-Profiling\src\layouts\components\HomeMain.vue                      | Vue                |          7 |          0 |          3 |         10 |
+| e:\hc\外包\employee-Profiling\src\main.ts                                              | TypeScript         |         25 |          0 |          8 |         33 |
+| e:\hc\外包\employee-Profiling\src\router\index.ts                                      | TypeScript         |        379 |         12 |         13 |        404 |
+| e:\hc\外包\employee-Profiling\src\stores\Matching.ts                                   | TypeScript         |         65 |          4 |         10 |         79 |
+| e:\hc\外包\employee-Profiling\src\stores\chart.ts                                      | TypeScript         |         54 |          2 |          7 |         63 |
+| e:\hc\外包\employee-Profiling\src\stores\employee.ts                                   | TypeScript         |        471 |          4 |         25 |        500 |
+| e:\hc\外包\employee-Profiling\src\stores\loading.ts                                    | TypeScript         |          9 |          1 |          5 |         15 |
+| e:\hc\外包\employee-Profiling\src\stores\performance.ts                                | TypeScript         |         40 |          0 |          7 |         47 |
+| e:\hc\外包\employee-Profiling\src\stores\post.ts                                       | TypeScript         |         50 |          0 |          7 |         57 |
+| e:\hc\外包\employee-Profiling\src\stores\tag.ts                                        | TypeScript         |         17 |          0 |          5 |         22 |
+| e:\hc\外包\employee-Profiling\src\stores\users.ts                                      | TypeScript         |         47 |          0 |          9 |         56 |
+| e:\hc\外包\employee-Profiling\src\styles\common.scss                                   | SCSS               |         30 |          1 |          5 |         36 |
+| e:\hc\外包\employee-Profiling\src\styles\iconfont.scss                                 | SCSS               |         47 |          0 |         14 |         61 |
+| e:\hc\外包\employee-Profiling\src\styles\reset.scss                                    | SCSS               |        201 |         11 |         38 |        250 |
+| e:\hc\外包\employee-Profiling\src\util\http.ts                                         | TypeScript         |         88 |          2 |          8 |         98 |
+| e:\hc\外包\employee-Profiling\src\util\iconfont.js                                     | JavaScript         |          1 |          0 |          0 |          1 |
+| e:\hc\外包\employee-Profiling\src\views\AccountManage\AccountManage.vue                | Vue                |        193 |          0 |         20 |        213 |
+| e:\hc\外包\employee-Profiling\src\views\Charts\Charts.vue                              | Vue                |         56 |          1 |          3 |         60 |
+| e:\hc\外包\employee-Profiling\src\views\Charts\components\PostChart.vue                | Vue                |        156 |          0 |         12 |        168 |
+| e:\hc\外包\employee-Profiling\src\views\Charts\components\SmallChart.vue               | Vue                |         79 |          0 |          5 |         84 |
+| e:\hc\外包\employee-Profiling\src\views\Charts\components\TagChart.vue                 | Vue                |        129 |          0 |         13 |        142 |
+| e:\hc\外包\employee-Profiling\src\views\EmployeePortrait\EmployeePortrait.vue          | Vue                |        188 |          0 |         13 |        201 |
+| e:\hc\外包\employee-Profiling\src\views\EmployeePortrait\components\EmployeeInfo.vue   | Vue                |        374 |          0 |         12 |        386 |
+| e:\hc\外包\employee-Profiling\src\views\Information\Information.vue                    | Vue                |         33 |          1 |          3 |         37 |
+| e:\hc\外包\employee-Profiling\src\views\Information\components\InforFunction.vue       | Vue                |      1,333 |          1 |         39 |      1,373 |
+| e:\hc\外包\employee-Profiling\src\views\Information\components\InforTable.vue          | Vue                |         64 |          0 |          8 |         72 |
+| e:\hc\外包\employee-Profiling\src\views\Login\Login.vue                                | Vue                |        211 |          1 |         24 |        236 |
+| e:\hc\外包\employee-Profiling\src\views\Matching\Matching.vue                          | Vue                |         78 |          1 |          6 |         85 |
+| e:\hc\外包\employee-Profiling\src\views\Matching\components\MatchingAnalyze.vue        | Vue                |        404 |          0 |         24 |        428 |
+| e:\hc\外包\employee-Profiling\src\views\Matching\components\MatchingPost.vue           | Vue                |        217 |          0 |         18 |        235 |
+| e:\hc\外包\employee-Profiling\src\views\ModelModification\ModelModification.vue        | Vue                |         43 |          0 |          2 |         45 |
+| e:\hc\外包\employee-Profiling\src\views\NotAuth\NotAuth.vue                            | Vue                |         11 |          0 |          3 |         14 |
+| e:\hc\外包\employee-Profiling\src\views\NotFound\NotFound.vue                          | Vue                |         11 |          0 |          3 |         14 |
+| e:\hc\外包\employee-Profiling\src\views\NotServer\NotServer.vue                        | Vue                |         11 |          0 |          3 |         14 |
+| e:\hc\外包\employee-Profiling\src\views\OverallPortrait\OverallPortrait.vue            | Vue                |        118 |          0 |          6 |        124 |
+| e:\hc\外包\employee-Profiling\src\views\OverallPortrait\components\OverallSelect.vue   | Vue                |        168 |          0 |         11 |        179 |
+| e:\hc\外包\employee-Profiling\src\views\Performance\Performance.vue                    | Vue                |         33 |          1 |          3 |         37 |
+| e:\hc\外包\employee-Profiling\src\views\Performance\components\PerforFunction.vue      | Vue                |        538 |          0 |         28 |        566 |
+| e:\hc\外包\employee-Profiling\src\views\Performance\components\PerforTable.vue         | Vue                |         84 |          0 |          8 |         92 |
+| e:\hc\外包\employee-Profiling\src\views\PositionPortrait\PositionPortrait.vue          | Vue                |        157 |          0 |          8 |        165 |
+| e:\hc\外包\employee-Profiling\src\views\Register\Register.vue                          | Vue                |        175 |          1 |         15 |        191 |
+| e:\hc\外包\employee-Profiling\src\views\TagManage\TagManage.vue                        | Vue                |        208 |          0 |         15 |        223 |
+| e:\hc\外包\employee-Profiling\src\vite-env.d.ts                                        | TypeScript         |          9 |          1 |          3 |         13 |
+| e:\hc\外包\employee-Profiling\tsconfig.json                                            | JSON with Comments |         25 |          7 |          4 |         36 |
+| e:\hc\外包\employee-Profiling\tsconfig.node.json                                       | JSON               |         10 |          0 |          1 |         11 |
+| e:\hc\外包\employee-Profiling\vite.config.ts                                           | TypeScript         |         48 |          8 |          4 |         60 |
+| e:\hc\外包\employee-Profiling\vite.config.ts.timestamp-1693289664872-29d8ff1066e71.mjs | JavaScript         |         53 |         13 |          3 |         69 |
+| Total                                                                                |                    |     15,673 |        178 |      1,442 |     17,293 |
++--------------------------------------------------------------------------------------+--------------------+------------+------------+------------+------------+

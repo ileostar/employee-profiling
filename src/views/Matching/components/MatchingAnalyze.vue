@@ -131,7 +131,7 @@
               >
               <el-table-column fixed prop="number" label="员工编号" width="80" />
               <el-table-column prop="name" label="员工姓名" width="90" />
-              <el-table-column prop="post" label="目前岗位" width="90" />
+              <el-table-column prop="presentlyPost" label="目前岗位" width="90" />
               <el-table-column prop="scores" sortable label="月度绩效" width="110" />
               <el-table-column prop="factor" sortable label="与当前岗位匹配度" />
             </el-table>
@@ -290,7 +290,14 @@ const onSubmitPostMatching = (formEl: FormInstance | undefined) => {
 			const res = await api.getEmployeeAndPostSuit({ ...formPostMatching.value,createdTime: createdTime.value })
 			if(res.data.state === 200) {
 				analyzePostMatching.value = true
-				currentPostMatchingTable.value = res.data.data
+				currentPostMatchingTable.value = res.data.data.map(items=>{
+					const { factor,scores,...item} = items
+					return {
+						factor: Number(factor).toFixed(2),
+						scores: Number(scores).toFixed(2),
+						...item
+					}
+				})
 			} else {
 				ElMessage.error(res.data.message)
 			}

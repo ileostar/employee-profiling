@@ -17,9 +17,10 @@ type emloyeeNumberOption = {
 type Infos = {
 	number: '',
 	name: '',
-	post: '',
+	matchingPost: '',
 	scores: '',
-	factor: ''
+	factor: '',
+  presentlyPost: '',
   [key: string]: unknown
 }
 

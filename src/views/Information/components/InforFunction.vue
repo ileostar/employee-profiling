@@ -304,7 +304,6 @@ const numberInput = ref(['年龄（周岁）','烟草工作年限'])
 const dialogCreateFormVisible = ref(false)
 const dialogInFormVisible = ref(false)
 
-
 // 新建表单
 const form = reactive<Employee>({})
 const formField = reactive({
@@ -1030,7 +1029,22 @@ const nextNum = ref<number>()
 // 上传
 const uploadUrl = import.meta.env.VITE_AXIOS_BASE_URI + 'employee/upload'
 
-const download = import.meta.env.VITE_AXIOS_BASE_URI + 'employee/downloadexcel'
+const download = ref<string>('')
+const params = ref<string>('')
+
+// 支持导出当前页面显示内容
+watchEffect(()=>{
+	if(currentDate.value != ''){
+		params.value = 'createdTime='+currentDate.value
+	}
+	if(search.value != ''){
+		params.value += '&search='+search.value
+	}
+	if(defaultSelect.value != ''){
+		params.value += '&post='+defaultSelect.value
+	}
+	download.value = import.meta.env.VITE_AXIOS_BASE_URI + 'employee/downloadexcel?'+params.value
+})
 
 /**
  * @param: 当前点击岗位对象
@@ -1307,6 +1321,7 @@ const resetForm = () => {
 	form2.value = {}
 	namesake.value = []
 }
+
 </script>
 
 <style lang="scss" scoped>

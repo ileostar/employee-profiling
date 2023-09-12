@@ -12,6 +12,12 @@ export type fixUsername = {
 	username: string
 }
 
+export type updatePassword = {
+	id: number
+	password: string
+  prepassword: string
+}
+
 export type Tag = {
 	id?: number
 	features?: string

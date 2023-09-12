@@ -1,7 +1,5 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
-// import api from '@/api/api'
-// import { ElMessage } from 'element-plus'
 
 type Token = string
 export type Infos = {
@@ -40,15 +38,6 @@ export const useUsersStore = defineStore('users',() => {
 		localStorage.clear()
 	}
 
-	// const getUserVerifyCode = async () => {
-	// 	const res = await api.getVerifyCode()
-	// 	if( res.status === 200 ) {
-      
-	// 	} else {
-	// 		ElMessage.error('验证码获取失败！')
-	// 	}
-	// }
-
 	return {
 		token,
 		infos,
@@ -57,8 +46,7 @@ export const useUsersStore = defineStore('users',() => {
 		updateInfos,
 		updateAllUsers,
 		updatePassword,
-		clearToken,
-		getUserVerifyCode
+		clearToken
 	}
 },{
 	persist: {
