@@ -53,14 +53,14 @@
 	</div>
   <el-dialog v-model="dialogFormVisible" title="修改用户密码">
     <el-form ref="ruleFormRef" :model="form" :rules="rules">
-      <el-form-item label="原密码" props="password" :label-width="formLabelWidth">
-        <el-input v-model="form.password" autocomplete="off" />
+      <el-form-item label="原密码" prop="prepassword" :label-width="formLabelWidth">
+        <el-input v-model="form.prepassword"  type="password" autocomplete="off" show-password />
       </el-form-item>
-      <el-form-item label="新密码" props="prepassword" :label-width="formLabelWidth">
-        <el-input v-model="form.prepassword" autocomplete="off" />
+      <el-form-item label="新密码" prop="password" :label-width="formLabelWidth">
+        <el-input v-model="form.password" type="password" autocomplete="off" />
       </el-form-item>
-      <el-form-item label="确认新密码" props="secondPrepassword" :label-width="formLabelWidth">
-        <el-input v-model="form.secondPrepassword" autocomplete="off" />
+      <el-form-item label="确认新密码" prop="secondPassword" :label-width="formLabelWidth">
+        <el-input v-model="form.secondPassword" type="password" autocomplete="off" />
       </el-form-item>
     </el-form>
     <template #footer>
@@ -92,21 +92,14 @@ const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 
 const form = reactive({
-	password: '',
 	prepassword: '',
-	secondPrepassword: ''
+	password: '',
+	secondPassword: ''
 })
 
 const ruleFormRef = ref<FormInstance>()
 
 // 自定义表单校验规则
-const password = (_rule: any, value: any, callback: any) => {
-	if (value === '') {
-		callback(new Error('请输入密码'))
-	} else {
-		callback()
-	}
-}
 const prepassword = (_rule: any, value: any, callback: any) => {
 	if (value === '') {
 		callback(new Error('请输入密码'))
@@ -114,19 +107,29 @@ const prepassword = (_rule: any, value: any, callback: any) => {
 		callback()
 	}
 }
-const secondPrepassword = (_rule: any, value: any, callback: any) => {
+const password = (_rule: any, value: any, callback: any) => {
 	if (value === '') {
 		callback(new Error('请输入密码'))
 	} else {
 		callback()
 	}
 }
+const secondPassword = (_rule: any, value: any, callback: any) => {
+	if (value === '') {
+		callback(new Error('请输入密码'))
+	} else {
+		if(form.secondPassword!==form.password){
+			callback(new Error('两次密码不一致'))
+		}
+		callback()
+	}
+}
 
 // 表单校验
 const rules = reactive<FormRules>({
-	password: [{ validator: password, trigger: 'blur' }],
 	prepassword: [{ validator: prepassword, trigger: 'blur' }],
-	code: [{ validator: secondPrepassword, trigger: 'blur' }],
+	password: [{ validator: password, trigger: 'blur' }],
+	secondPassword: [{ validator: secondPassword, trigger: 'blur' }],
 })
 
 const drawer = defineProps(['drawer'])

@@ -1038,7 +1038,7 @@ watchEffect(()=>{
 		params.value = 'createdTime='+currentDate.value
 	}
 	if(search.value != ''){
-		params.value += '&search='+search.value
+		params.value += '&conditions='+search.value
 	}
 	if(defaultSelect.value != ''){
 		params.value += '&post='+defaultSelect.value
