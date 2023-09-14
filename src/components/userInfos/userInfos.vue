@@ -53,8 +53,8 @@
 	</div>
   <el-dialog v-model="dialogFormVisible" title="修改用户密码">
     <el-form ref="ruleFormRef" :model="form" :rules="rules">
-      <el-form-item label="原密码" prop="prepassword" :label-width="formLabelWidth">
-        <el-input v-model="form.prepassword"  type="password" autocomplete="off" show-password />
+      <el-form-item label="原密码" prop="prePassword" :label-width="formLabelWidth">
+        <el-input v-model="form.prePassword"  type="password" autocomplete="off" show-password />
       </el-form-item>
       <el-form-item label="新密码" prop="password" :label-width="formLabelWidth">
         <el-input v-model="form.password" type="password" autocomplete="off" />
@@ -92,7 +92,7 @@ const dialogFormVisible = ref(false)
 const formLabelWidth = '140px'
 
 const form = reactive({
-	prepassword: '',
+	prePassword: '',
 	password: '',
 	secondPassword: ''
 })
@@ -100,7 +100,7 @@ const form = reactive({
 const ruleFormRef = ref<FormInstance>()
 
 // 自定义表单校验规则
-const prepassword = (_rule: any, value: any, callback: any) => {
+const prePassword = (_rule: any, value: any, callback: any) => {
 	if (value === '') {
 		callback(new Error('请输入密码'))
 	} else {
@@ -127,7 +127,7 @@ const secondPassword = (_rule: any, value: any, callback: any) => {
 
 // 表单校验
 const rules = reactive<FormRules>({
-	prepassword: [{ validator: prepassword, trigger: 'blur' }],
+	prePassword: [{ validator: prePassword, trigger: 'blur' }],
 	password: [{ validator: password, trigger: 'blur' }],
 	secondPassword: [{ validator: secondPassword, trigger: 'blur' }],
 })
@@ -158,10 +158,10 @@ const editUserPassword = (formEl: FormInstance | undefined) => {
 	formEl.validate(async (valid) => {
 		if(valid) {
 			console.log(valid);
-			const res = await api.updatePassword({id:Number(infos.value.id),password:form.password,prepassword:form.prepassword})
+			const res = await api.updatePassword({id:Number(infos.value.id),password:form.password,prePassword:form.prePassword})
 			if(res.data.state === 200) {
-				infos.value = res.data
 				dialogFormVisible.value = false
+				ElMessage.error('修改成功')
 			}else {
 				ElMessage.error(res.data.message)
 			}
@@ -178,16 +178,12 @@ const editUserPassword = (formEl: FormInstance | undefined) => {
 	padding: 5vh;
 	.user-avatar {
 		display: flex;
-		width: 100%;
 		justify-content: center;
 		margin: 2vh 0;
-		:deep(.el-upload) {
-			border-radius: 50%;
-      overflow: hidden;
-      img {
-        width: 100%;
-      }
-		}
+    img {
+      width: 50%;
+      height: 50%;
+    }
 	}
 	.user-desc {
 		display: flex;

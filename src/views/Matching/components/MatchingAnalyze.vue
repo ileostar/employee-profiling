@@ -290,7 +290,7 @@ const onSubmitPostMatching = (formEl: FormInstance | undefined) => {
 			const res = await api.getEmployeeAndPostSuit({ ...formPostMatching.value,createdTime: createdTime.value })
 			if(res.data.state === 200) {
 				analyzePostMatching.value = true
-				currentPostMatchingTable.value = res.data.data.map(items=>{
+				currentPostMatchingTable.value = res.data.data.map((items: { [x: string]: any; factor: any; scores: any })=>{
 					const { factor,scores,...item} = items
 					return {
 						factor: Number(factor).toFixed(2),

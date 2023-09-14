@@ -15,7 +15,7 @@ export type fixUsername = {
 export type updatePassword = {
 	id: number
 	password: string
-  prepassword: string
+  prePassword: string
 }
 
 export type Tag = {
@@ -93,6 +93,7 @@ export type Employee = {
 export type Search = {
   post?: string
   conditions?: string
+  createdTime?: string
 }
 
 export type AnalyzeRelation = {

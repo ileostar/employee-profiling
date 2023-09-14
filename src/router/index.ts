@@ -157,8 +157,7 @@ const routes: Array<RouteRecordRaw> = [
 							if(_.isEmpty(performanceList.value)) {
 								const res = await api.selectPerformane()
 								if(res.data.state === 200) {
-									performanceStore.updatePerformanceList(res.data.data)
-									console.log('performanceData:',res.data.data);               
+									performanceStore.updatePerformanceList(res.data.data)      
 								} else {
 									return
 								}

@@ -1089,15 +1089,25 @@ const handleUploadError =(res: string) => {
  * @desc: 搜索
  */
 const searchEmployee = async () => {
+	if(search.value===''&&defaultSelect.value==='') { 
+		const res2 = await api.selectEmployee({createdTime: currentDate.value})
+		if(res2.data.state===200) {
+			EmployeeStore.updateEmployeeList(res2.data.data)
+		}
+		ElMessage.success('查询成功!')
+		return
+	}
 	const req = ref({})
-	if(search.value===''&&defaultSelect.value==='') return
 	if(search.value!==''&&defaultSelect.value==='') req.value = {
+		createdTime: currentDate.value,
 		conditions: search.value
 	}
 	if(defaultSelect.value!==''&&search.value==='') req.value = {
+		createdTime: currentDate.value,
 		post: defaultSelect.value
 	}
 	if(defaultSelect.value!==''&&search.value!=='') req.value = {
+		createdTime: currentDate.value,
 		post: defaultSelect.value,
 		conditions: search.value
 	}

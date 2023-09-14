@@ -211,11 +211,14 @@ import { usePostStore } from '@/stores/post'
 import api from '@/api/api'
 import { usePerformanceStore } from '@/stores/performance'
 import { ElMessage, FormInstance } from 'element-plus'
+import { useEmployeeStore } from '@/stores/employee'
 
 const PostStore = usePostStore()
+const EmployeeStore = useEmployeeStore()
 const performanceStore = usePerformanceStore()
 const { postData: select } = storeToRefs(PostStore)
 const { dialogEditFormVisible,formEdit } = storeToRefs(performanceStore)
+const { createdTime } = storeToRefs(EmployeeStore)
 
 const search = ref('')
 const defaultSelect = ref('')
@@ -419,25 +422,34 @@ const taggleSelect = (select: string) => {
 	defaultSelect.value = select
 }
 const searchPerformance = async () => {
-	
+	if(search.value===''&&defaultSelect.value==='') {
+		const res = await api.selectPerformane()
+		if(res.data.state === 200) {
+			performanceStore.updatePerformanceList(res.data.data)      
+		}
+		ElMessage.success('查询成功!')
+		return
+	}
+
 	const req = ref({})
-	if(search.value===''&&defaultSelect.value==='') return
 	if(search.value!==''&&defaultSelect.value==='') req.value = {
+		createdTime: createdTime.value,
 		conditions: search.value
 	}
 	if(defaultSelect.value!==''&&search.value==='') req.value = {
+		createdTime: createdTime.value,
 		post: defaultSelect.value
 	}
 	if(defaultSelect.value!==''&&search.value!=='') req.value = {
+		createdTime: createdTime.value,
 		post: defaultSelect.value,
 		conditions: search.value
 	}
   
 	const res = await api.findPerByPostAndCondition(req.value)
 	if(res.data.state === 200) {
-		console.log(res.data.data);
-    
 		performanceStore.updatePerformanceList(res.data.data)
+		ElMessage.success('查询成功!')
 	}
 }
 

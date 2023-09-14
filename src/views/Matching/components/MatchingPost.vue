@@ -18,12 +18,11 @@
 			<noResultYet class="noResultYet" :size="350" :isShow="!isShowTable">
         <template v-slot:default>        
           <el-table :data="tableData" stripe style="width: 100%;height: 100%;" :scrollbar-always-on="true">
-            <!-- <el-table-column v-for="item, index in tableEmployee" :key="item.value" :prop="index" :width="item.width" :label="item.label" sortable/> -->
             <el-table-column  prop="number" width="140" label="员工编号" sortable/>
             <el-table-column  prop="name"  label="员工姓名" sortable/>
             <el-table-column  prop="age" width="160" label="年龄" sortable/>
-            <el-table-column  prop="post" width="140" label="目前岗位" sortable/>
-            <el-table-column  prop="unit" width="140" label="单位" sortable/>
+            <el-table-column  prop="post"  label="目前岗位" sortable/>
+            <el-table-column  prop="unit"  label="单位" sortable/>
             <el-table-column  prop="factor" width="160" label="与当前岗位匹配度" sortable/>
           </el-table>
         </template>
@@ -167,7 +166,13 @@ const submitTags = async () => {
 		const res = await api.searchemployee(requirementTag.value)
 		// 返回结果
 		if(res.status === 200) {
-			tableData.value = res.data
+			tableData.value = res.data.map((items: { [x: string]: any; factor: any }) =>{
+				const { factor,...item } = items
+				return {
+					factor: Number(factor).toFixed(2),
+					...item
+				}
+			})
 			isShowTable.value = true
 			ElMessage.success('分析成功！')
 		}

@@ -5,7 +5,7 @@ import { storeToRefs } from 'pinia'
 
 const instance = axios.create({
 	baseURL: import.meta.env.VITE_AXIOS_BASE_URI,
-	timeout: 5000,
+	timeout: 15000,
 	headers: {
 		'Access-Control-Allow-Origin': '*',
 		'Access-Control-Allow-Credentials': 'true',
