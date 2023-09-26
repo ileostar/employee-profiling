@@ -6,7 +6,7 @@
       <div class="function">
         <div class="model-select">
           <p>全局模型切换</p>
-          <el-select v-model="currentModelValue" class="m-2" placeholder="选择模型">
+          <el-select v-model="currentModelValue" class="m-2" placeholder="模型切换">
             <el-option
               v-for="item in options"
               :key="item.value"

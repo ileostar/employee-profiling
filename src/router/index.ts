@@ -33,6 +33,8 @@ const PositionPortrait = () => import('@/views/PositionPortrait/PositionPortrait
 const Matching = () => import('@/views/Matching/Matching.vue')
 // 模型修改
 const ModelModification = () => import('@/views/ModelModification/ModelModification.vue')
+// 登记审批
+const ExamineApprove = () => import('@/views/ExamineApprove/ExamineApprove.vue')
 // 缺省页
 const NotFound = () => import('@/views/NotFound/NotFound.vue')
 const NotAuth = () => import('@/views/NotAuth/NotAuth.vue')
@@ -328,6 +330,17 @@ const routes: Array<RouteRecordRaw> = [
 					menu: true,
 					title: '模型修改',
 					icon: '#icon-moxingjiexi',
+				},
+			},
+			{
+				path: '/examineApprove',
+				name: 'ExamineApprove',
+				component: ExamineApprove,
+				meta: {
+					auth: true,
+					menu: true,
+					title: '登记审批',
+					icon: '#icon-daishenpi',
 				},
 			},
 		],
