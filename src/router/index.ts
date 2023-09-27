@@ -336,7 +336,11 @@ const routes: Array<RouteRecordRaw> = [
 					const modelStore = useModelStore()
 					const { modelTotal } = storeToRefs(modelStore)
 					if(_.isEmpty(modelTotal.value)) {
-						modelStore.updateModelTotal()
+						const res = await api.selectModels()
+						if( res.status === 200 ) {
+							modelTotal.value = res.data
+						}
+						modelStore.updateFormField(res.data[1],'客户专员')
 					}
 					next()
 				}
