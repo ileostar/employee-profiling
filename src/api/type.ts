@@ -1,3 +1,5 @@
+import { e } from "vitest/dist/types-3c7dbfa5"
+
 export type LoginReg = {
 	username: string
 	password: string
@@ -153,7 +155,7 @@ type modelParams = {
 }
 
 export type controlModel = {
-  filename: string
+  filePath: string
   requset: modelParams
 }
 
@@ -195,4 +197,9 @@ export type Performance = {
   post?: string
   scores?: number
   unit?: string
+}
+
+export type findModel = {
+  filePath: string
+  post: string
 }

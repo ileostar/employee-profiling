@@ -11,6 +11,7 @@ import { useEmployeeStore } from '@/stores/employee'
 import { usePerformanceStore } from '@/stores/performance'
 import { usePostStore } from '@/stores/post'
 import { useLoading } from '@/stores/loading'
+import { useModelStore } from '@/stores/model'
 import { storeToRefs } from 'pinia'
 
 // 主页面
@@ -331,6 +332,14 @@ const routes: Array<RouteRecordRaw> = [
 					title: '模型修改',
 					icon: '#icon-moxingjiexi',
 				},
+				async beforeEnter(_to, _from, next) {
+					const modelStore = useModelStore()
+					const { modelTotal } = storeToRefs(modelStore)
+					if(_.isEmpty(modelTotal.value)) {
+						modelStore.updateModelTotal()
+					}
+					next()
+				}
 			},
 			{
 				path: '/examineApprove',

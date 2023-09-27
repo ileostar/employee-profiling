@@ -1,5 +1,5 @@
 import http from '../util/http'
-import { Performance, AnalyzeRelation, Employee, LoginReg, OverallPortrait, Search, SelectAllEmployee, Tag, fixPassword, fixUsername, updatePassword, controlModel } from './type'
+import { Performance, AnalyzeRelation, Employee, LoginReg, OverallPortrait, Search, SelectAllEmployee, Tag, fixPassword, fixUsername, updatePassword, controlModel, findModel } from './type'
 
 export default {
 	/**
@@ -234,7 +234,7 @@ export default {
 	/**
 	 * @desc 模型接口
 	 */
-	chooseModel: (params: controlModel) => {
+	chooseModel: (params:  { filePath: string }) => {
 		//  选择模型
 		return http.post('/config/choose', params)
 	},
@@ -246,12 +246,12 @@ export default {
 		//  新增模型
 		return http.post('/config/insert', params)
 	},
-	deleteModel: (params: { filename: string}) => {
+	deleteModel: (params: { fileName: string }) => {
 		//  删除模型
 		return http.delete('/config/delete', params)
 	},
-	selectModelInformation: (params: controlModel) => {
+	selectModelInformation: (params: findModel) => {
 		//  搜索模型的信息
-		return http.post('/config/insert', params)
+		return http.post('/config/findBYRequest', params)
 	},
 }
