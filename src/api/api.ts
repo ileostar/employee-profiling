@@ -252,6 +252,6 @@ export default {
 	},
 	selectModelInformation: (params: findModel) => {
 		//  搜索模型的信息
-		return http.post('/config/findBYRequest', params)
+		return http.get('/config/findBYRequest', params)
 	},
 }

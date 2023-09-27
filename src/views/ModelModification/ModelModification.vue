@@ -39,39 +39,37 @@
           </div>
           <div class="post-select">
             <p>岗位切换</p>
-            <el-select v-model="currentSelectPost" class="m-2" placeholder="选择岗位">
+            <el-select v-model="currentSelectPost" class="m-2" placeholder="选择岗位" @change="findModelInformation">
               <el-option
                 v-for="item in postData"
                 :key="item"
                 :label="item"
-                :value="item"
+                :value="item" 
               />
             </el-select>
           </div>
         </div>
         <el-divider />
-        <el-descriptions title="User Info">
-          <el-descriptions-item label="Username">kooriookami</el-descriptions-item>
-          <el-descriptions-item label="Telephone">18100000000</el-descriptions-item>
-          <el-descriptions-item label="Place">Suzhou</el-descriptions-item>
-          <el-descriptions-item label="Remarks">
-            <el-tag size="small">School</el-tag>
-          </el-descriptions-item>
-          <el-descriptions-item label="Address"
-            >No.1188, Wuzhong Avenue, Wuzhong District, Suzhou, Jiangsu
-            Province</el-descriptions-item
-          >
-        </el-descriptions>
+        <el-scrollbar max-height="62.5vh">
+          <el-descriptions 
+            direction="vertical"
+            :column="3"
+            border>
+              <el-descriptions-item v-for="item of formField" :key="item" :label="item.label">  {{item.value}}
+              </el-descriptions-item>
+          </el-descriptions>
+        </el-scrollbar>
       </div>
     </div>
   </div>
 </template>
 
 <script lang="ts" setup>
+import api from '@/api/api'
 import { useModelStore } from '@/stores/model'
 import { usePostStore } from '@/stores/post'
 import { storeToRefs } from 'pinia'
-import { onMounted, reactive, ref } from 'vue'
+import { onMounted, ref } from 'vue'
 
 const postStore = usePostStore()
 const modelStore = useModelStore()
@@ -82,6 +80,10 @@ onMounted(() => {
 	if(currentSelectPost.value === '') {
 		currentSelectPost.value = postData.value[0]
 	}
+  
+	if(currentSelectModel.value === '') {
+		currentSelectModel.value = modelTotal.value[1]
+	}
 })
 
 // 当前全局模型
@@ -91,12 +93,17 @@ const currentSelectModel = ref('')
 // 当前查看模型岗位
 const currentSelectPost = ref('')
 
-const formField = reactive({
-	post: {
-		value: '',
-		label: '岗位',
-		span: 12
-	},
+interface FormField {
+  value: {
+    [key: string]: {
+      value:  number | string;
+      label: string;
+      span: number;
+    };
+  };
+}
+
+const formField: FormField = ref({
 	status: {
 		value: '',
 		label: '政治面貌',
@@ -383,6 +390,23 @@ const formField = reactive({
 		span: 12
 	}
 })
+
+const findModelInformation = async () => {
+	const res = await api.selectModelInformation({filePath:currentSelectModel.value,post:currentSelectPost.value})
+	if(res.status === 200) {
+		const resArr = Object.entries(res.data)
+		for(const item in formField.value ) {
+			resArr.map(i=>{
+				if(i[0]===item) {
+					formField.value[item].value = i[1] as number | string
+				}
+			})
+		}
+		console.log(formField.value);
+	}
+  console.log('111');
+  
+}
 </script>
 <style lang="scss" scoped>
 .model-modification {
@@ -429,6 +453,9 @@ const formField = reactive({
             padding-right: 2vh;
           }
         }
+      }
+      .el-scrollbar {
+        margin-top: -2vh;
       }
     }
   }
