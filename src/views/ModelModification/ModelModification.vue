@@ -19,7 +19,7 @@
           </p>
         </div>
         <div class="function-button">
-          <el-button type="primary">新建</el-button>
+          <el-button type="primary" @click="dialogCreateVisible=true">新建</el-button>
           <el-button type="info">修改</el-button>
           <el-button type="danger">删除</el-button>
         </div>
@@ -28,7 +28,7 @@
         <div class="function-select">
           <div class="model-select">
             <p>查看模型</p>
-            <el-select v-model="currentSelectModel" class="m-2" placeholder="选择模型">
+            <el-select v-model="currentSelectModel" class="m-2" placeholder="选择模型"  @change="findModelInformation">
               <el-option
                 v-for="item in modelTotal"
                 :key="item"
@@ -61,6 +61,7 @@
         </el-scrollbar>
       </div>
     </div>
+    <CreatedDialog/>
   </div>
 </template>
 
@@ -69,18 +70,22 @@ import { useModelStore } from '@/stores/model'
 import { usePostStore } from '@/stores/post'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
+import CreatedDialog from './components/CreatedDialog.vue'
 
 const postStore = usePostStore()
 const modelStore = useModelStore()
 const { postData } = storeToRefs(postStore)
-const { modelTotal,formField } = storeToRefs(modelStore)
+const { modelTotal,formField,dialogCreateVisible,currentModel } = storeToRefs(modelStore)
 
 onMounted(() => {
 	if(currentSelectPost.value === '') {
 		currentSelectPost.value = postData.value[0]
 	}
 	if(currentSelectModel.value === '') {
-		currentSelectModel.value = modelTotal.value![1]?modelTotal.value![1]:'客户专员'
+		currentSelectModel.value = currentModel.value
+	}
+	if(currentModelValue.value === '') {
+		currentModelValue.value = currentModel.value
 	}
 })
 

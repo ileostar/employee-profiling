@@ -254,4 +254,8 @@ export default {
 		//  搜索模型的信息
 		return http.get('/config/findBYRequest', params)
 	},
+	findByModelProperties: (params: findModel) => {
+		//  搜索模型的信息
+		return http.get('/config/findByModelProperties', params)
+	},
 }

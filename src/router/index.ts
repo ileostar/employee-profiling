@@ -334,10 +334,13 @@ const routes: Array<RouteRecordRaw> = [
 				},
 				async beforeEnter(_to, _from, next) {
 					const modelStore = useModelStore()
-					const { modelTotal } = storeToRefs(modelStore)
+					const postStore = usePostStore()
+					const { modelTotal,currentModel } = storeToRefs(modelStore)
+					const { postData } = storeToRefs(postStore)
 					if(_.isEmpty(modelTotal.value)) {
+						modelStore.updateCurrentModel()
 						modelStore.updateModelTotal()
-						modelStore.updateFormField(modelTotal.value![1],'客户专员')
+						modelStore.updateFormField(currentModel.value,postData.value[0])
 					}
 					next()
 				}

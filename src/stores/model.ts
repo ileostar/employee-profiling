@@ -16,6 +16,10 @@ interface FormField {
 export const useModelStore = defineStore('model', () => {
 	const currentModel = ref('')
 	const modelTotal = ref<Array<string>>()
+
+	const dialogCreateVisible = ref(false)
+	const dialogEditVisible = ref(false)
+	const dialogDeleteVisible = ref(false)
   
 	const formField: FormField = ref({
 		status: {
@@ -305,10 +309,26 @@ export const useModelStore = defineStore('model', () => {
 		}
 	})
 
-	function updateCurrentModel() {
-		console.log(currentModel.value)
+	/**
+	 * Updates the current model.
+	 *
+	 * @param {type} paramName - description of parameter
+	 * @return {type} description of return value
+	 */
+	const updateCurrentModel = async () => {
+		const res = await api.findByModelProperties()
+		if(res.status) {
+			currentModel.value=res.data
+		}
 	}
 
+	/**
+	 * Updates a form field based on the provided file path and post data.
+	 *
+	 * @param {string} filePath - The file path.
+	 * @param {string} post - The post data.
+	 * @return {Promise<void>} A promise that resolves when the form field is updated.
+	 */
 	const updateFormField = async (filePath:string,post:string) => {
 		const res = await api.selectModelInformation({filePath,post})
 		if(res.status === 200) {
@@ -320,10 +340,14 @@ export const useModelStore = defineStore('model', () => {
 					}
 				})
 			}
-			console.log(formField.value);
 		}
 	}
 
+	/**
+	 * Updates the model total by making an API request and setting the value of `modelTotal`.
+	 *
+	 * @return {Promise<void>} - A promise that resolves when the model total is updated.
+	 */
 	const updateModelTotal = async () => {
 		const res = await api.selectModels()
 		if( res.status === 200 ) {
@@ -335,6 +359,9 @@ export const useModelStore = defineStore('model', () => {
 		currentModel,
 		modelTotal,
 		formField,
+		dialogCreateVisible,
+		dialogEditVisible,
+		dialogDeleteVisible,
 		updateCurrentModel,
 		updateModelTotal,
 		updateFormField
