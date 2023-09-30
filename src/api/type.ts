@@ -1,5 +1,3 @@
-import { e } from 'vitest/dist/types-3c7dbfa5'
-
 export type LoginReg = {
 	username: string
 	password: string
