@@ -32,7 +32,7 @@
 		"r": "^0.0.5",
 		"sass": "^1.62.1",
 		"uninstall": "^0.0.0",
-		"vue": "^3.2.47",
+		"vue": "^3.3.4",
 		"vue-router": "^4.2.5"
 	},
 	"devDependencies": {
