@@ -1,0 +1,70 @@
+Date : 2023-09-29 14:37:23
+Directory : e:\hc\外包\employee-Profiling
+Total : 21 files,  1505 codes, 19 comments, 50 blanks, all 1574 lines
+
+Languages
++------------+------------+------------+------------+------------+------------+
+| language   | files      | code       | comment    | blank      | total      |
++------------+------------+------------+------------+------------+------------+
+| Vue        |         12 |      1,086 |          3 |         38 |      1,127 |
+| TypeScript |          6 |        464 |         29 |         14 |        507 |
+| YAML       |          1 |          9 |          0 |          1 |         10 |
+| Properties |          1 |         -1 |          0 |          0 |         -1 |
+| JavaScript |          1 |        -53 |        -13 |         -3 |        -69 |
++------------+------------+------------+------------+------------+------------+
+
+Directories
++--------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| path                                                                                 | files      | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| .                                                                                    |         21 |      1,505 |         19 |         50 |      1,574 |
+| . (Files)                                                                            |          2 |        -54 |        -13 |         -3 |        -70 |
+| .github                                                                              |          1 |          9 |          0 |          1 |         10 |
+| src                                                                                  |         18 |      1,550 |         32 |         52 |      1,634 |
+| src\api                                                                              |          2 |         97 |         10 |          5 |        112 |
+| src\components                                                                       |          1 |          5 |          0 |          0 |          5 |
+| src\components\userInfos                                                             |          1 |          5 |          0 |          0 |          5 |
+| src\layouts                                                                          |          1 |         18 |          1 |          1 |         20 |
+| src\layouts\components                                                               |          1 |         18 |          1 |          1 |         20 |
+| src\router                                                                           |          1 |         24 |          1 |          0 |         25 |
+| src\stores                                                                           |          3 |        343 |         18 |          9 |        370 |
+| src\views                                                                            |         10 |      1,063 |          2 |         37 |      1,102 |
+| src\views\ExamineApprove                                                             |          1 |        138 |          0 |         10 |        148 |
+| src\views\Information                                                                |          2 |          5 |          0 |          0 |          5 |
+| src\views\Information\components                                                     |          2 |          5 |          0 |          0 |          5 |
+| src\views\Matching                                                                   |          2 |         20 |          0 |         -2 |         18 |
+| src\views\Matching\components                                                        |          2 |         20 |          0 |         -2 |         18 |
+| src\views\ModelModification                                                          |          4 |        887 |          2 |         30 |        919 |
+| src\views\ModelModification (Files)                                                  |          1 |        109 |          0 |          4 |        113 |
+| src\views\ModelModification\components                                               |          3 |        778 |          2 |         26 |        806 |
+| src\views\Performance                                                                |          1 |         13 |          0 |         -1 |         12 |
+| src\views\Performance\components                                                     |          1 |         13 |          0 |         -1 |         12 |
++--------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+
+Files
++--------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| filename                                                                             | language   | code       | comment    | blank      | total      |
++--------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+
+| e:\hc\外包\employee-Profiling\.env                                                     | Properties |         -1 |          0 |          0 |         -1 |
+| e:\hc\外包\employee-Profiling\.github\dependabot.yml                                   | YAML       |          9 |          0 |          1 |         10 |
+| e:\hc\外包\employee-Profiling\src\api\api.ts                                           | TypeScript |         21 |         10 |          0 |         31 |
+| e:\hc\外包\employee-Profiling\src\api\type.ts                                          | TypeScript |         76 |          0 |          5 |         81 |
+| e:\hc\外包\employee-Profiling\src\components\userInfos\userInfos.vue                   | Vue        |          5 |          0 |          0 |          5 |
+| e:\hc\外包\employee-Profiling\src\layouts\components\HomeAside.vue                     | Vue        |         18 |          1 |          1 |         20 |
+| e:\hc\外包\employee-Profiling\src\router\index.ts                                      | TypeScript |         24 |          1 |          0 |         25 |
+| e:\hc\外包\employee-Profiling\src\stores\Matching.ts                                   | TypeScript |        -65 |         -4 |        -10 |        -79 |
+| e:\hc\外包\employee-Profiling\src\stores\matching.ts                                   | TypeScript |         66 |          4 |         10 |         80 |
+| e:\hc\外包\employee-Profiling\src\stores\model.ts                                      | TypeScript |        342 |         18 |          9 |        369 |
+| e:\hc\外包\employee-Profiling\src\views\ExamineApprove\ExamineApprove.vue              | Vue        |        138 |          0 |         10 |        148 |
+| e:\hc\外包\employee-Profiling\src\views\Information\components\InforFunction.vue       | Vue        |          6 |          0 |          0 |          6 |
+| e:\hc\外包\employee-Profiling\src\views\Information\components\InforTable.vue          | Vue        |         -1 |          0 |          0 |         -1 |
+| e:\hc\外包\employee-Profiling\src\views\Matching\components\MatchingAnalyze.vue        | Vue        |          8 |          0 |         -1 |          7 |
+| e:\hc\外包\employee-Profiling\src\views\Matching\components\MatchingPost.vue           | Vue        |         12 |          0 |         -1 |         11 |
+| e:\hc\外包\employee-Profiling\src\views\ModelModification\ModelModification.vue        | Vue        |        109 |          0 |          4 |        113 |
+| e:\hc\外包\employee-Profiling\src\views\ModelModification\components\CreatedDialog.vue | Vue        |        385 |          1 |         11 |        397 |
+| e:\hc\外包\employee-Profiling\src\views\ModelModification\components\DeleteDiaglog.vue | Vue        |          8 |          0 |          5 |         13 |
+| e:\hc\外包\employee-Profiling\src\views\ModelModification\components\EditDialog.vue    | Vue        |        385 |          1 |         10 |        396 |
+| e:\hc\外包\employee-Profiling\src\views\Performance\components\PerforFunction.vue      | Vue        |         13 |          0 |         -1 |         12 |
+| e:\hc\外包\employee-Profiling\vite.config.ts.timestamp-1693289664872-29d8ff1066e71.mjs | JavaScript |        -53 |        -13 |         -3 |        -69 |
+| Total                                                                                |            |      1,505 |         19 |         50 |      1,574 |
++--------------------------------------------------------------------------------------+------------+------------+------------+------------+------------+

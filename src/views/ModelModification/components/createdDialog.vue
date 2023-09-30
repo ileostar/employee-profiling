@@ -1,8 +1,21 @@
 <!-- eslint-disable vue/no-mutating-props -->
 <template>
   <el-dialog class="dialogCreate"  v-model="dialogCreateVisible" @close="resetForm" title="新建模型">
-    <!-- <el-form :model="form" :rules="formRules" ref="ruleFormRef"  label-position="top" label-width="130px"> 
+    <el-form :model="form" :rules="formRules" ref="ruleFormRef"  label-position="top" label-width="130px"> 
       <el-row>
+        <el-col  :span="12">
+          <el-space
+            fill
+            wrap
+            fill-ratio="80"
+            direction="horizontal"
+            style="width: 96%"
+          >
+            <el-form-item label="模型名称" prop="filePath">
+              <el-input v-model="filePath"  placeholder="请输入模型名称" clearable maxlength="5vw"/>
+            </el-form-item>
+          </el-space>    
+        </el-col>
         <el-col v-for="(field, key) in formField" :key="field.label" :span="12">
           <el-space
             fill
@@ -11,57 +24,15 @@
             direction="horizontal"
             style="width: 96%"
           >
+
             <el-form-item :label="field.label" :prop="key">
-                <template v-if="field.label === '创建时间'">
-                    <el-input v-model="form[key]" autocomplete="off" maxlength="11"></el-input>
-                </template>
-                <template v-else-if="field.label === '岗位'">
+                <template v-if="field.label === '岗位'">
                   <el-select v-model="form.post" class="m-2" placeholder="选择岗位">
                     <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
                   </el-select>
-                </template>
-                <template v-else-if="field.label === '最高学历'">
-                  <el-select v-model="form.post" class="m-2" placeholder="选择岗位">
-                    <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
-                  </el-select>
-                </template>
-                <template v-else-if="numberInput.includes(field.label)">
-                  <el-input-number v-model="form[key]" :min="1" :max="100" />
-                </template>
-                <template v-else-if="field.label === '生育情况'">
-                  <el-select v-model="form[key]" class="m-2" placeholder="选择生育情况">
-                    <el-option v-for="item in fertilitySituation" :key="item" :value="item" :label="item"/>
-                  </el-select>
-                </template>
-                <template v-else-if="field.label === '政治面貌'">
-                  <el-select v-model="form[key]" class="m-2" placeholder="选择政治面貌">
-                    <el-option v-for="item in politicalStatus" :key="item" :value="item" :label="item"/>
-                  </el-select>
-                </template>
-                <template v-else-if="levelTags.includes(field.label)">
-                  <el-select v-model="form[key]" class="m-2" placeholder="选择能力水平">
-                    <el-option v-for="item in tagLevel" :key="item" :value="item" :label="item"/>
-                  </el-select>
-                </template>
-                <template v-else-if="dialectTags.includes(field.label)">
-                  <el-select v-model="form[key]" class="m-2" placeholder="选择语言水平">
-                    <el-option v-for="item in dialectSituation" :key="item" :value="item" :label="item"/>
-                  </el-select>
-                </template>
-                <template v-else-if="field.label.includes('是否')">
-                  <el-radio-group v-model="form[key]">
-                    <el-radio label="是" />
-                    <el-radio label="否" />
-                  </el-radio-group>
-                </template>
-                <template v-else-if="field.label === '性别'">
-                  <el-radio-group v-model="form[key]">
-                    <el-radio label="男" />
-                    <el-radio label="女" />
-                  </el-radio-group>
                 </template>
                 <template v-else>
-                  <el-input v-model="form[key]" autocomplete="off" maxlength="11"></el-input>
+                  <el-input-number v-model="form[key]" autocomplete="off" :min="0.00" :precision="2" :step="0.01" :max="10"></el-input-number>
                 </template>
             </el-form-item>
           </el-space>       
@@ -70,54 +41,36 @@
     </el-form>
     <template #footer>
       <span class="dialog-footer">
-        <el-button @click="dialogVisible = false">取消</el-button>
+        <el-button @click="dialogCreateVisible = false">取消</el-button>
         <el-button type="info" @click="submitCreatedForm(ruleFormRef)">
           确定
         </el-button>
       </span>
-    </template> -->
+    </template>
   </el-dialog>
 </template>
 
 <script setup lang="ts">
 import { useModelStore } from '@/stores/model';
+import { usePostStore } from '@/stores/post';
 import { FormInstance } from 'element-plus';
 import { storeToRefs } from 'pinia';
 import { reactive, ref } from 'vue';
 
 const modelStore = useModelStore()
+const PostStore = usePostStore()
+const { postData: select } = storeToRefs(PostStore)
 const { dialogCreateVisible } = storeToRefs(modelStore)
 
-const form = reactive({})
-const formField = reactive({
-	createdTime: {
-		value: '',
-		label: '创建时间',
-		span: 12
-	},
-	number:  {
-		value: '',
-		label: '员工编号',
-		span: 12
-	},
-	name: {
-		value: '',
-		label: '姓名',
-		span: 12
-	},
+interface formEl {
+  [index: string]: unknown
+}
+
+const form:formEl = reactive({})
+const formField = ref({
 	post: {
 		value: '',
 		label: '岗位',
-		span: 12
-	},
-	unit: {
-		value: '',
-		label: '单位',
-		span: 12
-	},
-	sex: {
-		value: '',
-		label: '性别',
 		span: 12
 	},
 	status: {
@@ -407,33 +360,30 @@ const formField = reactive({
 	}
 })
 const formRules = reactive({
-	createdTime: {
-		required: true,
-		message: '请选择创建时间',
-		trigger: 'change'
-	},
-	name: {
-		required: true,
-		message: '请输入姓名',
-		trigger: 'blur'
-	},
-	number: {
-		required: true,
-		message: '请输入员工编号',
-		trigger: 'blur'
-	},
 	post: {
 		required: true,
 		message: '请选择岗位',
 		trigger: 'blur'
 	},
+  
+	filePath: {
+		required: true,
+		message: '请填写模型名称',
+		trigger: 'blur'
+	}
 })
 const ruleFormRef = ref<FormInstance>()
 const filePath = ref('')
 
+
 // 提交表单
-const submitCreatedForm = () => {
-	console.log('submitCreatedForm');
+const submitCreatedForm = (formEl: FormInstance | undefined) => {
+	if(!formEl) return
+	formEl.validate(async (valid) => {
+		if (valid){
+			console.log('submitCreatedForm');
+		}
+	})
 }
 
 // 重置表单

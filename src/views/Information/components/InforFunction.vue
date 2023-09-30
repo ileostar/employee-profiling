@@ -99,8 +99,8 @@
                   </el-select>
                 </template>
                 <template v-else-if="field.label === '最高学历'">
-                  <el-select v-model="form.post" class="m-2" placeholder="选择岗位">
-                    <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
+                  <el-select v-model="form.degree" class="m-2" placeholder="选择学历">
+                    <el-option v-for="post in degreeLevel" :key="post" :value="post" :label="post"/>
                   </el-select>
                 </template>
                 <template v-else-if="numberInput.includes(field.label)">
@@ -292,6 +292,7 @@ const search = ref('')
 const defaultSelect = ref<string>('')
 const currentDateList = ref<string[]>([])
 
+const degreeLevel = ref(['高中','专科','大学','硕士','博士'])  // 能力等级
 const tagLevel = ref(['很好','较好','一般'])  // 能力等级
 const politicalStatus = ref(['中共党员','共青团员','群众'])  // 政治面貌
 const dialectSituation = ref(['会说','能听不会说','基本听不懂'])  // 方言情况

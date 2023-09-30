@@ -20,8 +20,8 @@
         </div>
         <div class="function-button">
           <el-button type="primary" @click="dialogCreateVisible=true">新建</el-button>
-          <el-button type="info">修改</el-button>
-          <el-button type="danger">删除</el-button>
+          <el-button type="info" @click="dialogEditVisible=true">修改</el-button>
+          <el-button type="danger" @click="dialogDeleteVisible=true">删除</el-button>
         </div>
       </div>
       <div class="model-message my-table">
@@ -62,6 +62,8 @@
       </div>
     </div>
     <CreatedDialog/>
+    <EditDialog/>
+    <DeleteDialog/>
   </div>
 </template>
 
@@ -71,11 +73,13 @@ import { usePostStore } from '@/stores/post'
 import { storeToRefs } from 'pinia'
 import { onMounted, ref } from 'vue'
 import CreatedDialog from './components/CreatedDialog.vue'
+import EditDialog from './components/EditDialog.vue'
+import DeleteDialog from './components/DeleteDialog.vue'
 
 const postStore = usePostStore()
 const modelStore = useModelStore()
 const { postData } = storeToRefs(postStore)
-const { modelTotal,formField,dialogCreateVisible,currentModel } = storeToRefs(modelStore)
+const { modelTotal,formField,dialogCreateVisible,currentModel,dialogEditVisible,dialogDeleteVisible } = storeToRefs(modelStore)
 
 onMounted(() => {
 	if(currentSelectPost.value === '') {
@@ -87,6 +91,7 @@ onMounted(() => {
 	if(currentModelValue.value === '') {
 		currentModelValue.value = currentModel.value
 	}
+	findModelInformation()
 })
 
 // 当前全局模型

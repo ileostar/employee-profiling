@@ -3,7 +3,7 @@ import { defineStore} from 'pinia';
 import { ref } from 'vue';
 
 
-interface FormField {
+export interface FormField {
   value: {
     [key: string]: {
       value:  number | string;
