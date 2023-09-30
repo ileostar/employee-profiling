@@ -1,7 +1,7 @@
 import api from '@/api/api';
+import { ElMessage } from 'element-plus';
 import { defineStore} from 'pinia';
 import { ref } from 'vue';
-
 
 export interface FormField {
   value: {
@@ -310,6 +310,7 @@ export const useModelStore = defineStore('model', () => {
 	})
 
 	/**
+   * 更新当前系统模型
 	 * Updates the current model.
 	 *
 	 * @param {type} paramName - description of parameter
@@ -323,13 +324,14 @@ export const useModelStore = defineStore('model', () => {
 	}
 
 	/**
+   * 更新表单
 	 * Updates a form field based on the provided file path and post data.
 	 *
 	 * @param {string} filePath - The file path.
 	 * @param {string} post - The post data.
 	 * @return {Promise<void>} A promise that resolves when the form field is updated.
 	 */
-	const updateFormField = async (filePath:string,post:string) => {
+	const updateFormField = async (filePath: string, post: string) => {
 		const res = await api.selectModelInformation({filePath,post})
 		if(res.status === 200) {
 			const resArr = Object.entries(res.data)
@@ -344,6 +346,7 @@ export const useModelStore = defineStore('model', () => {
 	}
 
 	/**
+   * 更新模型总条数
 	 * Updates the model total by making an API request and setting the value of `modelTotal`.
 	 *
 	 * @return {Promise<void>} - A promise that resolves when the model total is updated.
@@ -352,6 +355,30 @@ export const useModelStore = defineStore('model', () => {
 		const res = await api.selectModels()
 		if( res.status === 200 ) {
 			modelTotal.value = res.data
+		}
+	}
+
+	/**
+   * 删除模型
+	 * Deletes a model.
+	 *
+	 * @param {string} model - The name of the model to delete.
+	 * @return {Promise<void>} A Promise that resolves when the model is deleted successfully.
+	 */
+	const deleteModel = async (model: string) => {
+		try {
+			const res = await api.deleteModel({fileName:model})
+			if(res.status === 200) {
+				ElMessage({
+					type: 'success',
+					message: '删除成功',
+				})
+			}
+		} catch(error) {
+			ElMessage({
+				type: 'info',
+				message: '删除失败',
+			})
 		}
 	}
 
@@ -364,6 +391,7 @@ export const useModelStore = defineStore('model', () => {
 		dialogDeleteVisible,
 		updateCurrentModel,
 		updateModelTotal,
-		updateFormField
+		updateFormField,
+		deleteModel
 	}
 })

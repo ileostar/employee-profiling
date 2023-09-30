@@ -22,7 +22,12 @@ import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus'
 
-const verifyDelete = () => {
+/**
+ * Verify delete function.
+ *
+ * @return {void}
+ */
+const verifyDelete = (): void => {
 	if(deleteModel.value === '') {
 		ElMessage({
 			type: 'info',
@@ -33,6 +38,10 @@ const verifyDelete = () => {
 	}
 }
 
+/**
+ * 确认弹框
+ * Opens a confirmation dialog and performs a delete operation if confirmed.
+ */
 const open = () => {
 	ElMessageBox.confirm(
 		'选中模型会被删除，此操作不可逆，请确认您的操作?',
@@ -44,10 +53,7 @@ const open = () => {
 		}
 	)
 		.then(() => {
-			ElMessage({
-				type: 'success',
-				message: '删除成功',
-			})
+			modelStore.deleteModel(deleteModel.value)
 			dialogDeleteVisible.value = false
 		})
 		.catch(() => {

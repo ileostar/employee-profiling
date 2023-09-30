@@ -11,8 +11,10 @@
             direction="horizontal"
             style="width: 96%"
           >
-            <el-form-item label="模型名称" prop="filePath">
-              <el-input v-model="filePath"  placeholder="请输入模型名称" clearable maxlength="5vw"/>
+            <el-form-item label="模型名称" prop="filePath" >
+              <el-select v-model="filePath" @change="autoFillModel(filePath,form.post as string)">
+                <el-option v-for="item of modelTotal" :key="item" :value="item" />
+              </el-select>
             </el-form-item>
           </el-space>    
         </el-col>
@@ -24,11 +26,10 @@
             direction="horizontal"
             style="width: 96%"
           >
-
             <el-form-item :label="field.label" :prop="key">
                 <template v-if="field.label === '岗位'">
-                  <el-select v-model="form.post" class="m-2" placeholder="选择岗位">
-                    <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
+                  <el-select v-model="form.post" class="m-2" placeholder="选择岗位"  @change="filePath!==''?autoFillModel(filePath,form.post as string):''">
+                    <el-option v-for="post in select" :key="post" :value="post" :label="post" />
                   </el-select>
                 </template>
                 <template v-else>
@@ -51,6 +52,7 @@
 </template>
 
 <script setup lang="ts">
+import api from '@/api/api';
 import { useModelStore } from '@/stores/model';
 import { usePostStore } from '@/stores/post';
 import { FormInstance } from 'element-plus';
@@ -60,14 +62,24 @@ import { reactive, ref } from 'vue';
 const modelStore = useModelStore()
 const PostStore = usePostStore()
 const { postData: select } = storeToRefs(PostStore)
-const { dialogEditVisible } = storeToRefs(modelStore)
+const { dialogEditVisible,modelTotal } = storeToRefs(modelStore)
 
 interface formEl {
   [index: string]: unknown
 }
 
+interface FormField {
+  value: {
+    [key: string]: {
+      value:  number | string;
+      label: string;
+      span: number;
+    } | string
+  }
+}
+
 const form:formEl = reactive({})
-const formField = ref({
+const formField:FormField = ref({
 	post: {
 		value: '',
 		label: '岗位',
@@ -375,7 +387,34 @@ const formRules = reactive({
 const ruleFormRef = ref<FormInstance>()
 const filePath = ref('')
 
-// 提交表单
+/**
+ * 自动填写
+ * Auto fill the model information for a given file path.
+ *
+ * @param {string} filePath - The path of the file.
+ * @param {string} post - The post for the model.
+ * @return {void}
+ */
+const autoFillModel = async (filePath: string,post = '客户专员') => {
+	const res = await api.selectModelInformation({filePath,post})
+	if(res.status === 200) {
+		const resArr = Object.entries(res.data)
+		for(const item in formField.value ) {
+			resArr.map(i=>{
+				if(i[0]===item) {
+					form[item] = i[1] as number | string
+				}
+			})
+		}
+	}
+}
+
+/**
+ * 提交表单
+ * Submits the created form if it is valid.
+ *
+ * @param {FormInstance | undefined} formEl - The form instance.
+ */
 const submitCreatedForm = (formEl: FormInstance | undefined) => {
 	if(!formEl) return
 	formEl.validate(async (valid) => {
@@ -385,8 +424,15 @@ const submitCreatedForm = (formEl: FormInstance | undefined) => {
 	})
 }
 
-// 重置表单
+/**
+ * 重置表单
+ * Resets the form by setting the value of `dialogEditVisible` to `false`.
+ */
 const resetForm = () => {
+	filePath.value = ''
+	for(const key in form) {
+		form[key] = ''
+	}
 	dialogEditVisible.value = false
 }
 </script>

@@ -101,6 +101,11 @@ const currentSelectModel = ref('')
 // 当前查看模型岗位
 const currentSelectPost = ref('')
 
+/**
+ * Find model information.
+ *
+ * @return {undefined} No return value.
+ */
 const findModelInformation = () => {
 	modelStore.updateFormField(currentSelectModel.value,currentSelectPost.value)
 }
