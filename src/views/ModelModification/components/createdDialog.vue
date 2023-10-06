@@ -7,12 +7,12 @@
           <el-space
             fill
             wrap
-            fill-ratio="80"
+            :fill-ratio="80"
             direction="horizontal"
             style="width: 96%"
           >
             <el-form-item label="模型名称" prop="filePath">
-              <el-input v-model="filePath"  placeholder="请输入模型名称" clearable maxlength="5vw"/>
+              <el-input v-model="filePath" placeholder="请输入模型名称" clearable maxlength="5vw"/>
             </el-form-item>
           </el-space>    
         </el-col>
@@ -20,7 +20,7 @@
           <el-space
             fill
             wrap
-            fill-ratio="80"
+            :fill-ratio="80"
             direction="horizontal"
             style="width: 96%"
           >
@@ -51,9 +51,11 @@
 </template>
 
 <script setup lang="ts">
+import api from '@/api/api';
+import * as _ from 'lodash'
 import { useModelStore } from '@/stores/model';
 import { usePostStore } from '@/stores/post';
-import { FormInstance } from 'element-plus';
+import { ElMessage, FormInstance } from 'element-plus';
 import { storeToRefs } from 'pinia';
 import { reactive, ref } from 'vue';
 
@@ -66,6 +68,15 @@ interface formEl {
   [index: string]: unknown
 }
 
+const ruleFormRef = ref<FormInstance>()
+const filePath = ref('')// 自定义表单校验规则
+const validFilePath = (_rule: any,_value: any, callback: any) => {
+	if (filePath.value === '') {
+		callback(new Error('请输入模型名称'))
+	} else {
+		callback()
+	}
+}
 const form:formEl = reactive({})
 const formField = ref({
 	post: {
@@ -365,22 +376,41 @@ const formRules = reactive({
 		message: '请选择岗位',
 		trigger: 'blur'
 	},
-  
 	filePath: {
 		required: true,
-		message: '请填写模型名称',
+		validator: validFilePath,
 		trigger: 'blur'
 	}
 })
-const ruleFormRef = ref<FormInstance>()
-const filePath = ref('')
+
+/**
+ * 校验表单的属性值和是否唯一
+ * Checks if the sum of the numbers is equal to one.
+ *
+ * @return {boolean} Returns true if the sum is equal to one, false otherwise.
+ */
+const isSumToOne = () => {
+	const copyForm = _.cloneDeep(form)
+	const result = Object.entries(copyForm).map(item=> item[1]).filter(item=> !isNaN(Number(item))).reduce((a, b) => Number(a) + Number(b), 0) === 1
+  
+	return result
+}
 
 // 提交表单
 const submitCreatedForm = (formEl: FormInstance | undefined) => {
 	if(!formEl) return
 	formEl.validate(async (valid) => {
 		if (valid){
-			console.log('submitCreatedForm');
+			if(!isSumToOne()) {
+				ElMessage.error('数据和不为1')
+				return
+			}
+			const res = await api.insertModel({filePath:filePath.value,request:form})
+			if(res.status === 200) {
+				ElMessage.success(res.data)
+			}
+		} else {
+			ElMessage.error('请正确填写表单')
 		}
 	})
 }
@@ -391,6 +421,3 @@ const resetForm = () => {
 }
 </script>
 
-<style lang="scss" scoped>
-
-</style>

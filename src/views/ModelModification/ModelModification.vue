@@ -6,7 +6,7 @@
       <div class="function">
         <div class="model-select">
           <p>全局模型切换</p>
-          <el-select v-model="currentModelValue" class="m-2" placeholder="模型切换">
+          <el-select v-model="currentModelValue" @change="confirmSwitch(currentModelValue)" class="m-2" placeholder="模型切换">
             <el-option
               v-for="item in modelTotal"
               :key="item"
@@ -75,6 +75,8 @@ import { onMounted, ref } from 'vue'
 import CreatedDialog from './components/CreatedDialog.vue'
 import EditDialog from './components/EditDialog.vue'
 import DeleteDialog from './components/DeleteDialog.vue'
+import { ElMessage, ElMessageBox } from 'element-plus'
+import api from '@/api/api'
 
 const postStore = usePostStore()
 const modelStore = useModelStore()
@@ -108,6 +110,44 @@ const currentSelectPost = ref('')
  */
 const findModelInformation = () => {
 	modelStore.updateFormField(currentSelectModel.value,currentSelectPost.value)
+}
+
+/**
+ * Generates a confirmation dialog for switching.
+ *
+ * @param {string} current - the current value
+ * @return {void} returns nothing
+ */
+const confirmSwitch = (current: string) => {
+	ElMessageBox.confirm(
+		'该过程可能会消耗一定时间，请确认您的操作?',
+		'确认操作',
+		{
+			confirmButtonText: '确认',
+			cancelButtonText: '取消',
+			type: 'warning',
+		}
+	)
+		.then(async() => {
+			const res = await api.chooseModel({filePath:current})
+			if(res.status) {
+				ElMessage({
+					type: 'success',
+					message: '切换成功',
+				})
+			}
+			dialogDeleteVisible.value = false
+		})
+		.catch(async () => {
+			const res = await api.findByModelProperties()
+			if(res.status) {
+				currentModelValue.value=res.data
+			}
+			ElMessage({
+				type: 'info',
+				message: '取消切换',
+			})
+		})
 }
 </script>
 <style lang="scss" scoped>

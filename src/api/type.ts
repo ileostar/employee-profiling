@@ -7,6 +7,7 @@ export type fixPassword = {
 	id: number
 	password: string
 }
+
 export type fixUsername = {
 	id: number
 	username: string
@@ -91,72 +92,71 @@ export type Employee = {
 }
 
 type modelParams = {
-  age: number;
-  degree: number;
-  eight: number;
-  eighteen: number;
-  eleven: number;
-  fifteen: number;
-  fifty: number;
-  fiftyOne: number;
-  fiftyThree: number;
-  fiftyTwo: number;
-  five: number;
-  forty: number;
-  fortyEight: number;
-  fortyFive: number;
-  fortyFour: number;
-  fortyNine: number;
-  fortyOne: number;
-  fortySeven: number;
-  fortySix: number;
-  fortyThree: number;
-  fortyTwo: number;
-  four: number;
-  fourteen: number;
-  nine: number;
-  nineteen: number;
-  one: number;
-  post: string;
-  scores: number;
-  seniority: number;
-  seven: number;
-  seventeen: number;
-  six: number;
-  sixteen: number;
-  status: number;
-  ten: number;
-  thirteen: number;
-  thirty: number;
-  thirtyEight: number;
-  thirtyFive: number;
-  thirtyFour: number;
-  thirtyNine: number;
-  thirtyOne: number;
-  thirtySeven: number;
-  thirtySix: number;
-  thirtyThree: number;
-  thirtyTwo: number;
-  three: number;
-  twelve: number;
-  twenty: number;
-  twentyEight: number;
-  twentyFive: number;
-  twentyFour: number;
-  twentyNine: number;
-  twentyOne: number;
-  twentySeven: number;
-  twentySix: number;
-  twentyThree: number;
-  twentyTwo: number;
-  two: number;
+  age?: number;
+  degree?: number;
+  eight?: number;
+  eighteen?: number;
+  eleven?: number;
+  fifteen?: number;
+  fifty?: number;
+  fiftyOne?: number;
+  fiftyThree?: number;
+  fiftyTwo?: number;
+  five?: number;
+  forty?: number;
+  fortyEight?: number;
+  fortyFive?: number;
+  fortyFour?: number;
+  fortyNine?: number;
+  fortyOne?: number;
+  fortySeven?: number;
+  fortySix?: number;
+  fortyThree?: number;
+  fortyTwo?: number;
+  four?: number;
+  fourteen?: number;
+  nine?: number;
+  nineteen?: number;
+  one?: number;
+  post?: string;
+  scores?: number;
+  seniority?: number;
+  seven?: number;
+  seventeen?: number;
+  six?: number;
+  sixteen?: number;
+  status?: number;
+  ten?: number;
+  thirteen?: number;
+  thirty?: number;
+  thirtyEight?: number;
+  thirtyFive?: number;
+  thirtyFour?: number;
+  thirtyNine?: number;
+  thirtyOne?: number;
+  thirtySeven?: number;
+  thirtySix?: number;
+  thirtyThree?: number;
+  thirtyTwo?: number;
+  three?: number;
+  twelve?: number;
+  twenty?: number;
+  twentyEight?: number;
+  twentyFive?: number;
+  twentyFour?: number;
+  twentyNine?: number;
+  twentyOne?: number;
+  twentySeven?: number;
+  twentySix?: number;
+  twentyThree?: number;
+  twentyTwo?: number;
+  two?: number;
 }
 
 export type controlModel = {
   filePath: string
-  requset: modelParams
+  request: modelParams
 }
-
 
 export type Search = {
   post?: string

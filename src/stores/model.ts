@@ -310,7 +310,7 @@ export const useModelStore = defineStore('model', () => {
 	})
 
 	/**
-   * 更新当前系统模型
+   * 查找当前系统模型
 	 * Updates the current model.
 	 *
 	 * @param {type} paramName - description of parameter

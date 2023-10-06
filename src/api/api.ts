@@ -236,7 +236,7 @@ export default {
 	 */
 	chooseModel: (params:  { filePath: string }) => {
 		//  选择模型
-		return http.post('/config/choose', params)
+		return http.post('/config/choose?filePath='+params.filePath)
 	},
 	selectModels: () => {
 		//  搜索全部模型
@@ -244,7 +244,7 @@ export default {
 	},
 	insertModel: (params: controlModel) => {
 		//  新增模型
-		return http.post('/config/insert', params)
+		return http.post('/config/insert?filePath='+params.filePath, params.request)
 	},
 	deleteModel: (params: { fileName: string }) => {
 		//  删除模型
