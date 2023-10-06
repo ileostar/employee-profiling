@@ -24,7 +24,6 @@
             direction="horizontal"
             style="width: 96%"
           >
-
             <el-form-item :label="field.label" :prop="key">
                 <template v-if="field.label === '岗位'">
                   <el-select v-model="form.post" class="m-2" placeholder="选择岗位">
@@ -69,7 +68,16 @@ interface formEl {
 }
 
 const ruleFormRef = ref<FormInstance>()
-const filePath = ref('')// 自定义表单校验规则
+const filePath = ref('')
+/**
+ * 自定义表单校验规则
+ * Validates if the file path is valid.
+ *
+ * @param {any} _rule - The rule to validate against.
+ * @param {any} _value - The value to validate.
+ * @param {any} callback - The callback function to handle the validation result.
+ * @return {void} 
+ */
 const validFilePath = (_rule: any,_value: any, callback: any) => {
 	if (filePath.value === '') {
 		callback(new Error('请输入模型名称'))
