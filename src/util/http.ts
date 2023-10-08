@@ -19,7 +19,7 @@ instance.interceptors.request.use(
 		if (config.headers) {
 			const usersStore = useUsersStore()
 			const { token } = storeToRefs(usersStore)
-			config.headers.authentication = token.value
+			config.headers.utoken = token.value
 		}
 		return config
 	},

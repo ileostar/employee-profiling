@@ -12,6 +12,7 @@ import { usePerformanceStore } from '@/stores/performance'
 import { usePostStore } from '@/stores/post'
 import { useLoading } from '@/stores/loading'
 import { useModelStore } from '@/stores/model'
+import { useApprovalsStore } from '@/stores/approval'
 import { storeToRefs } from 'pinia'
 
 // 主页面
@@ -355,6 +356,14 @@ const routes: Array<RouteRecordRaw> = [
 					title: '登记审批',
 					icon: '#icon-daishenpi',
 				},
+				async beforeEnter(_to, _from, next) {
+					const approvalsStore = useApprovalsStore()
+					const { approvalList } = storeToRefs(approvalsStore)
+					if(_.isEmpty(approvalList.value)) {
+						approvalsStore.updateApprovalList()
+					}
+					next()
+				}
 			},
 		],
 	},

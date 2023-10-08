@@ -3,7 +3,7 @@
 		<h1 class="title">登记审批</h1>
 		<div class="fenge"></div>
     <div class="examine-approve-main">   
-      <el-table ref="tableRef" row-key="date" :data="tableData" style="width: 100%">
+      <el-table ref="tableRef" row-key="date" :data="approvalList" style="width: 100%">
         <el-table-column
           prop="date"
           label="申请时间"
@@ -20,7 +20,6 @@
         />
         <el-table-column prop="name" label="申请用户" width="180" />
         <el-table-column prop="address" label="内容" />
-
         <el-table-column
           prop="tag"
           label="状态"
@@ -54,15 +53,17 @@
 </template>
 
 <script lang="ts" setup>
-
 import { ref } from 'vue'
 import type { TableColumnCtx, TableInstance } from 'element-plus'
 import { useUsersStore } from '@/stores/users'
 import { storeToRefs } from 'pinia'
+import { useApprovalsStore } from '@/stores/approval';
 
 const userStore = useUsersStore()
+const approvalsStore = useApprovalsStore()
 
 const { infos } = storeToRefs(userStore)
+const { approvalList } = storeToRefs(approvalsStore)
 
 interface User {
   date: string

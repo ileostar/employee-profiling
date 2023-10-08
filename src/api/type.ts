@@ -201,3 +201,11 @@ export type findModel = {
   filePath: string
   post: string
 }
+
+export type Approval = {
+  approvalTime: string
+  content: string
+  id: 0
+  state: string
+  username: string
+}

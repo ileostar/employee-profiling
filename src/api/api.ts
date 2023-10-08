@@ -1,5 +1,5 @@
 import http from '../util/http'
-import { Performance, AnalyzeRelation, Employee, LoginReg, OverallPortrait, Search, SelectAllEmployee, Tag, fixPassword, fixUsername, updatePassword, controlModel, findModel } from './type'
+import { Performance, AnalyzeRelation, Employee, LoginReg, OverallPortrait, Search, SelectAllEmployee, Tag, fixPassword, fixUsername, updatePassword, controlModel, findModel, Approval } from './type'
 
 export default {
 	/**
@@ -257,5 +257,21 @@ export default {
 	findByModelProperties: () => {
 		//  搜索模型的信息
 		return http.get('/config/findByModelProperties')
+	},
+
+	/**
+   * @desc 登记审批
+   */
+	selectApproval: () => {
+		//  标签信息查询方法
+		return http.get('/approval/select')
+	},
+	updateByIdNo: (params: Approval) => {
+		//  修改状态为已驳回
+		return http.put('/approval/updateByIdNo', params)
+	},
+	updateByIdYes: (params: Approval) => {
+		//  执行审批请求操作，并修改状态为已同意
+		return http.put('/approval/updateByIdYes', params)
 	},
 }
