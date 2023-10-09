@@ -4,12 +4,13 @@
 		<div class="fenge"></div>
     <div class="examine-approve-main">   
       <el-table ref="tableRef" row-key="date" :data="approvalList" style="width: 100%">
+        <el-table-column prop="id" label="id" width="180" />
         <el-table-column
-          prop="date"
+          prop="approvalTime"
           label="申请时间"
           sortable
           width="180"
-          column-key="date"
+          column-key="approvalTime"
           :filters="[
             { text: '2016-05-01', value: '2016-05-01' },
             { text: '2016-05-02', value: '2016-05-02' },
@@ -18,33 +19,33 @@
           ]"
           :filter-method="filterHandler"
         />
-        <el-table-column prop="name" label="申请用户" width="180" />
-        <el-table-column prop="address" label="内容" />
+        <el-table-column prop="username" label="申请用户" width="180" />
+        <el-table-column prop="content" label="内容" />
         <el-table-column
-          prop="tag"
+          prop="state"
           label="状态"
           width="100"
           :filters="[
-            { text: '已同意', value: '已同意' },
-            { text: '已驳回', value: '已驳回' },
-            { text: '待审批', value: '待审批' },
+            '已同意',
+            '已驳回',
+            '待审批',
           ]"
           :filter-method="filterTag"
           filter-placement="bottom-end"
         >
           <template #default="scope">
             <el-tag
-              :type="tagState(scope.row.tag)"
+              :type="tagState(scope.row.state)"
               disable-transitions
-              >{{ scope.row.tag }}</el-tag
+              >{{ scope.row.state }}</el-tag
             >
           </template>
         </el-table-column>
         <el-table-column v-if="Auth()" fixed="right" label="操作" width="140">
-          <template #default>
-            <el-button type="primary" size="small">同意</el-button
+          <template #default="scope">
+            <el-button type="primary" size="small" @click="approvalsStore.updateByIdYes(scope.row)">同意</el-button
             >
-            <el-button type="danger" size="small">驳回</el-button>
+            <el-button type="danger" size="small" @click="approvalsStore.updateByIdNo(scope.row)">驳回</el-button>
           </template>
         </el-table-column>
       </el-table>
@@ -53,7 +54,7 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from 'vue'
+import { onMounted, ref } from 'vue'
 import type { TableColumnCtx, TableInstance } from 'element-plus'
 import { useUsersStore } from '@/stores/users'
 import { storeToRefs } from 'pinia'
@@ -64,6 +65,10 @@ const approvalsStore = useApprovalsStore()
 
 const { infos } = storeToRefs(userStore)
 const { approvalList } = storeToRefs(approvalsStore)
+
+onMounted(() => {
+	console.log(approvalList);
+})
 
 interface User {
   date: string

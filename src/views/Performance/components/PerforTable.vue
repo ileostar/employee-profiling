@@ -1,6 +1,6 @@
 <template>
 	<div class="tableContainer" ref="tableContainer">
-    <el-table :data="tableData" style="width: 100%;height: 100%;" stripe scrollbar-always-on="true">
+    <el-table :data="tableData" style="width: 100%;height: 100%;" stripe :scrollbar-always-on="true">
       <el-table-column prop="id" sortable label="序号" width="100" />
       <el-table-column prop="number" sortable label="员工编号" width="130" />
       <el-table-column prop="name" label="员工姓名" width="140" />

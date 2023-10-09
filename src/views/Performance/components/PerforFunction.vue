@@ -75,7 +75,7 @@
           <el-space
             fill
             wrap
-            fill-ratio="80"
+            :fill-ratio="80"
             direction="horizontal"
             style="width: 96%"
           >
@@ -129,7 +129,7 @@
           <el-space
             fill
             wrap
-            fill-ratio="80"
+            :fill-ratio="80"
             direction="horizontal"
             style="width: 96%"
           >

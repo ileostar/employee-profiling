@@ -1,5 +1,5 @@
 import http from '../util/http'
-import { Performance, AnalyzeRelation, Employee, LoginReg, OverallPortrait, Search, SelectAllEmployee, Tag, fixPassword, fixUsername, updatePassword, controlModel, findModel, Approval } from './type'
+import { Performance, AnalyzeRelation, Employee, LoginReg, OverallPortrait, Search, SelectAllEmployee, Tag, fixPassword, fixUsername, updatePassword, controlModel, findModel } from './type'
 
 export default {
 	/**
@@ -266,12 +266,12 @@ export default {
 		//  标签信息查询方法
 		return http.get('/approval/select')
 	},
-	updateByIdNo: (params: Approval) => {
+	updateByIdNo: (params: { id: string }) => {
 		//  修改状态为已驳回
-		return http.put('/approval/updateByIdNo', params)
+		return http.put('/approval/updateByIdNo?id='+params.id)
 	},
-	updateByIdYes: (params: Approval) => {
+	updateByIdYes: (params: { id: string }) => {
 		//  执行审批请求操作，并修改状态为已同意
-		return http.put('/approval/updateByIdYes', params)
+		return http.put('/approval/updateByIdYes?id='+params.id)
 	},
 }
