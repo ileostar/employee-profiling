@@ -76,7 +76,7 @@ import * as _ from 'lodash'
 import { ElMessage } from 'element-plus'
 import api from '@/api/api'
 import { storeToRefs } from 'pinia'
-import { useMatchingStore } from '@/stores/Matching'
+import { useMatchingStore } from '@/stores/matching'
 
 const example = '例：我需要一个体力好，有服务意识，并且具备开发能力的员工'
 

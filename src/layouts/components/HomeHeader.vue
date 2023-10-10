@@ -5,6 +5,7 @@
 			<a href="#" class="home-header-link">基于员工画像的绩效结果评估系统</a>
 		</div>
 		<div class="home-header-right">
+      <span>你好，{{infos.role}}&nbsp;<strong>{{infos.username}}</strong></span>
 			<el-dropdown>
 				<el-space class="home-header-space">
 					<el-avatar class="iconfont icon-guanliyuan" />
@@ -26,10 +27,12 @@
 <script setup lang="ts">
 import userInfos from '@/components/userInfos/userInfos.vue'
 import { useUsersStore } from '@/stores/users'
+import { storeToRefs } from 'pinia';
 import { ref } from 'vue'
 
 const userStore = useUsersStore()
 const drawer = ref(false) // 控制侧边栏
+const { infos } = storeToRefs(userStore)
 
 /**
  * handleQuit
@@ -72,6 +75,12 @@ const handleQuit = () => {
 		}
 	}
 	.home-header-right {
+    display: flex;
+    align-items: center;
+    span {
+      color: #f0e9e9;
+      margin-left: 1vw;
+    }
 		.home-header-space {
 			cursor: pointer;
 		}

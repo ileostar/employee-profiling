@@ -23,7 +23,7 @@ const postAverageName = Object.keys(postChartData.value).filter((item) =>
 )
 const postAverageData = Object.entries(postChartData.value)
 	.filter((item) => postAverageName.some((e) => e === item[0]))
-	.map((item) => Number(item[1] * 100).toFixed(2))
+	.map((item) => Number(item[1]).toFixed(2))
 const postName = Object.keys(postChartData.value)
 	.filter((item) => !item.endsWith('平均匹配系数'))
 	.map((item) => item.replace('人数', ''))
@@ -61,10 +61,10 @@ const init = async () => {
 		},
 		toolbox: {
 			feature: {
-				dataView: { show: true, readOnly: false },
-				magicType: { show: true, type: ['line', 'bar'] },
-				restore: { show: true },
-				saveAsImage: { show: true },
+				dataView: { title: '数据展示', show: true, readOnly: false, lang: ['数据视图', '关闭', '刷新'] },
+				magicType: { title: { line: '切换为直线图',bar:'切换为柱状图' },  show: true, type: ['line', 'bar'] },
+				restore: { title: '重置',  show: true },
+				saveAsImage: { title: '保存为图片',  show: true },
 			},
 		},
 		legend: {
@@ -93,9 +93,9 @@ const init = async () => {
 			{
 				type: 'value',
 				name: '人岗匹配系数',
-				min: 50,
-				max: 100,
-				interval: 10,
+				min: 0.5,
+				max: 1,
+				interval: 0.1,
 				axisLabel: {
 					formatter: '{value} ',
 				},

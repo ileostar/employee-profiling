@@ -56,7 +56,7 @@
 							<p>该员工与当前岗位匹配分析：</p>
 							<div class="box1-card">
 								<div class="box1-card-left">
-									<p>{{ currentEmployeeAndPostAnalyze?.factor!*100 + '%' }}</p>
+									<p>{{ currentEmployeeAndPostAnalyze?.factor}}</p>
 								</div>
 								<div class="box1-card-right">
 									<div class="card-information-header">

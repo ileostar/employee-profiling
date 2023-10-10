@@ -150,7 +150,7 @@ import api from '@/api/api'
 import { ElMessage, FormInstance } from 'element-plus'
 import { useEmployeeStore } from '@/stores/employee'
 import { storeToRefs } from 'pinia'
-import { useMatchingStore } from '@/stores/Matching'
+import { useMatchingStore } from '@/stores/matching'
 import * as _ from 'lodash'
 
 const matchingStore = useMatchingStore()

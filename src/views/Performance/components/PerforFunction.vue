@@ -298,6 +298,7 @@ const formRules = reactive({
 	},
 })
 const ruleFormRef = ref<FormInstance>()
+
 watchEffect(() => {
 	currentDateList.value = (() => {
 		// 获取当前日期
@@ -486,7 +487,7 @@ const submitEditForm =  (formEl: FormInstance | undefined) => {
 				dialogEditFormVisible.value = false
 				ElMessage.success('修改成功')
 			} else {
-				ElMessage.error('修改失败')
+				ElMessage.error(res.data.message)
 			}
 		}
 	})
