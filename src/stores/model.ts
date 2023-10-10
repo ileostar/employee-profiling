@@ -20,6 +20,13 @@ export const useModelStore = defineStore('model', () => {
 	const dialogCreateVisible = ref(false)
 	const dialogEditVisible = ref(false)
 	const dialogDeleteVisible = ref(false)
+
+	// 当前全局模型
+	const currentModelValue = ref('')
+	// 当前查看模型
+	const currentSelectModel = ref('')
+	// 当前查看模型岗位
+	const currentSelectPost = ref('')
   
 	const formField: FormField = ref({
 		status: {
@@ -320,6 +327,12 @@ export const useModelStore = defineStore('model', () => {
 		const res = await api.findByModelProperties()
 		if(res.status) {
 			currentModel.value=res.data
+			if(currentSelectModel.value === '') {
+				currentSelectModel.value = currentModel.value
+			}
+			if(currentModelValue.value === '') {
+				currentModelValue.value = currentModel.value
+			}
 		}
 	}
 
@@ -383,6 +396,9 @@ export const useModelStore = defineStore('model', () => {
 	}
 
 	return {
+		currentModelValue,
+		currentSelectModel,
+		currentSelectPost,
 		currentModel,
 		modelTotal,
 		formField,

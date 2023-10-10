@@ -476,7 +476,12 @@ const submitCreatedForm = (formEl: FormInstance | undefined) => {
 	})
 }
 
-// 修改
+/**
+ * @desc 修改
+ *
+ * @param {FormInstance | undefined} formEl - The form instance.
+ * @return {void} 
+ */
 const submitEditForm =  (formEl: FormInstance | undefined) => {
 	if (!formEl) return
 	formEl.validate(async(valid) => {
@@ -510,7 +515,9 @@ const beforeUpload = (file: any): boolean=> {
 	}
 	return (extension || extension2)
 }
+
 /**
+ * 上传成功提示
  * Handles the upload success event.
  *
  * @return {void} 
@@ -525,7 +532,9 @@ const handleUploadSuccess = async() => {
 	}
 	ElMessage.success('上传成功!')
 }
+
 /**
+ * 上传失败提示
  * Handles upload errors.
  *
  * @param {string} res - The error response.

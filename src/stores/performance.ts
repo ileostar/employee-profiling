@@ -22,11 +22,21 @@ export const usePerformanceStore = defineStore('performance',()=>{
 
 	const dialogEditFormVisible = ref(false)
 	const formEdit = ref<Performance>({})
-
+  
+	/**
+	 * Updates the performance list with the given payload.
+	 *
+	 * @param {Array<performanceList>} payload - The new performance list.
+	 */
 	function updatePerformanceList(payload: Array<performanceList>) {
 		performanceList.value = payload
 	}
 
+	/**
+	 * Refreshes the performance data.
+	 *
+	 * @return {Promise<void>} - Returns a promise that resolves with no value.
+	 */
 	const refreshPerformance = async () => { 
 		const res = await api.selectPerformane()
 		if(res.data.state === 200) {

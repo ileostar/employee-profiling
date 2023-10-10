@@ -71,7 +71,7 @@
 import { useModelStore } from '@/stores/model'
 import { usePostStore } from '@/stores/post'
 import { storeToRefs } from 'pinia'
-import { onMounted, ref } from 'vue'
+import { onMounted } from 'vue'
 import CreatedDialog from './components/CreatedDialog.vue'
 import EditDialog from './components/EditDialog.vue'
 import DeleteDialog from './components/DeleteDialog.vue'
@@ -81,7 +81,7 @@ import api from '@/api/api'
 const postStore = usePostStore()
 const modelStore = useModelStore()
 const { postData } = storeToRefs(postStore)
-const { modelTotal,formField,dialogCreateVisible,currentModel,dialogEditVisible,dialogDeleteVisible } = storeToRefs(modelStore)
+const { modelTotal,formField,dialogCreateVisible,currentModel,dialogEditVisible,dialogDeleteVisible,currentModelValue,currentSelectModel,currentSelectPost, } = storeToRefs(modelStore)
 
 onMounted(() => {
 	if(currentSelectPost.value === '') {
@@ -95,13 +95,6 @@ onMounted(() => {
 	}
 	findModelInformation()
 })
-
-// 当前全局模型
-const currentModelValue = ref('')
-// 当前查看模型
-const currentSelectModel = ref('')
-// 当前查看模型岗位
-const currentSelectPost = ref('')
 
 /**
  * Find model information.

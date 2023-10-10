@@ -29,6 +29,7 @@
 </template>
 
 <script lang="ts" setup>
+import * as _ from 'lodash'
 import { usePerformanceStore } from '@/stores/performance'
 import { storeToRefs } from 'pinia'
 import api from '@/api/api'
@@ -54,10 +55,9 @@ type performanceRow = {
  * @param {performanceRow} row - The performance row to be edited.
  */
 const editCurrentEmployee = async (row: performanceRow) => {
-	const data = toRaw(row)
+	const data = _.cloneDeep(toRaw(row))
 	dialogEditFormVisible.value = true
 	formEdit.value = data
-	console.log(row)
 }
 
 /**

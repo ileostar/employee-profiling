@@ -54,7 +54,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
+import { ref } from 'vue'
 import type { TableColumnCtx, TableInstance } from 'element-plus'
 import { useUsersStore } from '@/stores/users'
 import { storeToRefs } from 'pinia'
@@ -65,10 +65,6 @@ const approvalsStore = useApprovalsStore()
 
 const { infos } = storeToRefs(userStore)
 const { approvalList } = storeToRefs(approvalsStore)
-
-onMounted(() => {
-	console.log(approvalList);
-})
 
 interface User {
   date: string

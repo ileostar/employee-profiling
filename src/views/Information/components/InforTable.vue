@@ -22,6 +22,7 @@
 </template>
 
 <script lang="ts" setup>
+import * as _ from 'lodash'
 import { useEmployeeStore } from '@/stores/employee'
 import { storeToRefs } from 'pinia'
 import { toRaw } from 'vue'
@@ -33,7 +34,7 @@ const EmployeeStore = useEmployeeStore()
 const { EmployeeList:tableData,dialogFixFormVisible,form2,tableEmployee } = storeToRefs(EmployeeStore)
 
 const editCurrentEmployee = async (row: Employee) => {
-	const data = toRaw(row)
+	const data = _.cloneDeep(toRaw(row))
 	dialogFixFormVisible.value = true
 	form2.value = data
 	console.log(row)

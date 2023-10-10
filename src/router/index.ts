@@ -1,4 +1,4 @@
-import { createRouter, createWebHistory } from 'vue-router'
+import { createRouter, createWebHashHistory } from 'vue-router'
 import type { RouteRecordRaw } from 'vue-router'
 import * as _ from 'lodash'
 import api from '@/api/api'
@@ -336,13 +336,11 @@ const routes: Array<RouteRecordRaw> = [
 				async beforeEnter(_to, _from, next) {
 					const modelStore = useModelStore()
 					const postStore = usePostStore()
-					const { modelTotal,currentModel } = storeToRefs(modelStore)
+					const { currentModel } = storeToRefs(modelStore)
 					const { postData } = storeToRefs(postStore)
-					if(_.isEmpty(modelTotal.value)) {
-						modelStore.updateCurrentModel()
-						modelStore.updateModelTotal()
-						modelStore.updateFormField(currentModel.value,postData.value[0])
-					}
+					modelStore.updateCurrentModel()
+					modelStore.updateModelTotal()
+					modelStore.updateFormField(currentModel.value,postData.value[0])
 					next()
 				}
 			},
@@ -358,10 +356,7 @@ const routes: Array<RouteRecordRaw> = [
 				},
 				async beforeEnter(_to, _from, next) {
 					const approvalsStore = useApprovalsStore()
-					const { approvalList } = storeToRefs(approvalsStore)
-					if(_.isEmpty(approvalList.value)) {
-						approvalsStore.updateApprovalList()
-					}
+					approvalsStore.updateApprovalList()
 					next()
 				}
 			},
@@ -399,7 +394,7 @@ const routes: Array<RouteRecordRaw> = [
 ]
 
 const router = createRouter({
-	history: createWebHistory(import.meta.env.BASE_URL),
+	history: createWebHashHistory(import.meta.env.BASE_URL),
 	routes,
 })
 
@@ -431,7 +426,7 @@ router.afterEach((_to, _from) => {
 	setTimeout(function(){
 		const loadingStore = useLoading()
 		loadingStore.onLoading(false)
-	},1000)
+	},100)
 });
 
 export default router

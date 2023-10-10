@@ -29,7 +29,9 @@ import userInfos from '@/components/userInfos/userInfos.vue'
 import { useUsersStore } from '@/stores/users'
 import { storeToRefs } from 'pinia';
 import { ref } from 'vue'
+import { useRouter } from 'vue-router';
 
+const router = useRouter();
 const userStore = useUsersStore()
 const drawer = ref(false) // 控制侧边栏
 const { infos } = storeToRefs(userStore)
@@ -41,7 +43,7 @@ const { infos } = storeToRefs(userStore)
 const handleQuit = () => {
 	setTimeout(() => {
 		userStore.clearToken()
-		window.location.replace('/login')
+		router.push('/login')
 	}, 500)
 }
 </script>
