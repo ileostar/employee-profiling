@@ -13,18 +13,13 @@
 						<noResultYet :isShow="!reveal" iconName="noResultTwo" size="430">
 							<template v-slot:default>
                 <div>
-                  <h3>{{options.unit+options.post+options.sex+'性'+ageGroups.minAge+'到'+ageGroups.maxAge+'年龄段的共有'+overallAnalyzeResult.count+'人，人岗匹配系数是'+overallAnalyzeResult.peoplePostFactor}}</h3>
-                  <el-descriptions
-                    direction="vertical"
-                    :column="6"
-                    size="default"
-                    border>
-                    <el-descriptions-item label="岗位">{{ overallAnalyzeResult.post }}</el-descriptions-item>
-                    <el-descriptions-item label="人数">{{ overallAnalyzeResult.count }}</el-descriptions-item>
-                    <el-descriptions-item label="人岗匹配系数">{{ overallAnalyzeResult.peoplePostFactor }}</el-descriptions-item>
-                    <el-descriptions-item label="最高匹配系数">{{ overallAnalyzeResult.maxFactor }}</el-descriptions-item>
-                    <el-descriptions-item label="最低匹配系数">{{ overallAnalyzeResult.minFactor }}</el-descriptions-item>
-                  </el-descriptions>
+                  <el-table :data="overallAnalyzeResult" stripe style="width: 100%">
+                    <el-table-column prop="post" label="岗位" width="180" />
+                    <el-table-column prop="count" label="人数" width="180" />
+                    <el-table-column prop="peoplePostFactor" label="人岗匹配系数" />
+                    <el-table-column prop="maxFactor" label="最高匹配系数" width="180" />
+                    <el-table-column prop="minFactor" label="最低匹配系数" />
+                  </el-table>
                 </div>
               </template>
 						</noResultYet>
@@ -80,7 +75,15 @@ const ageGroups = ref({
 // 子组件传递分析结果
 const submitOverallAnalyze = (msg: any,option: Options,ageGroup: { minAge: string; maxAge: string }) => {
 	console.log(msg)
-	overallAnalyzeResult.value = msg
+	overallAnalyzeResult.value = msg.map((items: { [x: string]: any; minAge: any; maxAge: any; }) => {
+		const { maxFactor,minFactor,peoplePostFactor,...item } = items
+		return {
+			maxFactor: Number(maxFactor).toFixed(2),
+			minFactor: Number(minFactor).toFixed(2),
+			peoplePostFactor: Number(peoplePostFactor).toFixed(2),
+			...item
+		}
+	})
 	options.value = option
 	ageGroups.value = ageGroup
 	reveal.value = true
