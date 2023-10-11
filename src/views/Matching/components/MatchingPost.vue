@@ -2,15 +2,25 @@
 	<div class="MatchingPost">
 		<div class="job-demand">
 			<li>人岗匹配分析</li>
-			<el-input
-				v-model="textarea"
-				:autosize="{ minRows: 3, maxRows: 5 }"
-				type="textarea"
-				:placeholder="example"
-				resize="none"
-				input-style="font-size: 1vh;"
-			/>
-			<el-button type="info" @click="submitInput">提交分析</el-button>
+			<div class="big-box">
+        <div class="box-one">
+          <el-input
+            v-model="textarea"
+            :autosize="{ minRows: 3, maxRows: 5 }"
+            type="textarea"
+            :placeholder="example"
+            resize="none"
+            input-style="font-size: 1vh;"
+          />
+          <el-button type="info" @click="submitInput">提交分析</el-button>
+        </div>
+        <div class="box-two">
+          <span style="color:  gray; font-size: small;">例1：我需要一个体力好，有服务意识，并且具备开发能力的员工</span>
+          <span style="color:  gray; font-size: small;">例2：我需要一个会打篮球，沟通能力强的员工</span>
+          <span style="color:  gray; font-size: small;">例3：我需要一个接触过编程，责任感强的员工</span>
+          <span style="color:  gray; font-size: small;">例4：我需要一个有在烟草工作经验，并且是党员的员工</span>
+        </div>
+      </div>
 		</div>
 		<el-divider />
 		<div class="matching-result">
@@ -191,18 +201,36 @@ const submitTags = async () => {
 	height: 100%;
 	.job-demand {
 		height: 25%;
-		width: 70%;
+		width: 100%;
 		margin: 1vh 0;
-		li {
-			margin-bottom: 2vh;
-		}
-		.el-button {
-			margin-top: 2vh;
-			float: right;
-			font-size: 1.2vh;
-			width: 6vw;
-			height: 4vh;
-		}
+    .big-box {
+      display: flex;
+      margin: 1vh 0;
+      .box-one {
+        width: 60%;
+        li {
+          margin-bottom: 2vh;
+        }
+        .el-button {
+          margin-top: 2vh;
+          float: right;
+          font-size: 1.2vh;
+          width: 6vw;
+          height: 4vh;
+        }
+      }
+      .box-two {
+        display: flex;
+        flex-direction: column;
+        flex: 1;
+        margin: 0 1vw;
+        padding: .4vw;
+        border: 2px solid #ebeef5;
+        span {
+          flex: 1;
+        }
+      }
+    }
 	}
 	.matching-result {
 		flex: 1;

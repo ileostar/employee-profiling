@@ -14,11 +14,12 @@
               :value="item"
             />
           </el-select>
-          <p style="margin-left: 1vw;color: gray; font-size: small;">
-            (全局模型切换，会消耗一定时间，请谨慎切换！)
+          <p style="margin-left: 1vw;color:  rgb(234, 46, 46); font-size: small;">
+            (全局系统模型切换，会改变整个系统的值，会消耗一定时间，请谨慎切换！)
           </p>
         </div>
         <div class="function-button">
+          <span style="margin-right: 1vw;color: gray; font-size:small;">模型操作：</span>
           <el-button type="primary" @click="dialogCreateVisible=true">新建</el-button>
           <el-button type="info" @click="dialogEditVisible=true">修改</el-button>
           <el-button type="danger" @click="dialogDeleteVisible=true">删除</el-button>
@@ -48,6 +49,9 @@
               />
             </el-select>
           </div>
+          <p style="margin-left: 1vw;color:  gray; font-size: small;">
+            (查看各个系统模型的详情)
+          </p>
         </div>
         <el-divider />
         <el-scrollbar max-height="62.5vh">

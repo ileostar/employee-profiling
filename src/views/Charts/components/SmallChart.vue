@@ -1,5 +1,5 @@
 <template>
-	<div class="small-chart">
+	<div class="small-chart" :title="props.titles">
 		<img class="small-icon" :src="props.image" alt="" />
 		<div class="content">
 			<div class="chart-text">
@@ -38,6 +38,10 @@ const props = defineProps({
 		type: Array,
 		required: true,
 	},
+	titles: {
+		type: String,
+		default: '',
+	}
 })
 </script>
 
