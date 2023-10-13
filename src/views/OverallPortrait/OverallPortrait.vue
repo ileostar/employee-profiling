@@ -74,7 +74,6 @@ const ageGroups = ref({
 
 // 子组件传递分析结果
 const submitOverallAnalyze = (msg: any,option: Options,ageGroup: { minAge: string; maxAge: string }) => {
-	console.log(msg)
 	overallAnalyzeResult.value = msg.map((items: { [x: string]: any; minAge: any; maxAge: any; }) => {
 		const { maxFactor,minFactor,peoplePostFactor,...item } = items
 		return {

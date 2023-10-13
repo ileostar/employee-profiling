@@ -40,7 +40,7 @@ export const usePerformanceStore = defineStore('performance',()=>{
 	const refreshPerformance = async () => { 
 		const res = await api.selectPerformane()
 		if(res.data.state === 200) {
-			updatePerformanceList(res.data.data)        
+			updatePerformanceList(res.data.data)   
 		} else {
 			return
 		}

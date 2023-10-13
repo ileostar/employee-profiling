@@ -63,6 +63,7 @@
 import api from '@/api/api';
 import { useEmployeeStore } from '@/stores/employee';
 import { usePostStore } from '@/stores/post';
+import { ElMessage } from 'element-plus';
 import { storeToRefs } from 'pinia';
 import { onMounted, reactive, ref } from 'vue'
 
@@ -81,6 +82,9 @@ const hasCreatedTimeList = async () => {
 		if (res.data.state === 200) {
 			employeeStore.updateCreatedTimeList(res.data.data)
 		} else {
+			if(res.data.message){  
+				ElMessage.error(res.data.message)
+			}
 			return
 		}
 	}
@@ -147,6 +151,11 @@ const handleAnalyze = async () => {
 	})
 	if(res.data.state === 200) {
 		emit('submitAnalyze', res.data.data,overallOptions,ageGroup.value);
+		if(res.data.message){  
+			ElMessage.success(res.data.message)
+		} else {
+			ElMessage.error(res.data.message)
+		}
 	}
 }
 </script>

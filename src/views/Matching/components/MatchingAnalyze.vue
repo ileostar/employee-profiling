@@ -271,13 +271,22 @@ const onSubmitPersonPost =(formEl: FormInstance | undefined) => {
 					currentTagAnalyzeResult.value.name = formPersonPost.value.name
 					currentTagAnalyzeResult.value.employeeTag = res2.data.data.employeeGoodFeaturesMessage.filter( (item:string) => item != null)
 					currentTagAnalyzeResult.value.postTag = res2.data.data.postGoodFeaturesMessage
+					if(res2.data.message){  
+						ElMessage.success(res2.data.message)
+					}
 				} else {
-					ElMessage.error(res.data.message)
+					ElMessage.error(res2.data.message)
+				}
+				if(res.data.message){  
+					ElMessage.success(res.data.message)
 				}
 			}else {
-				ElMessage.error('请正确填写表单！')
+				ElMessage.error(res.data.message)
 				return false
 			}
+		}else {
+			ElMessage.error('请正确填写表单！')
+			return false
 		}
 	})
 }
@@ -298,6 +307,9 @@ const onSubmitPostMatching = (formEl: FormInstance | undefined) => {
 						...item
 					}
 				})
+				if(res.data.message){  
+					ElMessage.success(res.data.message)
+				}
 			} else {
 				ElMessage.error(res.data.message)
 			}
