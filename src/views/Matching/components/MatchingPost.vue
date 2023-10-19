@@ -10,7 +10,7 @@
             type="textarea"
             :placeholder="example"
             resize="none"
-            input-style="font-size: 1vh;"
+            input-style="font-size: 1.5vh;"
           />
           <el-button type="info" @click="submitInput">提交分析</el-button>
         </div>
@@ -214,7 +214,6 @@ const submitTags = async () => {
         .el-button {
           margin-top: 2vh;
           float: right;
-          font-size: 1.2vh;
           width: 6vw;
           height: 4vh;
         }

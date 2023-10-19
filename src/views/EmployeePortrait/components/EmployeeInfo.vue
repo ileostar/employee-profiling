@@ -197,7 +197,6 @@ watchEffect(() => {
     overflow: hidden;
 		border-radius: 1vh;
 		li {
-			font-size: 0.6vh;
 			font-weight: bold;
 		}
 		.content-left {
@@ -247,7 +246,6 @@ watchEffect(() => {
             display: -webkit-box;
             -webkit-box-orient: vertical;
             -webkit-line-clamp: 3;
-            font-size: 0.6vh;
             overflow: hidden;
             margin-bottom: .3vh;
 					}
@@ -358,7 +356,6 @@ watchEffect(() => {
 					}
 					p {
 						text-indent: 1vh;
-						font-size: 0.5vh;
 					}
 				}
 			}

@@ -282,7 +282,6 @@ const onSubmitPersonPost =(formEl: FormInstance | undefined) => {
 				}
 			}else {
 				ElMessage.error(res.data.message)
-				return false
 			}
 		}else {
 			ElMessage.error('请正确填写表单！')
