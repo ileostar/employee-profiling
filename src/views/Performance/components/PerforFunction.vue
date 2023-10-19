@@ -227,10 +227,25 @@ const currentDateList = ref<string[]>([])
 const dialogCreateFormVisible = ref(false)
 const dialogInFormVisible = ref(false)
 
+const download = ref<string>('')
+const params = ref<string>('')
+
 // 上传路径
 const uploadUrl = import.meta.env.VITE_AXIOS_BASE_URI + 'performane/upload'
-// 下载路径
-const download = import.meta.env.VITE_AXIOS_BASE_URI + 'performane/downloadexcel'
+
+// 支持导出当前页面显示内容
+watchEffect(()=>{
+	if(createdTime.value != ''){
+		params.value = 'createdTime='+createdTime.value
+	}
+	if(search.value != ''){
+		params.value += '&conditions='+search.value
+	}
+	if(defaultSelect.value != ''){
+		params.value += '&post='+defaultSelect.value
+	}
+	download.value = import.meta.env.VITE_AXIOS_BASE_URI + 'performane/downloadexcel'+params.value
+})
 
 const form = ref<Performance>({})
 const formField = reactive({
