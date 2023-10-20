@@ -244,7 +244,7 @@ watchEffect(()=>{
 	if(defaultSelect.value != ''){
 		params.value += '&post='+defaultSelect.value
 	}
-	download.value = import.meta.env.VITE_AXIOS_BASE_URI + 'performane/downloadexcel'+params.value
+	download.value = import.meta.env.VITE_AXIOS_BASE_URI + 'performane/downloadexcel?'+ params.value
 })
 
 const form = ref<Performance>({})

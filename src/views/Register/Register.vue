@@ -98,7 +98,6 @@ const submitForm = (formEl: FormInstance | undefined) => {
 				password: ruleForm.password,
 			}
 			api.register(regForm).then((res) => {
-				console.log(res)
 				if (res.data.state === 200) {
 					ElMessage.success('注册成功')
 					router.push('/login')

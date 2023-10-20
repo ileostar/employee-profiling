@@ -132,8 +132,6 @@ const rules = reactive<FormRules>({
 	secondPassword: [{ validator: secondPassword, trigger: 'blur' }],
 })
 
-const drawer = defineProps(['drawer'])
-
 // 修改用户信息
 const editUserInfos = async () => {
 	const fixData = {
@@ -141,14 +139,12 @@ const editUserInfos = async () => {
 		username: userStore.infos.username as string,
 	}
 	api.updateByUsername(fixData).then((res) => {
-		console.log(res)
 		if (res.data.state == 200) {
 			userStore.updatePassword(fixData.username)
 			ElMessage.success('修改成功')
 		} else {
 			ElMessage.error(res.data.message)
 		}
-		console.log(drawer)
 	})
 }
 
@@ -157,7 +153,6 @@ const editUserPassword = (formEl: FormInstance | undefined) => {
 	if (!formEl) return
 	formEl.validate(async (valid) => {
 		if(valid) {
-			console.log(valid);
 			const res = await api.updatePassword({id:Number(infos.value.id),password:form.password,prePassword:form.prePassword})
 			if(res.data.state === 200) {
 				dialogFormVisible.value = false

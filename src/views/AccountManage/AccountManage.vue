@@ -180,7 +180,6 @@ const handleClick = (row: any) => {
 
 const deleteIndexUser = async (row: any) => {
 	const deleteData = toRaw(row)
-	console.log(deleteData)
 
 	const res = await api.deleteUser(deleteData.id)
 	if (res.data.state === 200) {

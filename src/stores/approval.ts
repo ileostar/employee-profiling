@@ -2,6 +2,7 @@ import { ref } from 'vue'
 import { defineStore } from 'pinia'
 import { Approval } from '@/api/type'
 import api from '@/api/api'
+import * as _ from 'lodash'
 import { ElMessage } from 'element-plus'
 
 export const useApprovalsStore = defineStore('approval',() => {
@@ -72,7 +73,9 @@ export const useApprovalsStore = defineStore('approval',() => {
 		const res = await api.updateByIdYes(params)
 		if(res.status === 200 ){
 			updateApprovalList()
-			ElMessage.success(res.data.message)
+			if(_.isEmpty(res.data.message)){  
+				ElMessage.success(res.data.message)
+			}
 		} else {
 			ElMessage.error(res.data.message)
 		}

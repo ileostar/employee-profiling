@@ -11,7 +11,6 @@ export const useTagStore = defineStore('tag', () => {
 
 	function updateTagInfos(payload: Array<Infos>) {
 		info.value = payload
-		console.log(info)
 	}
 
 	return {
