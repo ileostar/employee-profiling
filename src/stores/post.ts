@@ -36,6 +36,7 @@ export const usePostStore = defineStore('post', () => {
 	function updateAnalyzeMatching(payload: Array<rowAnalyzeMatching>) {
 		analyzeMatchingList.value = payload
 	}
+  
 	function updateUnitList(payload: string[]) {
 		unitList.value = payload
 	}

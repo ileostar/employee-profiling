@@ -1,18 +1,18 @@
 {
 	"name": "employee-profiling",
-	"private": true,
 	"version": "0.0.1",
-	"type": "module",
+	"private": true,
 	"scripts": {
-		"dev": "vite --open",
 		"build": "vue-tsc && vite build",
-		"preview": "vite preview",
 		"commit": "git add . && cz",
+		"coverage": "vitest run --coverage",
+		"dev": "vite --open",
 		"prepare": "husky install",
+		"preview": "vite preview",
 		"push": "git push",
-		"test": "vitest",
-		"coverage": "vitest run --coverage"
+		"test": "vitest"
 	},
+	"main": "dist/electron/main/index.js",
 	"dependencies": {
 		"@element-plus/icons-vue": "1.x",
 		"@types/lodash": "^4.14.197",
@@ -38,6 +38,7 @@
 	"devDependencies": {
 		"@commitlint/cli": "12.1.4",
 		"@commitlint/config-conventional": "12.1.4",
+		"@depazer/vite": "^1.0.0",
 		"@types/node": "^20.7.2",
 		"@typescript-eslint/eslint-plugin": "^5.62.0",
 		"@typescript-eslint/parser": "^6.2.1",
@@ -45,6 +46,7 @@
 		"@vitest/coverage-istanbul": "^0.34.1",
 		"@vue/test-utils": "^2.4.1",
 		"commitizen": "^4.3.0",
+		"electron-devtools-installer": "^3.1.0",
 		"eslint": "^8.50.0",
 		"eslint-config-prettier": "^9.0.0",
 		"eslint-config-standard-with-typescript": "^37.0.0",
@@ -78,5 +80,6 @@
 			"prettier --write",
 			"git add ."
 		]
-	}
+	},
+	"type": "module"
 }

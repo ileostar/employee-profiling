@@ -7,6 +7,7 @@ import dotenv, { DotenvParseOutput } from 'dotenv'
 import fs from 'fs'
 import { createSvgIconsPlugin } from 'vite-plugin-svg-icons'
 import { fileURLToPath, URL } from 'node:url'
+import depazer from '@depazer/vite'
 
 // https://vitejs.dev/config/
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -25,6 +26,7 @@ export default defineConfig((_mode: ConfigEnv) => {
 				symbolId: 'icon-[name]', //+ 新增
 			}),
 			vue(),
+      depazer()
 		],
 		resolve: {
 			alias: {

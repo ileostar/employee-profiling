@@ -22,6 +22,7 @@
 				</div>
 				<div class="content-left-tag">
 					<li>画像特征</li>
+          <el-scrollbar max-height="15vh">
 					<div class="content-left-tag-content">
 						<el-tag class="ml-2" v-for="tag in tags.slice(0,6)" :key="tag" type="info">
 							{{ tag }}
@@ -30,6 +31,7 @@
 							查看全部
 						</el-tag>
 					</div>
+          </el-scrollbar> 
 				</div>
 				<div class="content-left-introduction">
 					<li>个人简介</li>
@@ -39,20 +41,18 @@
 						</p>
 					</el-card>
 				</div>
-				<div class="content-right-post">
+				<!-- <div class="content-right-post">
 					<li>岗位特征分析</li>
 					<div class="content-right-post-content">
 						<p :title="postTagEmployeeInfos?.postGoodFeaturesMessage.join('、')"><strong>对绩效影响较大字段：</strong>{{ postTagEmployeeInfos?.postGoodFeaturesMessage.join('、') }} </p>
 						<p :title="postTagEmployeeInfos?.employeeBadFeaturesMessage.filter(item=>item!==null).join('、')"><strong>能力提升建议：</strong>{{ postTagEmployeeInfos?.employeeBadFeaturesMessage.filter(item=>item!==null).join('、') }}
             </p>
 					</div>
-				</div>
-			</div>
-			<div class="content-right">
-				<div class="content-right-matching">
+				</div> -->
+				<div class="content-left-matching">
 					<li>人岗匹配</li>
-					<div class="content-right-matching-content">
-						<div class="content-right-matching-box1">
+					<div class="content-left-matching-content">            
+						<div class="content-left-matching">
 							<p>该员工与当前岗位匹配分析：</p>
 							<div class="box1-card">
 								<div class="box1-card-left">
@@ -69,6 +69,30 @@
 								</div>
 							</div>
 						</div>
+          </div>
+        </div>
+			</div>
+			<div class="content-right">
+				<div class="content-right-matching">
+					<!-- <li>人岗匹配</li> -->
+					<div class="content-right-matching-content">
+						<!-- <div class="content-right-matching-box1">
+							<p>该员工与当前岗位匹配分析：</p>
+							<div class="box1-card">
+								<div class="box1-card-left">
+									<p>{{ currentEmployeeAndPostAnalyze?.factor}}</p>
+								</div>
+								<div class="box1-card-right">
+									<div class="card-information-header">
+										<el-icon><CaretRight /></el-icon>
+										<p>{{employeeInfos.post}}</p>
+									</div>
+									<p class="card-information-content" :title="handlePostGoodFeaturesMessage?.join('、')">
+										该岗位优秀画像特征：{{ handlePostGoodFeaturesMessage?.join('、') }}
+									</p>
+								</div>
+							</div>
+						</div> -->
 						<div class="content-right-matching-box2">
 							<p>该员工与当前岗位优秀标签对比：</p>
 							<div class="box2-card">
@@ -77,23 +101,39 @@
 										<p>> 当前岗位优秀标签</p>
 									</template>
 									<template v-slot:default>
-                    <el-scrollbar max-height="18.8vh">
+                    <el-scrollbar max-height="30vh">
                       <el-tag class="ml-2" type="info" v-for="tag in handlePostGoodFeaturesMessage" :key="tag" >
                             <p :title="tag">{{tag}}</p>
                       </el-tag>
                     </el-scrollbar>
 									</template>
 								</employeeTagCard>
-								<employeeTagCard class="box2-card-content second">
-									<template v-slot:header>
-										<p>> 该员工对应标签情况</p>
-									</template>
-									<template v-slot:default>
-										<el-tag class="ml-2" type="info" v-for="tag in handleEmployeeGoodFeaturesMessage" :key="tag" :title="tag">
-                      <p :title="tag as string">{{tag}}</p>
-                    </el-tag>
-									</template>
-								</employeeTagCard>
+                <div class="tagBox">
+                  <employeeTagCard class="box2-card-content-child second mmm">
+                    <template v-slot:header>
+                      <p>> 该员工对应优秀标签情况</p>
+                    </template>
+                    <template v-slot:default>
+                      <el-scrollbar max-height="12.3vh">
+                      <el-tag class="ml-2" type="info" v-for="tag in handleEmployeeGoodFeaturesMessage" :key="tag" :title="tag">
+                        <p :title="tag as string">{{tag}}</p>
+                      </el-tag>
+                    </el-scrollbar>
+                    </template>
+                  </employeeTagCard>
+                  <employeeTagCard class="box2-card-content-child second">
+                    <template v-slot:header>
+                      <p>> 该员工对应较差标签情况</p>
+                    </template>
+                    <template v-slot:default>
+                      <el-scrollbar max-height="12.3vh">
+                        <el-tag class="ml-2" type="info" v-for="tag in handleEmployeeBadFeaturesMessage" :key="tag" :title="tag">
+                          <p :title="tag as string">{{tag}}</p>
+                        </el-tag>
+                      </el-scrollbar>
+                    </template>
+                  </employeeTagCard>
+                </div>
 							</div>
 						</div>
 						<div class="content-right-matching-box3">
@@ -176,12 +216,14 @@ const employeeMatchingTag = ref<Array<string>>([])
 
 const handlePostGoodFeaturesMessage = ref<Array<string>>()
 const handleEmployeeGoodFeaturesMessage = ref<Array<string>>()
+const handleEmployeeBadFeaturesMessage = ref<Array<string>>()
 const currentEmployeeAndPostAnalyze = ref<postCountFactor>()
 
 watchEffect(() => {
 	employeeMatchingTag.value = tags.value.filter(tag => postIntroductInfo.value.includes(tag));
 	handlePostGoodFeaturesMessage.value = postTagEmployeeInfos.value?.postGoodFeaturesMessage.sort((a,b) => b!.length-a!.length) as Array<string>
 	handleEmployeeGoodFeaturesMessage.value = postTagEmployeeInfos.value?.employeeGoodFeaturesMessage.filter(item=>item!==null).sort((a,b) => b!.length-a!.length) as Array<string>
+	handleEmployeeBadFeaturesMessage.value = postTagEmployeeInfos.value?.employeeBadFeaturesMessage.filter(item=>item!==null).sort((a,b) => b!.length-a!.length) as Array<string>
 	currentEmployeeAndPostAnalyze.value = postCountFactors.value.find(item => item.post === postName.value)
 })
 </script>
@@ -254,6 +296,54 @@ watchEffect(() => {
           }
 				}
 			}
+      .content-left-matching {
+        .content-left-matching-content {
+					.content-left-matching {
+						height: 25%;
+						overflow: hidden;
+						.box1-card {
+							overflow: hidden;
+							margin: 1.2vh 1vh 0;
+							display: flex;
+							height: 70%;
+							border-radius: 10vh;
+							border: 1px solid #74777d;
+							.box1-card-left {
+								display: flex;
+								overflow: hidden;
+								justify-content: center;
+								align-items: center;
+								padding: 1vh 2vh;
+								width: 35%;
+								background-color: #37827d;
+								color: #fff;
+								p {
+									font-size: 3vh;
+								}
+							}
+							.box1-card-right {
+								overflow: hidden;
+								padding: 1vh 2vh;
+								.card-information-header {
+									display: flex;
+									overflow: hidden;
+									align-items: center;
+								}
+								.card-information-content {
+									padding-top: 0.3vh;
+									overflow: hidden;
+									text-overflow: ellipsis;
+									-webkit-line-clamp: 2;
+									word-wrap: break-word;
+									display: -webkit-box;
+									-webkit-box-orient: vertical;
+									color: #666565;
+								}
+							}
+						}
+					}
+        }
+      }
 		}
 		.content-right {
       overflow: hidden;
@@ -311,7 +401,7 @@ watchEffect(() => {
 						}
 					}
 					.content-right-matching-box2 {
-						height: 50%;
+						height: 75%;
 						.box2-card {
 							display: flex;
 							padding: 1.5vh 0 0;
@@ -323,7 +413,7 @@ watchEffect(() => {
 							}
 							.box2-card-content {
                 overflow: hidden;
-								height: 85%;
+								height: 88%;
 								width: 15vw;
                 .el-tag {
                   overflow: hidden;
@@ -340,10 +430,35 @@ watchEffect(() => {
                   }
                 }
 							}
+              .box2-card-content-child {
+								width: 15vw;
+								height: 42%;
+                .el-tag {
+                  overflow: hidden;
+                  color: #fff;
+                  background-color: #64b3ae;
+                  border-radius: 1.2vh;
+                  padding-left: 1px;
+                  p {
+                    max-width: 12.2vw;
+                    overflow: hidden;
+                    text-overflow: ellipsis;
+                    white-space: nowrap;
+                    font-size: 10px!important;
+                  }
+                }
+              }
 							.second {
 								margin-left: 2vh;
 							}
+              .mmm {
+                margin-bottom: 1.5vh;
+              }
 						}
+            .tagBox {
+              display: flex;
+              flex-direction: column;
+            }
 					}
 					.content-right-matching-box3 {
 						height: 25%;

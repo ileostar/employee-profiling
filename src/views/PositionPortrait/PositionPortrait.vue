@@ -35,14 +35,14 @@
 					</div>
 					<div class="content-matching">
 						<li>员工匹配度</li>
-						<el-table :data="analyzeMatchingList" scrollbar-always-on height="310" style="width: 100%">
+						<el-table :data="tableDataTwo" scrollbar-always-on height="310" style="width: 100%">
 							<el-table-column prop="id" label="序号" width="120" />
-							<el-table-column prop="number" label="员工编号" width="120" />
+							<el-table-column prop="number" sortable label="员工编号" width="120" />
 							<el-table-column prop="name" label="员工姓名" />
 							<el-table-column prop="unit" label="单位" width="120" />
 							<el-table-column prop="post" label="岗位" width="130" />
-							<el-table-column prop="scores" label="月度绩效" width="120" />
-							<el-table-column prop="factor" label="匹配系数" width="180" />
+							<el-table-column prop="scores" sortable label="月度绩效" width="120" />
+							<el-table-column prop="factor" sortable label="匹配系数" width="180" />
 						</el-table>
 					</div>
 				</div>
@@ -65,6 +65,7 @@ const { createdTime } =storeToRefs(employeeStore)
 const { postData,analyzeRelationList,analyzeMatchingList } = storeToRefs(PostStore)
 
 const tableDataOne = ref<Array<any>>([])
+const tableDataTwo = ref<Array<any>>([])
 watchEffect(() => {
 	tableDataOne.value= analyzeRelationList.value.map((item)=> {
 		const { weight,niceNumber,badNumber,...props } = item
@@ -73,6 +74,14 @@ watchEffect(() => {
 			weight: weight.toFixed(2),
 			badNumber: Number(badNumber).toFixed(2)+'%',
 			niceNumber: Number(niceNumber).toFixed(2)+'%',
+		}
+	})
+	tableDataTwo.value= analyzeMatchingList.value.map((item)=> {
+		const { scores, factor ,...props } = item
+		return {
+			...props,
+			factor: Number(factor).toFixed(2),
+			scores: Number(scores).toFixed(2),
 		}
 	})
 })
