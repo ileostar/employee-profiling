@@ -166,7 +166,7 @@
 </template>
 
 <script lang="ts" setup>
-import { onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
+import { onMounted, onUnmounted, reactive, ref } from 'vue'
 import noResultYet from '@/components/noResultYet/noResultYet.vue'
 import api from '@/api/api'
 import { ElMessage, FormInstance } from 'element-plus'
