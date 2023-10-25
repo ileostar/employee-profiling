@@ -46,7 +46,7 @@
                   <el-table-column prop="name" label="员工姓名" width="70"/>
                   <el-table-column prop="number" label="岗位编号" width="70" />
                   <el-table-column prop="post" label="岗位名称" width="90" />
-                  <el-table-column prop="factor" label="员工匹配系数" width="90" />
+                  <el-table-column prop="factor" label="人岗匹配系数" width="90" />
                   <el-table-column prop="max" label="岗位最高匹配系数" width="115" />
                   <el-table-column prop="min" label="岗位最低匹配系数" width="115" />
                   <el-table-column prop="avg" label="平均匹配系数"  width="115"/>
@@ -85,7 +85,7 @@
                   </template>
                 </employeeTagCard> -->
                 <div class="content-right-matching-box2">
-                  <p>该员工与当前岗位优秀标签比对</p>
+                  <p>影响该岗位绩效的关键标签分析：</p>
                   <div class="box3-table">
                     <el-table
                       :data="portraitFeatureTwo"
@@ -95,14 +95,18 @@
                       border
                       size="small"
                     >
-                      <el-table-column prop="postGoodFeaturesMessage" label="影响当前岗位优秀标签" width="150" />
+                      <el-table-column prop="postGoodFeaturesMessage" label="影响绩效的关键标签" width="270"
+                      header-align="center" />
                       <el-table-column
                         prop="employeeGoodFeaturesMessage"
                         label="改员工匹配情况"
+                        align="center"
                       />
                       <el-table-column
                         prop="employeeBadFeaturesMessage"
                         label="是否匹配"
+                        align="center"
+                        sortable
                       />
                     </el-table>
                   </div>
@@ -142,7 +146,7 @@
 				</el-form>
 			</div>
 			<div class="content-right-matching">
-				<p>> 根据岗位筛选复合人员</p>
+				<p>> 根据岗位筛选符合人员</p>
 				<noResultYet size="400" :isShow="!analyzePostMatching">
 					<template v-slot:default>
             <el-table 

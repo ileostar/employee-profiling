@@ -53,8 +53,8 @@
 					<li>人岗匹配</li>
 					<div class="content-left-matching-content">            
 						<div class="content-left-matching">
-							<p>该员工与当前岗位匹配分析：</p>
-							<div class="box1-card">
+							<p style="margin-top: 1vh;">该员工以{{employeeInfos.post}}的匹配系数为：{{ currentEmployeeAndPostAnalyze?.factor}}</p>
+							<!-- <div class="box1-card">
 								<div class="box1-card-left">
 									<p>{{ currentEmployeeAndPostAnalyze?.factor}}</p>
 								</div>
@@ -67,7 +67,7 @@
 										该岗位优秀画像特征：{{ handlePostGoodFeaturesMessage?.join('、') }}
 									</p>
 								</div>
-							</div>
+							</div> -->
 						</div>
           </div>
         </div>
@@ -137,30 +137,35 @@
 							</div>
 						</div> -->
 						<div class="content-right-matching-box2">
-							<p>该员工与当前岗位优秀标签比对</p>
+							<p>影响该岗位绩效的关键标签分析：</p>
 							<div class="box3-table">
 								<el-table
 									:data="portraitFeatureTwo"
 									:header-cell-style="{ background: '#97c1be', color: '#fff' }"
                   scrollbar-always-on
-                  height="280" 
+                  height="250" 
 									border
 									size="small"
 								>
-									<el-table-column prop="postGoodFeaturesMessage" label="影响当前岗位优秀标签" width="150" />
+									<el-table-column prop="postGoodFeaturesMessage" label="影响当前岗位优秀标签" width="180" header-align="center" />
 									<el-table-column
+                    align="center"
 										prop="employeeGoodFeaturesMessage"
-										label="改员工匹配情况"
+										label="该员工匹配情况"
 									/>
 									<el-table-column
 										prop="employeeBadFeaturesMessage"
+                    align="center"
+                    sortable
 										label="是否匹配"
 									/>
 								</el-table>
 							</div>
+              <p style="margin-top: .7vh;" :title="postTagEmployeeInfos?.employeeBadFeaturesMessage.filter(item=>item!==null).join('、')"><strong>能力提升建议：</strong>{{ postTagEmployeeInfos?.employeeBadFeaturesMessage.filter(item=>item!==null).join('、') }}
+              </p>
 						</div>
 						<div class="content-right-matching-box3">
-							<p>据模型分析，与当前员工匹配度高的岗位有：</p>
+							<p>该员工匹配度高的岗位有：</p>
 							<div class="box3-table">
 								<el-table
 									:data="postCountFactors"
