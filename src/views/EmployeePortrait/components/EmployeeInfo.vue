@@ -93,7 +93,7 @@
 								</div>
 							</div>
 						</div> -->
-						<div class="content-right-matching-box2">
+						<!-- <div class="content-right-matching-box2">
 							<p>该员工与当前岗位优秀标签对比：</p>
 							<div class="box2-card">
 								<employeeTagCard class="box2-card-content">
@@ -134,6 +134,29 @@
                     </template>
                   </employeeTagCard>
                 </div>
+							</div>
+						</div> -->
+						<div class="content-right-matching-box2">
+							<p>该员工与当前岗位优秀标签比对</p>
+							<div class="box3-table">
+								<el-table
+									:data="portraitFeatureTwo"
+									:header-cell-style="{ background: '#97c1be', color: '#fff' }"
+                  scrollbar-always-on
+                  height="280" 
+									border
+									size="small"
+								>
+									<el-table-column prop="postGoodFeaturesMessage" label="影响当前岗位优秀标签" width="150" />
+									<el-table-column
+										prop="employeeGoodFeaturesMessage"
+										label="改员工匹配情况"
+									/>
+									<el-table-column
+										prop="employeeBadFeaturesMessage"
+										label="是否匹配"
+									/>
+								</el-table>
 							</div>
 						</div>
 						<div class="content-right-matching-box3">
@@ -189,12 +212,11 @@
 
 <script lang="ts" setup>
 import { ref, watchEffect } from 'vue'
-import employeeTagCard from '@/components/employeeTagCard/employeeTagCard.vue'
 import { storeToRefs } from 'pinia'
 import { postCountFactor, useEmployeeStore } from '@/stores/employee'
 
 const employeeStore = useEmployeeStore()
-const { portraitFeature:employeeInfos,tagEmployeeInfo:tags,postTagEmployeeInfos,postCountFactors } = storeToRefs(employeeStore)
+const { portraitFeature:employeeInfos,tagEmployeeInfo:tags,postTagEmployeeInfos,postCountFactors,portraitFeatureTwo } = storeToRefs(employeeStore)
 
 const TagCenterDialogVisible = ref(false)
 const props = defineProps(['employee'])
@@ -402,6 +424,12 @@ watchEffect(() => {
 					}
 					.content-right-matching-box2 {
 						height: 75%;
+						.box3-table {
+							padding-top: 1.5vh;
+							.el-table {
+								border-radius: 1.4vh;
+							}
+						}
 						.box2-card {
 							display: flex;
 							padding: 1.5vh 0 0;

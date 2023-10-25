@@ -64,7 +64,7 @@
                 </el-select>
               </h3>
               <div class="personPostAnalyze">
-                <employeeTagCard class="box-card-content">
+                <!-- <employeeTagCard class="box-card-content">
                   <template v-slot:header>
                     <p>> {{currentTagAnalyzeResult.post}}优秀画像</p>
                   </template>
@@ -83,7 +83,30 @@
                       <p :title="item">{{item}}</p>
                     </el-tag>
                   </template>
-                </employeeTagCard>
+                </employeeTagCard> -->
+                <div class="content-right-matching-box2">
+                  <p>该员工与当前岗位优秀标签比对</p>
+                  <div class="box3-table">
+                    <el-table
+                      :data="portraitFeatureTwo"
+                      :header-cell-style="{ background: '#97c1be', color: '#fff' }"
+                      scrollbar-always-on
+                      height="230" 
+                      border
+                      size="small"
+                    >
+                      <el-table-column prop="postGoodFeaturesMessage" label="影响当前岗位优秀标签" width="150" />
+                      <el-table-column
+                        prop="employeeGoodFeaturesMessage"
+                        label="改员工匹配情况"
+                      />
+                      <el-table-column
+                        prop="employeeBadFeaturesMessage"
+                        label="是否匹配"
+                      />
+                    </el-table>
+                  </div>
+                </div>
               </div>
             </div>
           </template>
@@ -145,7 +168,6 @@
 <script lang="ts" setup>
 import { onMounted, onUnmounted, reactive, ref, watchEffect } from 'vue'
 import noResultYet from '@/components/noResultYet/noResultYet.vue'
-import employeeTagCard from '@/components/employeeTagCard/employeeTagCard.vue'
 import api from '@/api/api'
 import { ElMessage, FormInstance } from 'element-plus'
 import { useEmployeeStore } from '@/stores/employee'
@@ -156,7 +178,7 @@ import * as _ from 'lodash'
 const matchingStore = useMatchingStore()
 const employeeStore = useEmployeeStore()
 const { createdTime } = storeToRefs(employeeStore)
-const { PersonPostTableData,formPersonPost,emloyeeNumberOptions,currentEmloyeeNumber,currentTagAnalyzeResult,currentPostMatchingTable,formPostMatching } = storeToRefs(matchingStore)
+const { PersonPostTableData,formPersonPost,emloyeeNumberOptions,currentEmloyeeNumber,currentTagAnalyzeResult,currentPostMatchingTable,formPostMatching,portraitFeatureTwo } = storeToRefs(matchingStore)
 // 控制结果页面显示，没有数据的时候显示空
 const analyzePersonPost = ref(false)
 const analyzePostMatching = ref(false)
@@ -166,7 +188,7 @@ onMounted(() => {
 })
 
 const saveState = () => {
-	if(!_.isEmpty(currentTagAnalyzeResult.value)){
+	if(!_.isEmpty(portraitFeatureTwo.value)){
 		analyzePersonPost.value = true
 	} 
 	if(!_.isEmpty(currentPostMatchingTable.value)){
@@ -174,39 +196,37 @@ const saveState = () => {
 	}
 }
 
-const currentHandleTagAnalyzeResult = ref<Array<string>>([])
-const currentHandleTagEmployeeAnalyzeResult = ref<Array<string>>([])
-
+// const currentHandleTagAnalyzeResult = ref<Array<string>>([])
+// const currentHandleTagEmployeeAnalyzeResult = ref<Array<string>>([])
 // 重新排序，字符少的排在前面
-watchEffect(() => {
-	currentHandleTagAnalyzeResult.value = currentTagAnalyzeResult.value.postTag.sort(function(a, b) {
-		return  b!.length-a!.length;
-	}) as string[]
-	currentHandleTagEmployeeAnalyzeResult.value = currentTagAnalyzeResult.value.employeeTag.sort(function(a, b) {
-		return  b!.length-a!.length;
-	}) as string[]
-})
-
+// watchEffect(() => {
+// 	currentHandleTagAnalyzeResult.value = currentTagAnalyzeResult.value.postTag.sort(function(a, b) {
+// 		return  b!.length-a!.length;
+// 	}) as string[]
+// 	currentHandleTagEmployeeAnalyzeResult.value = currentTagAnalyzeResult.value.employeeTag.sort(function(a, b) {
+// 		return  b!.length-a!.length;
+// 	}) as string[]
+// })
 // 处理字符串长度
-const handleStringLength = (item:string) => {
-	// 定义字符串和长度限制
-	const maxLength = 15;
-	const ellipsis = '...';
-	let halfLength = 0;
+// const handleStringLength = (item:string) => {
+// 	// 定义字符串和长度限制
+// 	const maxLength = 15;
+// 	const ellipsis = '...';
+// 	let halfLength = 0;
 
-	// 检查字符串长度并进行省略
-	if (item.length > maxLength) {
-		// 超过最大长度，省略到最大长度的一半
-		halfLength = Math.floor(maxLength);
-		item = item.substring(0, halfLength) + ellipsis;
-	} else if (item.length > maxLength / 2) {
-		// 在一半长度和最大长度之间，省略到最大长度的一半
-		halfLength = Math.floor(maxLength / 2);
-		item = item.substring(0, halfLength) + ellipsis;
-	}
+// 	// 检查字符串长度并进行省略
+// 	if (item.length > maxLength) {
+// 		// 超过最大长度，省略到最大长度的一半
+// 		halfLength = Math.floor(maxLength);
+// 		item = item.substring(0, halfLength) + ellipsis;
+// 	} else if (item.length > maxLength / 2) {
+// 		// 在一半长度和最大长度之间，省略到最大长度的一半
+// 		halfLength = Math.floor(maxLength / 2);
+// 		item = item.substring(0, halfLength) + ellipsis;
+// 	}
 
-	return item
-}
+// 	return item
+// }
 
 // 人岗匹配切换编号分析表单
 const changeEmloyeeNumber = async () => {
@@ -265,6 +285,17 @@ const onSubmitPersonPost =(formEl: FormInstance | undefined) => {
 					}
 				})
 				const res2 = await api.getPostFeaturesByNumberAndPost({createdTime:createdTime.value,number:Number(currentEmloyeeNumber.value),post:formPersonPost.value.post})
+
+				const res3 = await api.PostFeaturesByNumberAndPost1({createdTime:createdTime.value,number:Number(currentEmloyeeNumber.value),post:formPersonPost.value.post})
+
+				if( res3.data.state === 200 ) {
+					portraitFeatureTwo.value = res3.data.data
+					if(res3.data.message){  
+						ElMessage.success(res3.data.message)
+					}
+				} else {
+					ElMessage.error(res3.data.message)
+				}
 
 				if(res2.data.state === 200){
 					currentTagAnalyzeResult.value.post = formPersonPost.value.post
@@ -380,6 +411,8 @@ onUnmounted(() => {
       .personPostAnalyze {
         display: flex;
         width: 100%;
+        height: 38vh;
+        overflow: hidden;
         .el-tag {
           overflow: hidden;
           color: #fff;
@@ -400,6 +433,73 @@ onUnmounted(() => {
         }
         .second {
           margin-left: 2vh;
+        }
+        .content-right-matching-box2 {
+          height: 100%;
+          width: 100%;
+          .box3-table {
+            padding-top: 1.5vh;
+            .el-table {
+              border-radius: 1.4vh;
+            }
+          }
+          .box2-card {
+            display: flex;
+            padding: 1.5vh 0 0;
+            height: 100%;
+            .el-tag {
+              color: #fff;
+              background-color: #64b3ae;
+              border-radius: 1.2vh;
+            }
+            .box2-card-content {
+              overflow: hidden;
+              height: 88%;
+              width: 15vw;
+              .el-tag {
+                overflow: hidden;
+                color: #fff;
+                background-color: #64b3ae;
+                border-radius: 1.2vh;
+                padding-left: 1px;
+                p {
+                  max-width: 12.2vw;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  font-size: 10px!important;
+                }
+              }
+            }
+            .box2-card-content-child {
+              width: 15vw;
+              height: 42%;
+              .el-tag {
+                overflow: hidden;
+                color: #fff;
+                background-color: #64b3ae;
+                border-radius: 1.2vh;
+                padding-left: 1px;
+                p {
+                  max-width: 12.2vw;
+                  overflow: hidden;
+                  text-overflow: ellipsis;
+                  white-space: nowrap;
+                  font-size: 10px!important;
+                }
+              }
+            }
+            .second {
+              margin-left: 2vh;
+            }
+            .mmm {
+              margin-bottom: 1.5vh;
+            }
+          }
+          .tagBox {
+            display: flex;
+            flex-direction: column;
+          }
         }
       }
 		}

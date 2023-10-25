@@ -157,7 +157,14 @@ export default {
 		// 查询员工信息所有单位的方法
 		return http.get('/verifyCode')
 	},
-
+	PostFeatures1: (params: { createdTime: string, number: number }) => {
+		// 查出画像特征,也就是员工拥有的优秀特征,需要传入的参数有员工姓名和日期，类型都是string，日期格式例如”2023-05“
+		return http.get('/employee/PostFeatures1', params)
+	},
+	PostFeaturesByNumberAndPost1: (params: { createdTime: string, number: number, post: string }) => {
+		// 查出画像特征,也就是员工拥有的优秀特征,需要传入的参数有员工姓名和日期，类型都是string，日期格式例如”2023-05“
+		return http.get('/employee/PostFeaturesByNumberAndPost1', params)
+	},
 
 	/**
 	 * @desc 绩效接口

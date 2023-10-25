@@ -33,6 +33,12 @@ export type postCountFactor = {
   avg: number
 }
 
+export type PortraitFeatureTwo = {
+  postGoodFeaturesMessage: string
+  employeeGoodFeaturesMessage: string
+  employeeBadFeaturesMessage: string
+}
+
 export const useEmployeeStore = defineStore('employee', () => {
 	const createdTime = ref<string>('')
 	const createdTimeList = ref<Array<string>>([])
@@ -371,6 +377,7 @@ export const useEmployeeStore = defineStore('employee', () => {
 	const tagEmployeeInfo = ref<Array<string>>([])
 	const postTagEmployeeInfos = ref<postTagEmployeeInfo>()
 	const postCountFactors = ref<Array<postCountFactor>>([]) // 处理过的数据
+	const portraitFeatureTwo = ref<Array<PortraitFeatureTwo>>([])
   
 	// 画像侧边栏
 	const EmployeeNameList = ref<Array<EmployeeName>>([])
@@ -463,6 +470,11 @@ export const useEmployeeStore = defineStore('employee', () => {
 			})
 			updatePostCountFactors(handleRes5)
 		}
+
+		const res6 = await api.PostFeatures1(req)
+		if(res6.data.state === 200 ) {
+			portraitFeatureTwo.value = res6.data.data
+		}
 	}
 
 	return { 
@@ -480,6 +492,7 @@ export const useEmployeeStore = defineStore('employee', () => {
 		postTagEmployeeInfos,
 		postCountFactors,
 		tableEmployee,
+		portraitFeatureTwo,
 		addEmployeeList,
 		updateCreatedTimeList,
 		updateEmployeeList,

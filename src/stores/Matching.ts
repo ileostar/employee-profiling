@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import { PortraitFeatureTwo } from './employee'
 
 type TableData = {
   name: string,
@@ -39,6 +40,7 @@ export const useMatchingStore = defineStore('matching', () => {
 		name: '',
 		post: '',
 	})
+	const portraitFeatureTwo = ref<Array<PortraitFeatureTwo>>([])	// 保存人岗匹配分析结果
 
 	// 保存人岗匹配分析结果
 	const currentTagAnalyzeResult = ref<TagAnalyzeResult>({
@@ -49,7 +51,7 @@ export const useMatchingStore = defineStore('matching', () => {
 	})
 	// 保存岗位匹配分析结果
 	const currentPostMatchingTable = ref<Array<Infos>>([])
-  
+
 	const formPostMatching = ref({
 		post: ''
 	})
@@ -70,10 +72,11 @@ export const useMatchingStore = defineStore('matching', () => {
 		currentPostMatchingTable,
 		currentEmloyeeNumber,
 		tableData,
+		portraitFeatureTwo,
 		textarea
 	}
 },{
 	persist:{
-		paths: ['formPersonPost','textarea','currentEmloyeeNumber','PersonPostTableData','emloyeeNumberOptions','currentTagAnalyzeResult','formPostMatching','currentPostMatchingTable','tableData']
+		paths: ['formPersonPost','textarea','currentEmloyeeNumber','PersonPostTableData','emloyeeNumberOptions','currentTagAnalyzeResult','formPostMatching','currentPostMatchingTable','tableData','portraitFeatureTwo']
 	}
 })
