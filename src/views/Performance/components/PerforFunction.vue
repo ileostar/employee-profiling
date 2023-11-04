@@ -1,5 +1,13 @@
 <template>
 	<div class="performance-function">
+    <el-select v-model="createdTime" class="m-2" placeholder="Select" @change="changeCreatedTime">
+      <el-option
+        v-for="item in options"
+        :key="item"
+        :label="item"
+        :value="item"
+      />
+    </el-select>
 		<div class="function-selectSearch">
 			<div class="mt-4">
 				<el-input
@@ -55,7 +63,6 @@
 				<el-icon><Upload /></el-icon>
 				<p>导入</p>
 			</el-button>
-      
       <a :href="download">
         <el-button
           class="funtion-button-item"
@@ -217,8 +224,8 @@ const PostStore = usePostStore()
 const EmployeeStore = useEmployeeStore()
 const performanceStore = usePerformanceStore()
 const { postData: select } = storeToRefs(PostStore)
-const { dialogEditFormVisible,formEdit } = storeToRefs(performanceStore)
-const { createdTime } = storeToRefs(EmployeeStore)
+const { dialogEditFormVisible,formEdit,perCurrentTime:createdTime } = storeToRefs(performanceStore)
+const { createdTimeList: options } = storeToRefs(EmployeeStore)
 
 const search = ref('')
 const defaultSelect = ref('')
@@ -229,6 +236,14 @@ const dialogInFormVisible = ref(false)
 
 const download = ref<string>('')
 const params = ref<string>('')
+
+/**
+ * @param: 当前点击创建时间
+ * @desc: 切换创建时间
+ */
+const changeCreatedTime = async (value: string) => {
+	createdTime.value = value
+}
 
 // 上传路径
 const uploadUrl = import.meta.env.VITE_AXIOS_BASE_URI + 'performane/upload'
@@ -441,7 +456,7 @@ const searchPerformance = async () => {
 	if(search.value===''&&defaultSelect.value==='') {
 		const res = await api.selectPerformane()
 		if(res.data.state === 200) {
-			performanceStore.updatePerformanceList(res.data.data)      
+			performanceStore.updatePerformanceList(res.data.data)
 		}
 		ElMessage.success('查询成功!')
 		return
@@ -461,7 +476,7 @@ const searchPerformance = async () => {
 		post: defaultSelect.value,
 		conditions: search.value
 	}
-  
+
 	const res = await api.findPerByPostAndCondition(req.value)
 	if(res.data.state === 200) {
 		performanceStore.updatePerformanceList(res.data.data)

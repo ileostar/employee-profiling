@@ -1082,7 +1082,7 @@ const handleUploadSuccess = async () => {
 }
 const handleUploadError =(res: string) => {
 	console.log('err' + res);
-  
+
 	ElMessage.error('上传失败!')
 }
 
@@ -1265,7 +1265,7 @@ const autofill2 = async (num: number) => {
 	if(nextNum.value === num) return 
 	const clonedNamesake = _.cloneDeep(namesake.value);
 	console.log(clonedNamesake);
-  
+
 	clonedNamesake.forEach(item => {
 		if(num === item.number && only.value) {
 			form2.value = item.items[0];
@@ -1284,7 +1284,7 @@ const pairingCreatedTime = () => {
 	const clonedNamesake = _.cloneDeep(namesake.value);
 
 	const form2Copy = clonedNamesake.filter(item => item.number === form2.value.number) as Array<Namesake>;
-  
+
 	if(!form2Copy.some(item => (
 		item.items.some(item1 => {
 			if (item1.createdTime === form2.value.createdTime) {

@@ -18,11 +18,12 @@ export type performanceList = {
 export const usePerformanceStore = defineStore('performance',()=>{
 	const performanceColumn = ref<Array<string>>(['员工编号','员工姓名','部门','职务','岗位','考核月份','月度绩效'])
 
+	const perCurrentTime = ref('')
 	const performanceList = ref<Array<performanceList>>([])
 
 	const dialogEditFormVisible = ref(false)
 	const formEdit = ref<Performance>({})
-  
+
 	/**
 	 * Updates the performance list with the given payload.
 	 *
@@ -51,6 +52,7 @@ export const usePerformanceStore = defineStore('performance',()=>{
 		performanceColumn,
 		dialogEditFormVisible,
 		formEdit,
+		perCurrentTime,
 		updatePerformanceList,
 		refreshPerformance
 	}

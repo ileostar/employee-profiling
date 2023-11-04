@@ -104,7 +104,7 @@ const routes: Array<RouteRecordRaw> = [
 								}
 								const res1 = await api.dataAnalysis1(req)
 								const res2 = await api.dataAnalysis2(req)
-                
+
 								if (res1.data.state === 200 && res2.data.state) {
 									chartStore.updateSmallChartData(res1.data.data)
 									chartStore.updatePostChartData(res2.data.data)
@@ -157,11 +157,22 @@ const routes: Array<RouteRecordRaw> = [
 						// eslint-disable-next-line @typescript-eslint/no-unused-vars
 						async beforeEnter(_to, _from, next) {
 							const performanceStore = usePerformanceStore()
-							const { performanceList } = storeToRefs(performanceStore)
+							const { performanceList,perCurrentTime } = storeToRefs(performanceStore)
+							const employeeStore = useEmployeeStore()
+							const { createdTime:Info ,createdTimeList:Infos } = storeToRefs(employeeStore)
+							if (_.isEmpty(Info.value) || _.isEmpty(Infos.value)) {
+								const res = await api.getCreatedTime()
+								if (res.data.state === 200) {
+									employeeStore.updateCreatedTimeList(res.data.data)
+									perCurrentTime.value = res.data.data[0]
+								} else {
+									return
+								}
+							}
 							if(_.isEmpty(performanceList.value)) {
 								const res = await api.selectPerformane()
 								if(res.data.state === 200) {
-									performanceStore.updatePerformanceList(res.data.data)      
+									performanceStore.updatePerformanceList(res.data.data)
 								} else {
 									return
 								}
