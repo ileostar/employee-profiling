@@ -225,6 +225,10 @@ export default {
 		//  用于右上角的查询，根据岗位和员工编号或岗位和员工姓名进行查询，注意编号和姓名的数据类型是不一样的，会根据传入的数据自动判断是姓名还是编号
 		return http.get('/performane/findByNumberAndCreatedTime', params)
 	},
+	selectByCreatedTime: (params: { createdTime: string }) => {
+		//  员工绩效查询方法,根据月份查询,用于前端展示
+		return http.get('/performane/selectByCreatedTime', params)
+	},
 
 	/**
 	 * @desc 人岗匹配分析接口

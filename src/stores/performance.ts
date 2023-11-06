@@ -38,10 +38,10 @@ export const usePerformanceStore = defineStore('performance',()=>{
 	 *
 	 * @return {Promise<void>} - Returns a promise that resolves with no value.
 	 */
-	const refreshPerformance = async () => { 
+	const refreshPerformance = async () => {
 		const res = await api.selectPerformane()
 		if(res.data.state === 200) {
-			updatePerformanceList(res.data.data)   
+			updatePerformanceList(res.data.data)
 		} else {
 			return
 		}

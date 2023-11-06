@@ -243,6 +243,10 @@ const params = ref<string>('')
  */
 const changeCreatedTime = async (value: string) => {
 	createdTime.value = value
+	const res = await api.selectByCreatedTime({createdTime: value})
+	if(res.data.state===200) {
+		performanceStore.updatePerformanceList(res.data.data)
+	}
 }
 
 // 上传路径
