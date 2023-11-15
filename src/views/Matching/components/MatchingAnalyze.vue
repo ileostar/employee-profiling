@@ -44,7 +44,7 @@
               <div class="personPostTable">
                 <el-table :data="PersonPostTableData" border size="small" stripe style="width: 99%">
                   <el-table-column prop="name" label="员工姓名" width="70"/>
-                  <el-table-column prop="number" label="岗位编号" width="70" />
+                  <el-table-column prop="number" label="员工编号" width="70" />
                   <el-table-column prop="post" label="岗位名称" width="90" />
                   <el-table-column prop="factor" label="人岗匹配系数" width="90" />
                   <el-table-column prop="max" label="岗位最高匹配系数" width="115" />
