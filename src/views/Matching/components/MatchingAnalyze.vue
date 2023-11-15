@@ -99,7 +99,7 @@
                       header-align="center" />
                       <el-table-column
                         prop="employeeGoodFeaturesMessage"
-                        label="改员工匹配情况"
+                        label="该员工匹配情况"
                         align="center"
                       />
                       <el-table-column
