@@ -147,7 +147,7 @@
 									border
 									size="small"
 								>
-									<el-table-column prop="postGoodFeaturesMessage" label="影响当前岗位优秀标签" width="180" header-align="center" />
+									<el-table-column prop="postGoodFeaturesMessage" label="当前岗位影响较大标签" width="180" header-align="center" />
 									<el-table-column
                     align="center"
 										prop="employeeGoodFeaturesMessage"
