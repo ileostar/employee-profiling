@@ -114,24 +114,24 @@ const emit = defineEmits(['submitAnalyze'])
 const handleAnalyze = async () => {
 	// 处理数据
 	switch (age.value) {
-		case '1': 
-			ageGroup.value = { minAge: '18', maxAge: '25' } 
-			break;
-		case '2': 
-			ageGroup.value = { minAge: '26', maxAge: '30' }
-			break;
-		case '3': 
-			ageGroup.value = { minAge: '31', maxAge: '35' }
-			break;
-		case '4': 
-			ageGroup.value = { minAge: '36', maxAge: '40' }
-			break;
-		case '5': 
-			ageGroup.value = { minAge: '41', maxAge: '50' }
-			break;
-		case '6': 
-			ageGroup.value = { minAge: '50', maxAge: '100' }
-			break;
+	case '1': 
+		ageGroup.value = { minAge: '18', maxAge: '25' } 
+		break;
+	case '2': 
+		ageGroup.value = { minAge: '26', maxAge: '30' }
+		break;
+	case '3': 
+		ageGroup.value = { minAge: '31', maxAge: '35' }
+		break;
+	case '4': 
+		ageGroup.value = { minAge: '36', maxAge: '40' }
+		break;
+	case '5': 
+		ageGroup.value = { minAge: '41', maxAge: '50' }
+		break;
+	case '6': 
+		ageGroup.value = { minAge: '50', maxAge: '100' }
+		break;
 	}
 
 	const req:Overall = {};
