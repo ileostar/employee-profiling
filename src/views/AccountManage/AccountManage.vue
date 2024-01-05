@@ -178,6 +178,10 @@ const handleClick = (row: any) => {
 	console.log(currenRowData.value)
 }
 
+/**
+ * 删除用户操作
+ * @param row 
+ */
 const deleteIndexUser = async (row: any) => {
 	const deleteData = toRaw(row)
 
@@ -185,6 +189,9 @@ const deleteIndexUser = async (row: any) => {
 	if (res.data.state === 200) {
 		tableData.value.splice(tableData.value.indexOf(row), 1)
 		ElMessage.success('删除成功')
+
+		// 刷新数据
+		userStore.updateAllUsers()
 	} else {
 		ElMessage.error(res.data.message)
 	}

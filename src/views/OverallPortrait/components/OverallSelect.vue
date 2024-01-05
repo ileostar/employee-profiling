@@ -81,11 +81,6 @@ const hasCreatedTimeList = async () => {
 		const res = await api.getCreatedTime()
 		if (res.data.state === 200) {
 			employeeStore.updateCreatedTimeList(res.data.data)
-		} else {
-			if(res.data.message){  
-				ElMessage.error(res.data.message)
-			}
-			return
 		}
 	}
 }
@@ -104,7 +99,7 @@ type Overall = {
 	createdTime?: string
 }
 
-const overallOptions = reactive({
+const overallOptions = reactive<Overall>({
 	unit: '',
 	post: '',
 	sex: '',
@@ -117,26 +112,28 @@ const overallOptions = reactive({
  */ 
 const emit = defineEmits(['submitAnalyze'])
 const handleAnalyze = async () => {
+	// 处理数据
 	switch (age.value) {
-	case '1': 
-		ageGroup.value = { minAge: '18', maxAge: '25' } 
-		break;
-	case '2': 
-		ageGroup.value = { minAge: '26', maxAge: '30' }
-		break;
-	case '3': 
-		ageGroup.value = { minAge: '31', maxAge: '35' }
-		break;
-	case '4': 
-		ageGroup.value = { minAge: '36', maxAge: '40' }
-		break;
-	case '5': 
-		ageGroup.value = { minAge: '41', maxAge: '50' }
-		break;
-	case '6': 
-		ageGroup.value = { minAge: '50', maxAge: '100' }
-		break;
+		case '1': 
+			ageGroup.value = { minAge: '18', maxAge: '25' } 
+			break;
+		case '2': 
+			ageGroup.value = { minAge: '26', maxAge: '30' }
+			break;
+		case '3': 
+			ageGroup.value = { minAge: '31', maxAge: '35' }
+			break;
+		case '4': 
+			ageGroup.value = { minAge: '36', maxAge: '40' }
+			break;
+		case '5': 
+			ageGroup.value = { minAge: '41', maxAge: '50' }
+			break;
+		case '6': 
+			ageGroup.value = { minAge: '50', maxAge: '100' }
+			break;
 	}
+
 	const req:Overall = {};
 	for (const key in overallOptions) {
 		const value = overallOptions[key as keyof typeof overallOptions];
@@ -153,8 +150,6 @@ const handleAnalyze = async () => {
 		emit('submitAnalyze', res.data.data,overallOptions,ageGroup.value);
 		if(res.data.message){  
 			ElMessage.success(res.data.message)
-		} else {
-			ElMessage.error(res.data.message)
 		}
 	}
 }

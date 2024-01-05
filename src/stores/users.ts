@@ -1,5 +1,6 @@
 import { ref } from 'vue'
 import { defineStore } from 'pinia'
+import api from '@/api/api'
 
 type Token = string
 export type Infos = {
@@ -21,8 +22,13 @@ export const useUsersStore = defineStore('users',() => {
 		token.value = payload
 	}
 
-	function updateAllUsers(payload: Array<Infos>) {
-		allUsers.value = payload
+	async function updateAllUsers() {
+		const res = await api.selectUser()
+		if (res.data.state === 200) {
+			allUsers.value = res.data.data
+		} else {
+			return
+		}
 	}
 
 	function updateInfos(payload: Infos) {

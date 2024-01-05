@@ -218,12 +218,7 @@ const routes: Array<RouteRecordRaw> = [
 							const userStore = useUsersStore()
 							const { allUsers: Info } = storeToRefs(userStore)
 							if (_.isEmpty(Info.value)) {
-								const res = await api.selectUser()
-								if (res.data.state === 200) {
-									userStore.updateAllUsers(res.data.data)
-								} else {
-									return
-								}
+								userStore.updateAllUsers()
 							}
 							next()
 						},

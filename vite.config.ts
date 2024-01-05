@@ -26,7 +26,7 @@ export default defineConfig((_mode: ConfigEnv) => {
 				symbolId: 'icon-[name]', //+ 新增
 			}),
 			vue(),
-      depazer()
+      		depazer()
 		],
 		resolve: {
 			alias: {
