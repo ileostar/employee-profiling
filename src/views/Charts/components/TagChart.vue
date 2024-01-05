@@ -51,7 +51,7 @@ const handleSelectChange = () => {
 		value: item[1],
 		name: item[0]
 	}))
-  
+
 	nextTick(() => {
 		init()
 	})
@@ -101,7 +101,7 @@ const init = async () => {
 	myChart.setOption(option)
 
 	console.log(tagChartData.value);
-  
+
 }
 </script>
 
