@@ -1,60 +1,10 @@
-<!-- eslint-disable vue/no-deprecated-router-link-tag-prop -->
-<template>
-	<div class="register">
-    <header>基于员工画像的绩效结果评估系统</header>
-		<el-form
-			ref="ruleFormRef"
-			:model="ruleForm"
-			status-icon
-			:rules="rules"
-			label-width="120px"
-			class="demo-ruleForm"
-		>
-			<div class="title">注册</div>
-			<el-form-item label="用户名" prop="username" class="item">
-				<el-input v-model="ruleForm.username" type="text" autocomplete="off" />
-			</el-form-item>
-			<el-form-item label="密码" prop="password" class="item">
-				<el-input
-					v-model="ruleForm.password"
-					type="password"
-					autocomplete="off"
-				/>
-			</el-form-item>
-			<el-form-item label="确认密码" prop="checkpassword" class="item">
-				<el-input
-					v-model="ruleForm.checkpassword"
-					type="password"
-					autocomplete="off"
-				/>
-			</el-form-item>
-			<el-form-item class="login-button">
-				<el-button type="primary" @click="submitForm(ruleFormRef)">
-					注册
-				</el-button>
-				<el-button @click="resetForm(ruleFormRef)">重置</el-button>
-			</el-form-item>
-			<router-link to="/login" tag="div" class="goLogin">转去登陆</router-link>
-		</el-form>
-	</div>
-</template>
-
 <script lang="ts" setup>
-import { reactive, ref } from 'vue'
 import { ElMessage, type FormInstance, type FormRules } from 'element-plus'
-import api from '@/api/api'
-import router from '@/router'
 
 const ruleFormRef = ref<FormInstance>()
 
 // 校验规则
-const username = (_rule: any, value: any, callback: any) => {
-	if (value === '') {
-		callback(new Error('请输入用户名'))
-	} else {
-		callback()
-	}
-}
+const username = useCheckForm('请输入用户名')
 const password = (_rule: any, value: any, callback: any) => {
 	if (value === '') {
 		callback(new Error('请输入密码'))
@@ -111,13 +61,48 @@ const submitForm = (formEl: FormInstance | undefined) => {
 		}
 	})
 }
-
-// 重置表单
-const resetForm = (formEl: FormInstance | undefined) => {
-	if (!formEl) return
-	formEl.resetFields()
-}
 </script>
+
+<template>
+	<div class="register">
+    <header>基于员工画像的绩效结果评估系统</header>
+		<el-form
+			ref="ruleFormRef"
+			:model="ruleForm"
+			status-icon
+			:rules="rules"
+			label-width="120px"
+			class="demo-ruleForm"
+		>
+			<div class="title">注册</div>
+			<el-form-item label="用户名" prop="username" class="item">
+				<el-input v-model="ruleForm.username" type="text" autocomplete="off" />
+			</el-form-item>
+			<el-form-item label="密码" prop="password" class="item">
+				<el-input
+					v-model="ruleForm.password"
+					type="password"
+					autocomplete="off"
+				/>
+			</el-form-item>
+			<el-form-item label="确认密码" prop="checkpassword" class="item">
+				<el-input
+					v-model="ruleForm.checkpassword"
+					type="password"
+					autocomplete="off"
+				/>
+			</el-form-item>
+			<el-form-item class="login-button">
+				<el-button type="primary" @click="submitForm(ruleFormRef)">
+					注册
+				</el-button>
+				<el-button @click="useRetForm(ruleFormRef)">重置</el-button>
+			</el-form-item>
+			<router-link to="/login" tag="div" class="goLogin">转去登陆</router-link>
+		</el-form>
+	</div>
+</template>
+
 
 <style lang="scss">
 .register {

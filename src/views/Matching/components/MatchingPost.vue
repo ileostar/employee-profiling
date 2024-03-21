@@ -1,92 +1,7 @@
-<template>
-	<div class="MatchingPost">
-		<div class="job-demand">
-			<li>人岗匹配分析</li>
-			<div class="big-box">
-        <div class="box-one">
-          <el-input
-            v-model="textarea"
-            :autosize="{ minRows: 3, maxRows: 5 }"
-            type="textarea"
-            :placeholder="example"
-            resize="none"
-            input-style="font-size: 1.5vh;"
-          />
-          <el-button type="info" @click="submitInput">提交分析</el-button>
-        </div>
-        <div class="box-two">
-          <span style="color:  gray; font-size: small;">例1：我需要一个体力好，有服务意识，并且具备开发能力的员工</span>
-          <span style="color:  gray; font-size: small;">例2：我需要一个会打篮球，沟通能力强的员工</span>
-          <span style="color:  gray; font-size: small;">例3：我需要一个接触过编程，责任感强的员工</span>
-          <span style="color:  gray; font-size: small;">例4：我需要一个有在烟草工作经验，并且是党员的员工</span>
-        </div>
-      </div>
-		</div>
-		<el-divider />
-		<div class="matching-result">
-			<li>人岗匹配分析</li>
-			<noResultYet class="noResultYet" :size="350" :isShow="!isShowTable">
-        <template v-slot:default>        
-          <el-table :data="tableData" stripe style="width: 100%;height: 100%;" :scrollbar-always-on="true">
-            <el-table-column  prop="number" width="140" label="员工编号" sortable/>
-            <el-table-column  prop="name"  label="员工姓名" sortable/>
-            <el-table-column  prop="age" width="160" label="年龄" sortable/>
-            <el-table-column  prop="post"  label="目前岗位" sortable/>
-            <el-table-column  prop="unit"  label="单位" sortable/>
-            <el-table-column  prop="factor" width="160" label="与当前岗位匹配度" sortable/>
-          </el-table>
-        </template>
-			</noResultYet>
-		</div>
-	</div>
-  <el-dialog v-model="isShowDiglog" title="需求标签">
-    <div class="container">
-      <h3 style="margin-bottom: 2vh;">选择标签</h3>
-      <div class="selecttags">
-        
-        <el-tag
-          v-for="tag in requirementTag"
-          :key="tag"
-          class="mx-1"
-          :disable-transitions="false"
-          @click="removeCurrentClickTag(tag)"
-        >
-          {{ tag }}
-        </el-tag>
-      </div>
-      <el-divider />
-      <div class="alltags">
-        <h3 style="margin-bottom: 2vh;">全部标签</h3>
-        <el-tag
-          v-for="tag in AllTags"
-          :key="tag"
-          class="mx-1"
-          :disable-transitions="false"
-          @click="getCurrentClickTag(tag)"
-        >
-          {{ tag }}
-        </el-tag>
-      </div>
-      <div class="buttontags">
-        <el-form-item>
-          <el-button type="primary" @click="submitTags">
-            分析
-          </el-button>
-          <el-button @click="reset">重置</el-button>
-        </el-form-item>
-      </div>
-    </div>
-  </el-dialog>
-</template>
-
 <script lang="ts" setup>
-import { onMounted, ref } from 'vue'
 import noResultYet from '@/components/noResultYet/noResultYet.vue'
 import * as _ from 'lodash'
 import { ElMessage } from 'element-plus'
-import api from '@/api/api'
-import { storeToRefs } from 'pinia'
-import { useMatchingStore } from '@/stores/matching'
 
 const example = '例：我需要一个体力好，有服务意识，并且具备开发能力的员工'
 
@@ -193,6 +108,87 @@ const submitTags = async () => {
 }
 </script>
 
+<template>
+	<div class="MatchingPost">
+		<div class="job-demand">
+			<li>人岗匹配分析</li>
+			<div class="big-box">
+        <div class="box-one">
+          <el-input
+            v-model="textarea"
+            :autosize="{ minRows: 3, maxRows: 5 }"
+            type="textarea"
+            :placeholder="example"
+            resize="none"
+            input-style="font-size: 1.5vh;"
+          />
+          <el-button type="info" @click="submitInput">提交分析</el-button>
+        </div>
+        <div class="box-two">
+          <span style="color:  gray; font-size: small;">例1：我需要一个体力好，有服务意识，并且具备开发能力的员工</span>
+          <span style="color:  gray; font-size: small;">例2：我需要一个会打篮球，沟通能力强的员工</span>
+          <span style="color:  gray; font-size: small;">例3：我需要一个接触过编程，责任感强的员工</span>
+          <span style="color:  gray; font-size: small;">例4：我需要一个有在烟草工作经验，并且是党员的员工</span>
+        </div>
+      </div>
+		</div>
+		<el-divider />
+		<div class="matching-result">
+			<li>人岗匹配分析</li>
+			<noResultYet class="noResultYet" :size="350" :isShow="!isShowTable">
+        <template v-slot:default>        
+          <el-table :data="tableData" stripe style="width: 100%;height: 100%;" :scrollbar-always-on="true">
+            <el-table-column  prop="number" width="140" label="员工编号" sortable/>
+            <el-table-column  prop="name"  label="员工姓名" sortable/>
+            <el-table-column  prop="age" width="160" label="年龄" sortable/>
+            <el-table-column  prop="post"  label="目前岗位" sortable/>
+            <el-table-column  prop="unit"  label="单位" sortable/>
+            <el-table-column  prop="factor" width="160" label="与当前岗位匹配度" sortable/>
+          </el-table>
+        </template>
+			</noResultYet>
+		</div>
+	</div>
+  <el-dialog v-model="isShowDiglog" title="需求标签">
+    <div class="container">
+      <h3 style="margin-bottom: 2vh;">选择标签</h3>
+      <div class="selecttags">
+        
+        <el-tag
+          v-for="tag in requirementTag"
+          :key="tag"
+          class="mx-1"
+          :disable-transitions="false"
+          @click="removeCurrentClickTag(tag)"
+        >
+          {{ tag }}
+        </el-tag>
+      </div>
+      <el-divider />
+      <div class="alltags">
+        <h3 style="margin-bottom: 2vh;">全部标签</h3>
+        <el-tag
+          v-for="tag in AllTags"
+          :key="tag"
+          class="mx-1"
+          :disable-transitions="false"
+          @click="getCurrentClickTag(tag)"
+        >
+          {{ tag }}
+        </el-tag>
+      </div>
+      <div class="buttontags">
+        <el-form-item>
+          <el-button type="primary" @click="submitTags">
+            分析
+          </el-button>
+          <el-button @click="reset">重置</el-button>
+        </el-form-item>
+      </div>
+    </div>
+  </el-dialog>
+</template>
+
 <style lang="scss" scoped>
 .MatchingPost {
 	display: flex;
@@ -270,4 +266,3 @@ const submitTags = async () => {
   }
 }
 </style>
-@/stores/matching

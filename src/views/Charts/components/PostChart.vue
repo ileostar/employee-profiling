@@ -1,16 +1,5 @@
-<template>
-	<div class="post-charts">
-		<h2 class="post-title">岗位维度</h2>
-		<div class="post-chart" ref="chart"></div>
-	</div>
-</template>
-
 <script lang="ts" setup>
-import { useChartStore } from '@/stores/chart'
-import { useEmployeeStore } from '@/stores/employee'
 import * as echarts from 'echarts'
-import { storeToRefs } from 'pinia'
-import { onMounted, ref } from 'vue'
 
 const employeeStore = useEmployeeStore()
 const chartStore = useChartStore()
@@ -140,6 +129,13 @@ const init = async () => {
 }
 
 </script>
+
+<template>
+	<div class="post-charts">
+		<h2 class="post-title">岗位维度</h2>
+		<div class="post-chart" ref="chart"></div>
+	</div>
+</template>
 
 <style lang="scss" scoped>
 .post-charts {

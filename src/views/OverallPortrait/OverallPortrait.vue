@@ -31,7 +31,6 @@
 </template>
 
 <script setup lang="ts">
-import { ref } from 'vue'
 import OverallSelect from './components/OverallSelect.vue'
 import employeeTagCard from '@/components/employeeTagCard/employeeTagCard.vue'
 import noResultYet from '@/components/noResultYet/noResultYet.vue'

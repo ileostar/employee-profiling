@@ -1,64 +1,6 @@
-<!-- eslint-disable vue/no-mutating-props -->
-<template>
-  <el-dialog class="dialogEdit"  v-model="dialogEditVisible" @close="resetForm" title="修改模型">
-    <el-form :model="form" :rules="formRules" ref="ruleFormRef"  label-position="top" label-width="130px"> 
-      <el-row>
-        <el-col  :span="12">
-          <el-space
-            fill
-            wrap
-            fill-ratio="80"
-            direction="horizontal"
-            style="width: 96%"
-          >
-            <el-form-item label="模型名称" prop="filePath" >
-              <el-select v-model="filePath" @change="autoFillModel(filePath,form.post as string)">
-                <el-option v-for="item of modelTotal" :key="item" :value="item" />
-              </el-select>
-            </el-form-item>
-          </el-space>    
-        </el-col>
-        <el-col v-for="(field, key) in formField" :key="field.label" :span="12">
-          <el-space
-            fill
-            wrap
-            fill-ratio="80"
-            direction="horizontal"
-            style="width: 96%"
-          >
-            <el-form-item :label="field.label" :prop="key">
-                <template v-if="field.label === '岗位'">
-                  <el-select v-model="form.post" class="m-2" placeholder="选择岗位"  @change="filePath!==''?autoFillModel(filePath,form.post as string):''">
-                    <el-option v-for="post in select" :key="post" :value="post" :label="post" />
-                  </el-select>
-                </template>
-                <template v-else>
-                  <el-input-number v-model="form[key]" autocomplete="off" :min="0.00" :precision="2" :step="0.01" :max="10"></el-input-number>
-                </template>
-            </el-form-item>
-          </el-space>       
-        </el-col>
-      </el-row>
-    </el-form>
-    <template #footer>
-      <span class="dialog-footer">
-        <el-button @click="dialogEditVisible = false">取消</el-button>
-        <el-button type="info" @click="submitCreatedForm(ruleFormRef)">
-          确定
-        </el-button>
-      </span>
-    </template>
-  </el-dialog>
-</template>
-
 <script setup lang="ts">
-import api from '@/api/api';
 import * as _ from 'lodash'
-import { useModelStore } from '@/stores/model';
-import { usePostStore } from '@/stores/post';
 import { ElMessage, FormInstance } from 'element-plus';
-import { storeToRefs } from 'pinia';
-import { reactive, ref } from 'vue';
 
 const modelStore = useModelStore()
 const PostStore = usePostStore()
@@ -434,7 +376,7 @@ const autoFillModel = async (filePath: string,post = '客户专员') => {
 const isSumToOne = () => {
 	const copyForm = _.cloneDeep(form)
 	const result = Object.entries(copyForm).map(item=> item[1]).filter(item=> !isNaN(Number(item))).reduce((a, b) => Number(a) + Number(b), 0) === 1
-  
+
 	return result
 }
 
@@ -470,6 +412,55 @@ const resetForm = () => {
 }
 </script>
 
-<style lang="scss" scoped>
+<template>
+  <el-dialog class="dialogEdit"  v-model="dialogEditVisible" @close="resetForm" title="修改模型">
+    <el-form :model="form" :rules="formRules" ref="ruleFormRef"  label-position="top" label-width="130px"> 
+      <el-row>
+        <el-col  :span="12">
+          <el-space
+            fill
+            wrap
+            fill-ratio="80"
+            direction="horizontal"
+            style="width: 96%"
+          >
+            <el-form-item label="模型名称" prop="filePath" >
+              <el-select v-model="filePath" @change="autoFillModel(filePath,form.post as string)">
+                <el-option v-for="item of modelTotal" :key="item" :value="item" />
+              </el-select>
+            </el-form-item>
+          </el-space>    
+        </el-col>
+        <el-col v-for="(field, key) in formField" :key="field.label" :span="12">
+          <el-space
+            fill
+            wrap
+            fill-ratio="80"
+            direction="horizontal"
+            style="width: 96%"
+          >
+            <el-form-item :label="field.label" :prop="key">
+                <template v-if="field.label === '岗位'">
+                  <el-select v-model="form.post" class="m-2" placeholder="选择岗位"  @change="filePath!==''?autoFillModel(filePath,form.post as string):''">
+                    <el-option v-for="post in select" :key="post" :value="post" :label="post" />
+                  </el-select>
+                </template>
+                <template v-else>
+                  <el-input-number v-model="form[key]" autocomplete="off" :min="0.00" :precision="2" :step="0.01" :max="10"></el-input-number>
+                </template>
+            </el-form-item>
+          </el-space>       
+        </el-col>
+      </el-row>
+    </el-form>
+    <template #footer>
+      <span class="dialog-footer">
+        <el-button @click="dialogEditVisible = false">取消</el-button>
+        <el-button type="info" @click="submitCreatedForm(ruleFormRef)">
+          确定
+        </el-button>
+      </span>
+    </template>
+  </el-dialog>
+</template>
 
-</style>

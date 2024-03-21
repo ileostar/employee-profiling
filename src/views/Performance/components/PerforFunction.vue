@@ -211,14 +211,8 @@
 
 <script lang="ts" setup>
 import { Performance } from '@/api/type'
-import { reactive, ref, watchEffect } from 'vue'
 import { Search } from '@element-plus/icons-vue'
-import { storeToRefs } from 'pinia'
-import { usePostStore } from '@/stores/post'
-import api from '@/api/api'
-import { usePerformanceStore } from '@/stores/performance'
 import { ElMessage, FormInstance } from 'element-plus'
-import { useEmployeeStore } from '@/stores/employee'
 
 const PostStore = usePostStore()
 const EmployeeStore = useEmployeeStore()

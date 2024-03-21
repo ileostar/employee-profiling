@@ -1,283 +1,6 @@
-<!-- eslint-disable indent -->
-<template>
-	<div class="information-function">
-    <el-select v-model="currentDate" class="m-2" placeholder="Select" @change="changeCreatedTime">
-      <el-option
-        v-for="item in options"
-        :key="item"
-        :label="item"
-        :value="item"
-      />
-    </el-select>
-		<div class="function-selectSearch">
-			<div class="mt-4">
-				<el-input
-					v-model="search"
-					placeholder="请输入员工编号或姓名"
-					class="input-with-select"
-				>
-					<template #prepend>
-						<el-select
-							:placeholder="defaultSelect == '' ? '选择岗位' : defaultSelect"
-							style="width: 115px"
-						>
-							<el-option
-								v-for="item of select"
-								@click="taggleSelect(item)"
-								:label="item"
-								:key="item"
-								value="1"
-							/>
-						</el-select>
-					</template>
-					<template #append>
-						<el-button :icon="Search" @click="searchEmployee" />
-					</template>
-				</el-input>
-			</div>
-		</div>
-		<div class="function-button">
-			<el-button
-				class="funtion-button-item"
-				@click="dialogCreateFormVisible = true"
-				type="default"
-				text
-			>
-				<el-icon><DocumentAdd /></el-icon>
-				<p>新建</p>
-			</el-button>
-			<el-button
-				class="funtion-button-item"
-				@click="dialogFixFormVisible = true"
-				type="default"
-				text
-			>
-				<el-icon><Edit /></el-icon>
-				<p>修改</p>
-			</el-button>
-			<el-button
-				class="funtion-button-item"
-				@click="dialogInFormVisible = true"
-				type="default"
-				text
-			>
-				<el-icon><Upload /></el-icon>
-				<p>导入</p>
-			</el-button>
-      <a :href="download" download>
-        <el-button
-          class="funtion-button-item"
-          type="default"
-          text
-        >
-          <el-icon><Download /></el-icon>
-          <span>导出</span>
-        </el-button>
-      </a>
-		</div>
-	</div>
-	<el-dialog class="dialogCreate"  v-model="dialogCreateFormVisible" @close="resetForm" title="新建员工信息">
-		<el-form :model="form" :rules="formRules" ref="ruleFormRef"  label-position="top" label-width="130px"> 
-      <el-row>
-        <el-col v-for="(field, key) in formField" :key="field.label" :span="12">
-          <el-space
-            fill
-            wrap
-            fill-ratio="80"
-            direction="horizontal"
-            style="width: 96%"
-          >
-            <el-form-item :label="field.label" :prop="key">
-                <template v-if="field.label === '创建时间'">
-                  <el-select v-model="form.createdTime" class="m-2" placeholder="选择创建时间" >
-                    <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
-                  </el-select>
-                </template>
-                <template v-else-if="field.label === '岗位'">
-                  <el-select v-model="form.post" class="m-2" placeholder="选择岗位">
-                    <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
-                  </el-select>
-                </template>
-                <template v-else-if="field.label === '最高学历'">
-                  <el-select v-model="form.degree" class="m-2" placeholder="选择学历">
-                    <el-option v-for="post in degreeLevel" :key="post" :value="post" :label="post"/>
-                  </el-select>
-                </template>
-                <template v-else-if="numberInput.includes(field.label)">
-                  <el-input-number v-model="form[key]" :min="1" :max="100" />
-                </template>
-                <template v-else-if="field.label === '生育情况'">
-                  <el-select v-model="form[key]" class="m-2" placeholder="选择生育情况">
-                    <el-option v-for="item in fertilitySituation" :key="item" :value="item" :label="item"/>
-                  </el-select>
-                </template>
-                <template v-else-if="field.label === '政治面貌'">
-                  <el-select v-model="form[key]" class="m-2" placeholder="选择政治面貌">
-                    <el-option v-for="item in politicalStatus" :key="item" :value="item" :label="item"/>
-                  </el-select>
-                </template>
-                <template v-else-if="levelTags.includes(field.label)">
-                  <el-select v-model="form[key]" class="m-2" placeholder="选择能力水平">
-                    <el-option v-for="item in tagLevel" :key="item" :value="item" :label="item"/>
-                  </el-select>
-                </template>
-                <template v-else-if="dialectTags.includes(field.label)">
-                  <el-select v-model="form[key]" class="m-2" placeholder="选择语言水平">
-                    <el-option v-for="item in dialectSituation" :key="item" :value="item" :label="item"/>
-                  </el-select>
-                </template>
-                <template v-else-if="field.label.includes('是否')">
-                  <el-radio-group v-model="form[key]">
-                    <el-radio label="是" />
-                    <el-radio label="否" />
-                  </el-radio-group>
-                </template>
-                <template v-else-if="field.label === '性别'">
-                  <el-radio-group v-model="form[key]">
-                    <el-radio label="男" />
-                    <el-radio label="女" />
-                  </el-radio-group>
-                </template>
-                <template v-else>
-                  <el-input v-model="form[key]" autocomplete="off" maxlength="11"></el-input>
-                </template>
-            </el-form-item>
-          </el-space>       
-        </el-col>
-      </el-row>
-		</el-form>
-		<template #footer>
-			<span class="dialog-footer">
-				<el-button @click="dialogCreateFormVisible = false">取消</el-button>
-				<el-button type="info" @click="submitCreatedForm(ruleFormRef)">
-					确定
-				</el-button>
-			</span>
-		</template>
-	</el-dialog>
-	<el-dialog v-model="dialogFixFormVisible" @close="resetForm" title="修改员工信息">
-		<el-form :model="form2" :rules="formRules2" ref="ruleForm2Ref"   label-position="top" label-width="130px">
-      <el-row>
-        <el-col v-for="(field, key) in formField2" :key="field.label" :span="12">
-          <el-space
-            fill
-            wrap
-            fill-ratio="80"
-            direction="horizontal"
-            style="width: 96%"
-          >
-          <el-form-item :label="field.label" :prop="key">
-            <template v-if="field.label === '创建时间'">
-              <el-select v-model="form2.createdTime" class="m-2" placeholder="选择创建时间" @change="pairingCreatedTime">
-                <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
-              </el-select>
-            </template>
-            <template v-else-if="field.label === '姓名'" >
-              <el-input v-model="form2.name" @blur="autofill" autocomplete="off" placeholder="填写姓名自动匹配,请优先填写姓名"></el-input>
-            </template>
-            <template v-else-if="field.label === '员工编号'" >     
-              <el-input v-model="form2.number" autocomplete="off" v-if="namesake.length<2"></el-input>          
-              <el-select v-model="form2.number" class="m-2" v-else @change="autofill2(form2.number as number)">
-                <el-option v-for="num in namesake" :key="num.number" :value="num.number" :label="num.number"/>
-              </el-select>
-            </template>
-            <template v-else-if="field.label === '岗位'">
-              <el-select v-model="form2.post" class="m-2" placeholder="选择岗位">
-                <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
-              </el-select>
-            </template>
-            <template v-else-if="field.label === '最高学历'">
-              <el-select v-model="form2.post" class="m-2" placeholder="选择岗位">
-                <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
-              </el-select>
-            </template>
-            <template v-else-if="numberInput.includes(field.label)">
-              <el-input-number v-model="form2[key]" :min="1" :max="100" />
-            </template>
-            <template v-else-if="field.label === '生育情况'">
-              <el-select v-model="form2[key]" class="m-2" placeholder="选择生育情况">
-                <el-option v-for="item in fertilitySituation" :key="item" :value="item" :label="item"/>
-              </el-select>
-            </template>
-            <template v-else-if="field.label === '政治面貌'">
-              <el-select v-model="form2[key]" class="m-2" placeholder="选择政治面貌">
-                <el-option v-for="item in politicalStatus" :key="item" :value="item" :label="item"/>
-              </el-select>
-            </template>
-            <template v-else-if="levelTags.includes(field.label)">
-              <el-select v-model="form2[key]" class="m-2" placeholder="选择能力水平">
-                <el-option v-for="item in tagLevel" :key="item" :value="item" :label="item"/>
-              </el-select>
-            </template>
-            <template v-else-if="dialectTags.includes(field.label)">
-              <el-select v-model="form2[key]" class="m-2" placeholder="选择语言水平">
-                <el-option v-for="item in dialectSituation" :key="item" :value="item" :label="item"/>
-              </el-select>
-            </template>
-            <template v-else-if="field.label.includes('是否')">
-              <el-radio-group v-model="form2[key]">
-                <el-radio label="是" />
-                <el-radio label="否" />
-              </el-radio-group>
-            </template>
-            <template v-else-if="field.label === '性别'">
-              <el-radio-group v-model="form2[key]">
-                <el-radio label="男" />
-                <el-radio label="女" />
-              </el-radio-group>
-            </template>
-            <template v-else>     
-              <el-input v-model="form2[key]" autocomplete="off"></el-input>
-            </template>
-          </el-form-item>
-         </el-space>   
-        </el-col>
-      </el-row>
-		</el-form>
-		<template #footer>
-			<span class="dialog-footer">
-				<el-button @click="dialogFixFormVisible = false">取消</el-button>
-				<el-button type="info" @click="submitUpdatedForm(ruleForm2Ref)">
-					确定
-				</el-button>
-			</span>
-		</template>
-	</el-dialog>
-	<el-dialog v-model="dialogInFormVisible" title="导入">
-    <a href="src/static/employee.xlsx" download style="display: block;padding-bottom: 1vh;margin-top: -2vh;color: #409eff">员工信息导入模版</a>
-    <el-upload
-    class="upload-demo"
-    drag
-    multiple
-    :action="uploadUrl"
-    :headers="{ 'Accept': '*/*' }"
-    :data="{ 'Content-Type': 'multipart/form-data' }"
-    :on-success="handleUploadSuccess"
-    :on-error="handleUploadError"
-    :before-upload="beforeUpload"
-  >
-    <el-icon class="el-icon--upload"><upload-filled /></el-icon>
-    <div class="el-upload__text">
-      拖动文件到这或者 <em>点击上传</em>
-    </div>
-    <template #tip>
-      <div class="el-upload__tip">
-        请上传 xls/xlsx 文件
-      </div>
-    </template>
-    </el-upload>
-	</el-dialog>
-</template>
-
 <script lang="ts" setup>
-import { nextTick, reactive, ref, watchEffect } from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import { ElMessage, FormInstance } from 'element-plus'
-import { storeToRefs } from 'pinia'
-import { useEmployeeStore } from '@/stores/employee'
-import { usePostStore } from '@/stores/post'
-import { useChartStore } from '@/stores/chart'
-import api from '@/api/api'
 import { Employee } from '@/api/type'
 import * as _ from 'lodash'
 
@@ -1334,6 +1057,277 @@ const resetForm = () => {
 }
 
 </script>
+
+<template>
+	<div class="information-function">
+    <el-select v-model="currentDate" class="m-2" placeholder="Select" @change="changeCreatedTime">
+      <el-option
+        v-for="item in options"
+        :key="item"
+        :label="item"
+        :value="item"
+      />
+    </el-select>
+		<div class="function-selectSearch">
+			<div class="mt-4">
+				<el-input
+					v-model="search"
+					placeholder="请输入员工编号或姓名"
+					class="input-with-select"
+				>
+					<template #prepend>
+						<el-select
+							:placeholder="defaultSelect == '' ? '选择岗位' : defaultSelect"
+							style="width: 115px"
+						>
+							<el-option
+								v-for="item of select"
+								@click="taggleSelect(item)"
+								:label="item"
+								:key="item"
+								value="1"
+							/>
+						</el-select>
+					</template>
+					<template #append>
+						<el-button :icon="Search" @click="searchEmployee" />
+					</template>
+				</el-input>
+			</div>
+		</div>
+		<div class="function-button">
+			<el-button
+				class="funtion-button-item"
+				@click="dialogCreateFormVisible = true"
+				type="default"
+				text
+			>
+				<el-icon><DocumentAdd /></el-icon>
+				<p>新建</p>
+			</el-button>
+			<el-button
+				class="funtion-button-item"
+				@click="dialogFixFormVisible = true"
+				type="default"
+				text
+			>
+				<el-icon><Edit /></el-icon>
+				<p>修改</p>
+			</el-button>
+			<el-button
+				class="funtion-button-item"
+				@click="dialogInFormVisible = true"
+				type="default"
+				text
+			>
+				<el-icon><Upload /></el-icon>
+				<p>导入</p>
+			</el-button>
+      <a :href="download" download>
+        <el-button
+          class="funtion-button-item"
+          type="default"
+          text
+        >
+          <el-icon><Download /></el-icon>
+          <span>导出</span>
+        </el-button>
+      </a>
+		</div>
+	</div>
+	<el-dialog class="dialogCreate"  v-model="dialogCreateFormVisible" @close="resetForm" title="新建员工信息">
+		<el-form :model="form" :rules="formRules" ref="ruleFormRef"  label-position="top" label-width="130px"> 
+      <el-row>
+        <el-col v-for="(field, key) in formField" :key="field.label" :span="12">
+          <el-space
+            fill
+            wrap
+            fill-ratio="80"
+            direction="horizontal"
+            style="width: 96%"
+          >
+            <el-form-item :label="field.label" :prop="key">
+                <template v-if="field.label === '创建时间'">
+                  <el-select v-model="form.createdTime" class="m-2" placeholder="选择创建时间" >
+                    <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
+                  </el-select>
+                </template>
+                <template v-else-if="field.label === '岗位'">
+                  <el-select v-model="form.post" class="m-2" placeholder="选择岗位">
+                    <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
+                  </el-select>
+                </template>
+                <template v-else-if="field.label === '最高学历'">
+                  <el-select v-model="form.degree" class="m-2" placeholder="选择学历">
+                    <el-option v-for="post in degreeLevel" :key="post" :value="post" :label="post"/>
+                  </el-select>
+                </template>
+                <template v-else-if="numberInput.includes(field.label)">
+                  <el-input-number v-model="form[key]" :min="1" :max="100" />
+                </template>
+                <template v-else-if="field.label === '生育情况'">
+                  <el-select v-model="form[key]" class="m-2" placeholder="选择生育情况">
+                    <el-option v-for="item in fertilitySituation" :key="item" :value="item" :label="item"/>
+                  </el-select>
+                </template>
+                <template v-else-if="field.label === '政治面貌'">
+                  <el-select v-model="form[key]" class="m-2" placeholder="选择政治面貌">
+                    <el-option v-for="item in politicalStatus" :key="item" :value="item" :label="item"/>
+                  </el-select>
+                </template>
+                <template v-else-if="levelTags.includes(field.label)">
+                  <el-select v-model="form[key]" class="m-2" placeholder="选择能力水平">
+                    <el-option v-for="item in tagLevel" :key="item" :value="item" :label="item"/>
+                  </el-select>
+                </template>
+                <template v-else-if="dialectTags.includes(field.label)">
+                  <el-select v-model="form[key]" class="m-2" placeholder="选择语言水平">
+                    <el-option v-for="item in dialectSituation" :key="item" :value="item" :label="item"/>
+                  </el-select>
+                </template>
+                <template v-else-if="field.label.includes('是否')">
+                  <el-radio-group v-model="form[key]">
+                    <el-radio label="是" />
+                    <el-radio label="否" />
+                  </el-radio-group>
+                </template>
+                <template v-else-if="field.label === '性别'">
+                  <el-radio-group v-model="form[key]">
+                    <el-radio label="男" />
+                    <el-radio label="女" />
+                  </el-radio-group>
+                </template>
+                <template v-else>
+                  <el-input v-model="form[key]" autocomplete="off" maxlength="11"></el-input>
+                </template>
+            </el-form-item>
+          </el-space>       
+        </el-col>
+      </el-row>
+		</el-form>
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button @click="dialogCreateFormVisible = false">取消</el-button>
+				<el-button type="info" @click="submitCreatedForm(ruleFormRef)">
+					确定
+				</el-button>
+			</span>
+		</template>
+	</el-dialog>
+	<el-dialog v-model="dialogFixFormVisible" @close="resetForm" title="修改员工信息">
+		<el-form :model="form2" :rules="formRules2" ref="ruleForm2Ref"   label-position="top" label-width="130px">
+      <el-row>
+        <el-col v-for="(field, key) in formField2" :key="field.label" :span="12">
+          <el-space
+            fill
+            wrap
+            fill-ratio="80"
+            direction="horizontal"
+            style="width: 96%"
+          >
+          <el-form-item :label="field.label" :prop="key">
+            <template v-if="field.label === '创建时间'">
+              <el-select v-model="form2.createdTime" class="m-2" placeholder="选择创建时间" @change="pairingCreatedTime">
+                <el-option v-for="pastYearMonth in currentDateList" :key="pastYearMonth" :value="pastYearMonth" :label="pastYearMonth"/>
+              </el-select>
+            </template>
+            <template v-else-if="field.label === '姓名'" >
+              <el-input v-model="form2.name" @blur="autofill" autocomplete="off" placeholder="填写姓名自动匹配,请优先填写姓名"></el-input>
+            </template>
+            <template v-else-if="field.label === '员工编号'" >     
+              <el-input v-model="form2.number" autocomplete="off" v-if="namesake.length<2"></el-input>          
+              <el-select v-model="form2.number" class="m-2" v-else @change="autofill2(form2.number as number)">
+                <el-option v-for="num in namesake" :key="num.number" :value="num.number" :label="num.number"/>
+              </el-select>
+            </template>
+            <template v-else-if="field.label === '岗位'">
+              <el-select v-model="form2.post" class="m-2" placeholder="选择岗位">
+                <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
+              </el-select>
+            </template>
+            <template v-else-if="field.label === '最高学历'">
+              <el-select v-model="form2.post" class="m-2" placeholder="选择岗位">
+                <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
+              </el-select>
+            </template>
+            <template v-else-if="numberInput.includes(field.label)">
+              <el-input-number v-model="form2[key]" :min="1" :max="100" />
+            </template>
+            <template v-else-if="field.label === '生育情况'">
+              <el-select v-model="form2[key]" class="m-2" placeholder="选择生育情况">
+                <el-option v-for="item in fertilitySituation" :key="item" :value="item" :label="item"/>
+              </el-select>
+            </template>
+            <template v-else-if="field.label === '政治面貌'">
+              <el-select v-model="form2[key]" class="m-2" placeholder="选择政治面貌">
+                <el-option v-for="item in politicalStatus" :key="item" :value="item" :label="item"/>
+              </el-select>
+            </template>
+            <template v-else-if="levelTags.includes(field.label)">
+              <el-select v-model="form2[key]" class="m-2" placeholder="选择能力水平">
+                <el-option v-for="item in tagLevel" :key="item" :value="item" :label="item"/>
+              </el-select>
+            </template>
+            <template v-else-if="dialectTags.includes(field.label)">
+              <el-select v-model="form2[key]" class="m-2" placeholder="选择语言水平">
+                <el-option v-for="item in dialectSituation" :key="item" :value="item" :label="item"/>
+              </el-select>
+            </template>
+            <template v-else-if="field.label.includes('是否')">
+              <el-radio-group v-model="form2[key]">
+                <el-radio label="是" />
+                <el-radio label="否" />
+              </el-radio-group>
+            </template>
+            <template v-else-if="field.label === '性别'">
+              <el-radio-group v-model="form2[key]">
+                <el-radio label="男" />
+                <el-radio label="女" />
+              </el-radio-group>
+            </template>
+            <template v-else>     
+              <el-input v-model="form2[key]" autocomplete="off"></el-input>
+            </template>
+          </el-form-item>
+         </el-space>   
+        </el-col>
+      </el-row>
+		</el-form>
+		<template #footer>
+			<span class="dialog-footer">
+				<el-button @click="dialogFixFormVisible = false">取消</el-button>
+				<el-button type="info" @click="submitUpdatedForm(ruleForm2Ref)">
+					确定
+				</el-button>
+			</span>
+		</template>
+	</el-dialog>
+	<el-dialog v-model="dialogInFormVisible" title="导入">
+    <a href="src/static/employee.xlsx" download style="display: block;padding-bottom: 1vh;margin-top: -2vh;color: #409eff">员工信息导入模版</a>
+    <el-upload
+    class="upload-demo"
+    drag
+    multiple
+    :action="uploadUrl"
+    :headers="{ 'Accept': '*/*' }"
+    :data="{ 'Content-Type': 'multipart/form-data' }"
+    :on-success="handleUploadSuccess"
+    :on-error="handleUploadError"
+    :before-upload="beforeUpload"
+  >
+    <el-icon class="el-icon--upload"><upload-filled /></el-icon>
+    <div class="el-upload__text">
+      拖动文件到这或者 <em>点击上传</em>
+    </div>
+    <template #tip>
+      <div class="el-upload__tip">
+        请上传 xls/xlsx 文件
+      </div>
+    </template>
+    </el-upload>
+	</el-dialog>
+</template>
+
 
 <style lang="scss" scoped>
 .information-function {

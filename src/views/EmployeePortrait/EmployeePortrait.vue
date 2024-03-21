@@ -1,44 +1,7 @@
-<template>
-	<div class="employee-portrait">
-		<div class="employee-portrait-aside">
-			<div class="portrait-aside-header">
-				<p class="aside-title">员工</p>
-				<el-input
-					v-model="searchInput"
-					class="w-50 m-2"
-					size="small"
-					placeholder="姓名、编号、单位、岗位"
-					:prefix-icon="Search"
-          @input="handleSearch"
-				/>
-			</div>
-			<div class="portrait-aside-body">
-        <el-menu
-          :default-active="`${EmployeeNameList[0].id}`"
-          class="el-menu-vertical-demo"
-          >
-          <el-menu-item v-for="item in EmployeeNameList" :key="item.id" :index="`${item.id}`" @click="handleSelect(item)">
-            <span :title="`员工编号：${item.number}`">{{item.name}}</span>
-          </el-menu-item>
-        </el-menu>
-      </div>
-			<div class="portrait-aside-pagination">
-        <el-pagination small layout="prev, pager, next" @current-change="handlePageChange" pager-count="3" :total="pageNumber?Number(pageNumber):0" :page-size="12" :hide-on-single-page="value"/>
-      </div>
-		</div>
-		<div class="employee-portrait-main">
-			<EmployeeInfo :employee="currentEmployee===''?EmployeeNameList[0].name:currentEmployee"/>
-		</div>
-	</div>
-</template>
-
 <script setup lang="ts">
-import { ref} from 'vue'
 import { Search } from '@element-plus/icons-vue'
 import EmployeeInfo from './components/EmployeeInfo.vue'
 import { EmployeeName, useEmployeeStore } from '@/stores/employee'
-import { storeToRefs } from 'pinia'
-import api from '@/api/api'
 import * as _ from 'lodash'
 
 const employeeStore = useEmployeeStore()
@@ -123,6 +86,40 @@ const handleSelect = async (item: EmployeeName) => {
 	employeeStore.ToggleEmployee(item.number)
 }
 </script>
+
+<template>
+	<div class="employee-portrait">
+		<div class="employee-portrait-aside">
+			<div class="portrait-aside-header">
+				<p class="aside-title">员工</p>
+				<el-input
+					v-model="searchInput"
+					class="w-50 m-2"
+					size="small"
+					placeholder="姓名、编号、单位、岗位"
+					:prefix-icon="Search"
+          @input="handleSearch"
+				/>
+			</div>
+			<div class="portrait-aside-body">
+        <el-menu
+          :default-active="`${EmployeeNameList[0].id}`"
+          class="el-menu-vertical-demo"
+          >
+          <el-menu-item v-for="item in EmployeeNameList" :key="item.id" :index="`${item.id}`" @click="handleSelect(item)">
+            <span :title="`员工编号：${item.number}`">{{item.name}}</span>
+          </el-menu-item>
+        </el-menu>
+      </div>
+			<div class="portrait-aside-pagination">
+        <el-pagination small layout="prev, pager, next" @current-change="handlePageChange" pager-count="3" :total="pageNumber?Number(pageNumber):0" :page-size="12" :hide-on-single-page="value"/>
+      </div>
+		</div>
+		<div class="employee-portrait-main">
+			<EmployeeInfo :employee="currentEmployee===''?EmployeeNameList[0].name:currentEmployee"/>
+		</div>
+	</div>
+</template>
 
 <style lang="scss" scoped>
 .employee-portrait {

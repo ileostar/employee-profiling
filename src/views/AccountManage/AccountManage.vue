@@ -68,10 +68,6 @@
 </template>
 
 <script setup lang="ts">
-import { useUsersStore } from '@/stores/users'
-import { storeToRefs } from 'pinia'
-import { computed, reactive, ref, toRaw } from 'vue'
-import api from '@/api/api'
 import { ElMessage, FormInstance, FormRules } from 'element-plus'
 
 const userStore = useUsersStore()
@@ -180,7 +176,7 @@ const handleClick = (row: any) => {
 
 /**
  * 删除用户操作
- * @param row 
+ * @param row
  */
 const deleteIndexUser = async (row: any) => {
 	const deleteData = toRaw(row)

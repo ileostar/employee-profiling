@@ -1,72 +1,6 @@
-<template>
-	<div class="tag-manage">
-		<h1 class="title">标签管理</h1>
-		<div class="tag-detail my-table">
-			<el-tag
-				v-for="tag in dynamicTags"
-				:key="tag"
-				class="mx-1"
-				closable
-				:disable-transitions="false"
-				@click="editTagBox(tag as Infos)"
-				@close="open(tag as Infos)"
-			>
-				{{ tag.features }}
-			</el-tag>
-
-			<el-button class="more" size="small" @click="revealAppendBox">
-				+
-			</el-button>
-
-			<el-dialog v-model="dialogFormVisible" title="添加标签">
-				<el-form :model="form">
-					<el-form-item label="标签名称" :label-width="formLabelWidth">
-						<el-input
-							ref="addInputRef"
-							v-model="inputAddValue"
-							class="ml-1 w-20"
-						/>
-					</el-form-item>
-				</el-form>
-				<template #footer>
-					<span class="dialog-footer">
-						<el-button @click="dialogFormVisible = false">取消</el-button>
-						<el-button
-							@click="handleInputConfirm"
-							class="submitAdd"
-							type="info"
-						>
-							确定
-						</el-button>
-					</span>
-				</template>
-			</el-dialog>
-			<el-dialog v-model="dialogFormVisible2" title="修改标签">
-				<el-form :model="form">
-					<el-form-item label="标签名称" :label-width="formLabelWidth">
-						<el-input ref="InputRef" v-model="clickTagName" class="ml-1 w-20" />
-					</el-form-item>
-				</el-form>
-				<template #footer>
-					<span class="dialog-footer">
-						<el-button @click="dialogFormVisible2 = false">取消</el-button>
-						<el-button @click="handleInputEdit" class="submitEdit" type="info">
-							确定
-						</el-button>
-					</span>
-				</template>
-			</el-dialog>
-		</div>
-	</div>
-</template>
-
 <script setup lang="ts">
-import { reactive, ref } from 'vue'
+import { Infos } from '@/stores/tag';
 import { ElInput, ElMessage,ElMessageBox } from 'element-plus'
-import { Infos, useTagStore } from '@/stores/tag'
-import { storeToRefs } from 'pinia'
-import api from '@/api/api'
-import { useUsersStore } from '@/stores/users'
 
 const tagStore = useTagStore()
 const userStore = useUsersStore()
@@ -181,6 +115,68 @@ const handleInputEdit = async () => {
 	dialogFormVisible2.value = false
 }
 </script>
+
+<template>
+	<div class="tag-manage">
+		<h1 class="title">标签管理</h1>
+		<div class="tag-detail my-table">
+			<el-tag
+				v-for="tag in dynamicTags"
+				:key="tag"
+				class="mx-1"
+				closable
+				:disable-transitions="false"
+				@click="editTagBox(tag as Infos)"
+				@close="open(tag as Infos)"
+			>
+				{{ tag.features }}
+			</el-tag>
+
+			<el-button class="more" size="small" @click="revealAppendBox">
+				+
+			</el-button>
+
+			<el-dialog v-model="dialogFormVisible" title="添加标签">
+				<el-form :model="form">
+					<el-form-item label="标签名称" :label-width="formLabelWidth">
+						<el-input
+							ref="addInputRef"
+							v-model="inputAddValue"
+							class="ml-1 w-20"
+						/>
+					</el-form-item>
+				</el-form>
+				<template #footer>
+					<span class="dialog-footer">
+						<el-button @click="dialogFormVisible = false">取消</el-button>
+						<el-button
+							@click="handleInputConfirm"
+							class="submitAdd"
+							type="info"
+						>
+							确定
+						</el-button>
+					</span>
+				</template>
+			</el-dialog>
+			<el-dialog v-model="dialogFormVisible2" title="修改标签">
+				<el-form :model="form">
+					<el-form-item label="标签名称" :label-width="formLabelWidth">
+						<el-input ref="InputRef" v-model="clickTagName" class="ml-1 w-20" />
+					</el-form-item>
+				</el-form>
+				<template #footer>
+					<span class="dialog-footer">
+						<el-button @click="dialogFormVisible2 = false">取消</el-button>
+						<el-button @click="handleInputEdit" class="submitEdit" type="info">
+							确定
+						</el-button>
+					</span>
+				</template>
+			</el-dialog>
+		</div>
+	</div>
+</template>
 
 <style lang="scss" scoped>
 .tag-manage {

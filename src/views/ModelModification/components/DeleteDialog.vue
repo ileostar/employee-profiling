@@ -17,9 +17,6 @@
 </template>
 
 <script setup lang="ts">
-import { useModelStore } from '@/stores/model'
-import { storeToRefs } from 'pinia';
-import { ref } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus'
 
 /**
@@ -69,7 +66,3 @@ const { modelTotal,dialogDeleteVisible } = storeToRefs(modelStore)
 
 const deleteModel = ref('')
 </script>
-
-<style lang="scss" scoped>
-
-</style>

@@ -1,4 +1,3 @@
-<!-- eslint-disable vue/no-mutating-props -->
 <template>
   <el-dialog class="dialogCreate"  v-model="dialogCreateVisible" @close="resetForm" title="新建模型">
     <el-form :model="form" :rules="formRules" ref="ruleFormRef"  label-position="top" label-width="130px"> 
@@ -50,13 +49,8 @@
 </template>
 
 <script setup lang="ts">
-import api from '@/api/api';
 import * as _ from 'lodash'
-import { useModelStore } from '@/stores/model';
-import { usePostStore } from '@/stores/post';
 import { ElMessage, FormInstance } from 'element-plus';
-import { storeToRefs } from 'pinia';
-import { reactive, ref } from 'vue';
 
 const modelStore = useModelStore()
 const PostStore = usePostStore()
@@ -428,4 +422,3 @@ const resetForm = () => {
 	dialogCreateVisible.value = false
 }
 </script>
-

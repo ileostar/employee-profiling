@@ -1,4 +1,8 @@
-<!-- eslint-disable vue/multi-word-component-names -->
+<script setup lang="ts">
+import InforTable from './components/InforTable.vue'
+import InforFunction from './components/InforFunction.vue'
+</script>
+
 <template>
 	<div class="information">
 		<div class="information-header">
@@ -10,11 +14,6 @@
 		</div>
 	</div>
 </template>
-
-<script setup lang="ts">
-import InforTable from './components/InforTable.vue'
-import InforFunction from './components/InforFunction.vue'
-</script>
 
 <style lang="scss" scoped>
 .information {

@@ -1,19 +1,6 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import type { RouteRecordRaw } from 'vue-router'
 import * as _ from 'lodash'
-import api from '@/api/api'
 
-// stores
-import { useUsersStore } from '@/stores/users'
-import { useTagStore } from '@/stores/tag'
-import { useChartStore } from '@/stores/chart'
-import { useEmployeeStore } from '@/stores/employee'
-import { usePerformanceStore } from '@/stores/performance'
-import { usePostStore } from '@/stores/post'
-import { useLoading } from '@/stores/loading'
-import { useModelStore } from '@/stores/model'
-import { useApprovalsStore } from '@/stores/approval'
-import { storeToRefs } from 'pinia'
+import { RouteRecordRaw, createRouter, createWebHashHistory } from 'vue-router'
 
 // 主页面
 const Home = () => import('@/layouts/Home.vue')

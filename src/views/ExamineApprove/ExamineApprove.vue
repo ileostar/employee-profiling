@@ -1,3 +1,46 @@
+<script lang="ts" setup>
+import type { TableColumnCtx, TableInstance } from 'element-plus'
+
+const userStore = useUsersStore()
+const approvalsStore = useApprovalsStore()
+
+const { infos } = storeToRefs(userStore)
+const { approvalList } = storeToRefs(approvalsStore)
+
+interface User {
+  date: string
+  name: string
+  address: string
+  tag: string
+  [index:string]: unknown
+}
+const Auth = () => infos.value.role === '普通用户' ? false : true
+
+const tableRef = ref<TableInstance>()
+
+// 标签状态
+const tagState = (tag: string) => {
+	switch (tag) {
+	case '已同意': return 'success';
+	case '已驳回': return 'info'
+	default: return ''
+	}
+}
+const filterHandler = (
+	value: string,
+	row: User,
+	column: TableColumnCtx<User>
+) => {
+	const property = column['property']
+	return row[property] === value
+}
+
+const filterTag = (value: string, row: User) => {
+	return row.tag === value
+}
+
+</script>
+
 <template>
   <div class="examine-approve common-layout">
 		<h1 class="title">登记审批</h1>
@@ -53,52 +96,6 @@
   </div>
 </template>
 
-<script lang="ts" setup>
-import { ref } from 'vue'
-import type { TableColumnCtx, TableInstance } from 'element-plus'
-import { useUsersStore } from '@/stores/users'
-import { storeToRefs } from 'pinia'
-import { useApprovalsStore } from '@/stores/approval';
-
-const userStore = useUsersStore()
-const approvalsStore = useApprovalsStore()
-
-const { infos } = storeToRefs(userStore)
-const { approvalList } = storeToRefs(approvalsStore)
-
-interface User {
-  date: string
-  name: string
-  address: string
-  tag: string
-  [index:string]: unknown
-}
-const Auth = () => infos.value.role === '普通用户' ? false : true
-
-const tableRef = ref<TableInstance>()
-
-// 标签状态
-const tagState = (tag: string) => {
-	switch (tag) {
-	case '已同意': return 'success';
-	case '已驳回': return 'info'
-	default: return ''
-	}
-}
-const filterHandler = (
-	value: string,
-	row: User,
-	column: TableColumnCtx<User>
-) => {
-	const property = column['property']
-	return row[property] === value
-}
-
-const filterTag = (value: string, row: User) => {
-	return row.tag === value
-}
-
-</script>
 <style lang="scss" scoped>
 .examine-approve {
 	padding: 3vh;

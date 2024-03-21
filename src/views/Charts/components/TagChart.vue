@@ -1,27 +1,6 @@
-<template>
-	<div class="tag-charts">
-		<h2 class="tag-title">标签维度</h2>
-    <div class="tag-select">
-      <p><strong>当前岗位：</strong>{{currentClickEmployee}}</p>
-      <el-select v-model="currentSelectOption" class="m-2" small @change="handleSelectChange" :default-first-option="true">
-        <el-option
-          v-for="item in selectOptions"
-          :key="item"
-          :label="item"
-          :value="item"
-        />
-      </el-select>
-    </div>
-		<div class="tag-chart" ref="chart"></div>
-	</div>
-</template>
-
 <script lang="ts" setup>
-import { useChartStore } from '@/stores/chart'
 import * as echarts from 'echarts'
 import * as _ from 'lodash'
-import { storeToRefs } from 'pinia'
-import { nextTick, onMounted, ref, watchEffect } from 'vue'
 
 const chartStore = useChartStore()
 const { tagChartData,currentClickEmployee,selectOptions,currentSelectOption } = storeToRefs(chartStore)
@@ -104,6 +83,24 @@ const init = async () => {
 
 }
 </script>
+
+<template>
+	<div class="tag-charts">
+		<h2 class="tag-title">标签维度</h2>
+    <div class="tag-select">
+      <p><strong>当前岗位：</strong>{{currentClickEmployee}}</p>
+      <el-select v-model="currentSelectOption" class="m-2" small @change="handleSelectChange" :default-first-option="true">
+        <el-option
+          v-for="item in selectOptions"
+          :key="item"
+          :label="item"
+          :value="item"
+        />
+      </el-select>
+    </div>
+		<div class="tag-chart" ref="chart"></div>
+	</div>
+</template>
 
 <style lang="scss" scoped>
 .tag-charts {

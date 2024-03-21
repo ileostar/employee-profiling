@@ -1,4 +1,21 @@
-<!-- eslint-disable vue/multi-word-component-names -->
+<script setup lang="ts">
+import MatchingPost from './components/MatchingPost.vue'
+import MatchingAnalyze from './components/MatchingAnalyze.vue'
+
+// 创建响应式变量并初始化为 MatchingPost 组件
+let currentComponent = ref(MatchingAnalyze)
+let isMatchingAnalyzeActive = ref(true)
+
+function toggleMatchingAnalyze() {
+	currentComponent.value = MatchingAnalyze
+	isMatchingAnalyzeActive.value = true
+}
+function toggleMatchingPost() {
+	currentComponent.value = MatchingPost
+	isMatchingAnalyzeActive.value = false
+}
+</script>
+
 <template>
 	<div class="matching common-layout">
 		<h1 class="title">人岗匹配</h1>
@@ -23,26 +40,6 @@
 		</div>
 	</div>
 </template>
-
-<script setup lang="ts">
-import { ref } from 'vue'
-// 导入需要的组件
-import MatchingPost from './components/MatchingPost.vue'
-import MatchingAnalyze from './components/MatchingAnalyze.vue'
-
-// 创建响应式变量并初始化为 MatchingPost 组件
-let currentComponent = ref(MatchingAnalyze)
-let isMatchingAnalyzeActive = ref(true)
-
-function toggleMatchingAnalyze() {
-	currentComponent.value = MatchingAnalyze
-	isMatchingAnalyzeActive.value = true
-}
-function toggleMatchingPost() {
-	currentComponent.value = MatchingPost
-	isMatchingAnalyzeActive.value = false
-}
-</script>
 
 <style lang="scss" scoped>
 .matching {

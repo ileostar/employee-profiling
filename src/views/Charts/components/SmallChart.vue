@@ -1,20 +1,4 @@
-<template>
-	<div class="small-chart" :title="props.titles">
-		<img class="small-icon" :src="props.image" alt="" />
-		<div class="content">
-			<div class="chart-text">
-				<div class="title">{{ handleNumber(Number(props.chartData[1])) }}</div>
-				<p class="text">{{ props.chartData[0] }}</p>
-			</div>
-			<div class="chart">
-				<img class="chart" :src="props.chart" alt="" />
-			</div>
-		</div>
-	</div>
-</template>
-
 <script lang="ts" setup>
-
 const handleNumber = (num: number) => {
 	if (Number.isInteger(num)) { // 判断是否为整数
 		return num; // 返回不变的整数
@@ -44,6 +28,21 @@ const props = defineProps({
 	}
 })
 </script>
+
+<template>
+	<div class="small-chart" :title="props.titles">
+		<img class="small-icon" :src="props.image" alt="" />
+		<div class="content">
+			<div class="chart-text">
+				<div class="title">{{ handleNumber(Number(props.chartData[1])) }}</div>
+				<p class="text">{{ props.chartData[0] }}</p>
+			</div>
+			<div class="chart">
+				<img class="chart" :src="props.chart" alt="" />
+			</div>
+		</div>
+	</div>
+</template>
 
 <style lang="scss" scoped>
 .small-chart {

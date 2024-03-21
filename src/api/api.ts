@@ -1,4 +1,4 @@
-import http from '../util/http'
+import http from '../utils/http'
 import { Performance, AnalyzeRelation, Employee, LoginReg, OverallPortrait, Search, SelectAllEmployee, Tag, fixPassword, fixUsername, updatePassword, controlModel, findModel } from './type'
 
 export default {

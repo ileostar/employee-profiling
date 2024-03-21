@@ -1,182 +1,6 @@
-<template>
-	<div class="MatchingAnalyze">
-		<div class="content-left">
-			<div class="content-left-information">
-				<li>人岗匹配分析</li>
-				<el-form 
-          ref="ruleFormRef"
-          :inline="true" 
-          :model="formPersonPost" 
-          class="demo-form-inline" 
-          :rules="ruleFormPersonPost"
-          >
-					<el-form-item prop="name">
-						<el-input
-							v-model="formPersonPost.name"
-							placeholder="输入员工姓名"
-							clearable
-						/>
-					</el-form-item>
-					<el-form-item class="select" prop="post">
-						<el-select
-							v-model="formPersonPost.post"
-							placeholder="输入岗位名称"
-							clearable
-						>
-              <el-option label="客户专员" value="客户专员" />
-              <el-option label="信息专员" value="信息专员" />
-              <el-option label="市场经理" value="市场经理" />
-              <el-option label="综合管理员" value="综合管理员" />
-              <el-option label="终端专员" value="终端专员" />
-            </el-select>
-					</el-form-item>
-					<el-form-item>
-						<el-button type="primary" @click="onSubmitPersonPost(ruleFormRef)">提交分析</el-button>
-					</el-form-item>
-				</el-form>
-			</div>
-			<div class="content-left-result">
-				<p>> 分析结果</p>
-          <noResultYet size="400" :isShow="!analyzePersonPost">
-          <template v-slot:default>
-            <div class="analyzePersonPost-content">
-              <h3>人岗匹配度分析</h3>
-              <div class="personPostTable">
-                <el-table :data="PersonPostTableData" border size="small" stripe style="width: 99%">
-                  <el-table-column prop="name" label="员工姓名" width="70"/>
-                  <el-table-column prop="number" label="员工编号" width="70" />
-                  <el-table-column prop="post" label="岗位名称" width="90" />
-                  <el-table-column prop="factor" label="人岗匹配系数" width="90" />
-                  <el-table-column prop="max" label="岗位最高匹配系数" width="115" />
-                  <el-table-column prop="min" label="岗位最低匹配系数" width="115" />
-                  <el-table-column prop="avg" label="平均匹配系数"  width="115"/>
-                </el-table>
-              </div>
-              <h3>
-                <span>标签匹配分析&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#64b3ae">{{emloyeeNumberOptions.length>1?'其他员工:':''}}</span></span>
-                <el-select v-if="emloyeeNumberOptions.length>1" style="width: 35%;" v-model="currentEmloyeeNumber"  @change="changeEmloyeeNumber" placeholder="选择其他员工">
-                  <el-option
-                    v-for="item in emloyeeNumberOptions"
-                    :key="item.value"
-                    :label="item.label"
-                    :value="item.value"
-                  />
-                </el-select>
-              </h3>
-              <div class="personPostAnalyze">
-                <!-- <employeeTagCard class="box-card-content">
-                  <template v-slot:header>
-                    <p>> {{currentTagAnalyzeResult.post}}优秀画像</p>
-                  </template>
-                  <template v-slot:default>
-                    <el-tag class="ml-2" v-for="item in currentHandleTagAnalyzeResult" :key="item" type="info">
-                      <p :title="item">{{handleStringLength(item)}}</p>
-                    </el-tag>
-                  </template>
-                </employeeTagCard>
-                <employeeTagCard class="box-card-content second">
-                  <template v-slot:header>
-                    <p>> {{currentTagAnalyzeResult.name}}优秀画像</p>
-                  </template>
-                  <template v-slot:default>
-                    <el-tag class="ml-2" v-for="item in currentHandleTagEmployeeAnalyzeResult" :key="item" type="info">
-                      <p :title="item">{{item}}</p>
-                    </el-tag>
-                  </template>
-                </employeeTagCard> -->
-                <div class="content-right-matching-box2">
-                  <p>影响该岗位绩效的关键标签分析：</p>
-                  <div class="box3-table">
-                    <el-table
-                      :data="portraitFeatureTwo"
-                      :header-cell-style="{ background: '#97c1be', color: '#fff' }"
-                      scrollbar-always-on
-                      height="230" 
-                      border
-                      size="small"
-                    >
-                      <el-table-column prop="postGoodFeaturesMessage" label="影响绩效的关键标签" width="270"
-                      header-align="center" />
-                      <el-table-column
-                        prop="employeeGoodFeaturesMessage"
-                        label="该员工匹配情况"
-                        align="center"
-                      />
-                      <el-table-column
-                        prop="employeeBadFeaturesMessage"
-                        label="是否匹配"
-                        align="center"
-                        sortable
-                      />
-                    </el-table>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </template>
-        </noResultYet>
-			</div>
-		</div>
-		<div class="content-right">
-			<div class="content-right-post">
-				<li>岗位匹配分析</li>
-				<el-form
-          ref="ruleMatchingFormRef"
-          class="demo-form-inline"
-          :inline="true" 
-          :model="formPostMatching" 
-          :rules="ruleFormPostMatching" 
-          >
-					<el-form-item label="输入岗位名称：" prop="post">
-						<el-select
-							v-model="formPostMatching.post"
-							placeholder="岗位名称"
-							clearable
-						>
-            <el-option label="客户专员" value="客户专员" />
-            <el-option label="信息专员" value="信息专员" />
-            <el-option label="市场经理" value="市场经理" />
-            <el-option label="综合管理员" value="综合管理员" />
-            <el-option label="终端专员" value="终端专员" />
-            </el-select>
-					</el-form-item>
-					<el-form-item>
-						<el-button type="primary" @click="onSubmitPostMatching(ruleMatchingFormRef)">提交分析</el-button>
-					</el-form-item>
-				</el-form>
-			</div>
-			<div class="content-right-matching">
-				<p>> 根据岗位筛选符合人员</p>
-				<noResultYet size="400" :isShow="!analyzePostMatching">
-					<template v-slot:default>
-            <el-table 
-              class="PostMatchingTable"
-              :default-sort="{ prop: 'factor', order: 'descending' }"
-              :data="currentPostMatchingTable" 
-              style="width: 100%"
-              scrollbar-always-on
-              >
-              <el-table-column fixed prop="number" label="员工编号" width="80" />
-              <el-table-column prop="name" label="员工姓名" width="90" />
-              <el-table-column prop="presentlyPost" label="目前岗位" width="90" />
-              <el-table-column prop="scores" sortable label="月度绩效" width="110" />
-              <el-table-column prop="factor" sortable label="与当前岗位匹配度" />
-            </el-table>
-          </template>
-				</noResultYet>
-			</div>
-		</div>
-	</div>
-</template>
-
 <script lang="ts" setup>
-import { onMounted, onUnmounted, reactive, ref } from 'vue'
 import noResultYet from '@/components/noResultYet/noResultYet.vue'
-import api from '@/api/api'
 import { ElMessage, FormInstance } from 'element-plus'
-import { useEmployeeStore } from '@/stores/employee'
-import { storeToRefs } from 'pinia'
-import { useMatchingStore } from '@/stores/matching'
 import * as _ from 'lodash'
 
 const matchingStore = useMatchingStore()
@@ -360,6 +184,177 @@ onUnmounted(() => {
 	analyzePostMatching.value = false
 })
 </script>
+
+<template>
+	<div class="MatchingAnalyze">
+		<div class="content-left">
+			<div class="content-left-information">
+				<li>人岗匹配分析</li>
+				<el-form 
+          ref="ruleFormRef"
+          :inline="true" 
+          :model="formPersonPost" 
+          class="demo-form-inline" 
+          :rules="ruleFormPersonPost"
+          >
+					<el-form-item prop="name">
+						<el-input
+							v-model="formPersonPost.name"
+							placeholder="输入员工姓名"
+							clearable
+						/>
+					</el-form-item>
+					<el-form-item class="select" prop="post">
+						<el-select
+							v-model="formPersonPost.post"
+							placeholder="输入岗位名称"
+							clearable
+						>
+              <el-option label="客户专员" value="客户专员" />
+              <el-option label="信息专员" value="信息专员" />
+              <el-option label="市场经理" value="市场经理" />
+              <el-option label="综合管理员" value="综合管理员" />
+              <el-option label="终端专员" value="终端专员" />
+            </el-select>
+					</el-form-item>
+					<el-form-item>
+						<el-button type="primary" @click="onSubmitPersonPost(ruleFormRef)">提交分析</el-button>
+					</el-form-item>
+				</el-form>
+			</div>
+			<div class="content-left-result">
+				<p>> 分析结果</p>
+          <noResultYet size="400" :isShow="!analyzePersonPost">
+          <template v-slot:default>
+            <div class="analyzePersonPost-content">
+              <h3>人岗匹配度分析</h3>
+              <div class="personPostTable">
+                <el-table :data="PersonPostTableData" border size="small" stripe style="width: 99%">
+                  <el-table-column prop="name" label="员工姓名" width="70"/>
+                  <el-table-column prop="number" label="员工编号" width="70" />
+                  <el-table-column prop="post" label="岗位名称" width="90" />
+                  <el-table-column prop="factor" label="人岗匹配系数" width="90" />
+                  <el-table-column prop="max" label="岗位最高匹配系数" width="115" />
+                  <el-table-column prop="min" label="岗位最低匹配系数" width="115" />
+                  <el-table-column prop="avg" label="平均匹配系数"  width="115"/>
+                </el-table>
+              </div>
+              <h3>
+                <span>标签匹配分析&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span style="color:#64b3ae">{{emloyeeNumberOptions.length>1?'其他员工:':''}}</span></span>
+                <el-select v-if="emloyeeNumberOptions.length>1" style="width: 35%;" v-model="currentEmloyeeNumber"  @change="changeEmloyeeNumber" placeholder="选择其他员工">
+                  <el-option
+                    v-for="item in emloyeeNumberOptions"
+                    :key="item.value"
+                    :label="item.label"
+                    :value="item.value"
+                  />
+                </el-select>
+              </h3>
+              <div class="personPostAnalyze">
+                <!-- <employeeTagCard class="box-card-content">
+                  <template v-slot:header>
+                    <p>> {{currentTagAnalyzeResult.post}}优秀画像</p>
+                  </template>
+                  <template v-slot:default>
+                    <el-tag class="ml-2" v-for="item in currentHandleTagAnalyzeResult" :key="item" type="info">
+                      <p :title="item">{{handleStringLength(item)}}</p>
+                    </el-tag>
+                  </template>
+                </employeeTagCard>
+                <employeeTagCard class="box-card-content second">
+                  <template v-slot:header>
+                    <p>> {{currentTagAnalyzeResult.name}}优秀画像</p>
+                  </template>
+                  <template v-slot:default>
+                    <el-tag class="ml-2" v-for="item in currentHandleTagEmployeeAnalyzeResult" :key="item" type="info">
+                      <p :title="item">{{item}}</p>
+                    </el-tag>
+                  </template>
+                </employeeTagCard> -->
+                <div class="content-right-matching-box2">
+                  <p>影响该岗位绩效的关键标签分析：</p>
+                  <div class="box3-table">
+                    <el-table
+                      :data="portraitFeatureTwo"
+                      :header-cell-style="{ background: '#97c1be', color: '#fff' }"
+                      scrollbar-always-on
+                      height="230" 
+                      border
+                      size="small"
+                    >
+                      <el-table-column prop="postGoodFeaturesMessage" label="影响绩效的关键标签" width="270"
+                      header-align="center" />
+                      <el-table-column
+                        prop="employeeGoodFeaturesMessage"
+                        label="该员工匹配情况"
+                        align="center"
+                      />
+                      <el-table-column
+                        prop="employeeBadFeaturesMessage"
+                        label="是否匹配"
+                        align="center"
+                        sortable
+                      />
+                    </el-table>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </template>
+        </noResultYet>
+			</div>
+		</div>
+		<div class="content-right">
+			<div class="content-right-post">
+				<li>岗位匹配分析</li>
+				<el-form
+          ref="ruleMatchingFormRef"
+          class="demo-form-inline"
+          :inline="true" 
+          :model="formPostMatching" 
+          :rules="ruleFormPostMatching" 
+          >
+					<el-form-item label="输入岗位名称：" prop="post">
+						<el-select
+							v-model="formPostMatching.post"
+							placeholder="岗位名称"
+							clearable
+						>
+            <el-option label="客户专员" value="客户专员" />
+            <el-option label="信息专员" value="信息专员" />
+            <el-option label="市场经理" value="市场经理" />
+            <el-option label="综合管理员" value="综合管理员" />
+            <el-option label="终端专员" value="终端专员" />
+            </el-select>
+					</el-form-item>
+					<el-form-item>
+						<el-button type="primary" @click="onSubmitPostMatching(ruleMatchingFormRef)">提交分析</el-button>
+					</el-form-item>
+				</el-form>
+			</div>
+			<div class="content-right-matching">
+				<p>> 根据岗位筛选符合人员</p>
+				<noResultYet size="400" :isShow="!analyzePostMatching">
+					<template v-slot:default>
+            <el-table 
+              class="PostMatchingTable"
+              :default-sort="{ prop: 'factor', order: 'descending' }"
+              :data="currentPostMatchingTable" 
+              style="width: 100%"
+              scrollbar-always-on
+              >
+              <el-table-column fixed prop="number" label="员工编号" width="80" />
+              <el-table-column prop="name" label="员工姓名" width="90" />
+              <el-table-column prop="presentlyPost" label="目前岗位" width="90" />
+              <el-table-column prop="scores" sortable label="月度绩效" width="110" />
+              <el-table-column prop="factor" sortable label="与当前岗位匹配度" />
+            </el-table>
+          </template>
+				</noResultYet>
+			</div>
+		</div>
+	</div>
+</template>
 
 <style lang="scss" scoped>
 .MatchingAnalyze {
@@ -547,4 +542,3 @@ onUnmounted(() => {
 	}
 }
 </style>
-@/stores/matching

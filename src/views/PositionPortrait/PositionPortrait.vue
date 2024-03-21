@@ -1,3 +1,46 @@
+<script setup lang="ts">
+import { ElMessage } from 'element-plus'
+
+const employeeStore = useEmployeeStore()
+const PostStore = usePostStore()
+const { createdTime } =storeToRefs(employeeStore)
+const { postData,analyzeRelationList,analyzeMatchingList } = storeToRefs(PostStore)
+
+const tableDataOne = ref<Array<any>>([])
+const tableDataTwo = ref<Array<any>>([])
+watchEffect(() => {
+	tableDataOne.value= analyzeRelationList.value.map((item)=> {
+		const { weight,niceNumber,badNumber,...props } = item
+		return {
+			...props,
+			weight: weight.toFixed(2),
+			badNumber: Number(badNumber).toFixed(2)+'%',
+			niceNumber: Number(niceNumber).toFixed(2)+'%',
+		}
+	})
+	tableDataTwo.value= analyzeMatchingList.value.map((item)=> {
+		const { scores, factor ,...props } = item
+		return {
+			...props,
+			factor: Number(factor).toFixed(2),
+			scores: Number(scores).toFixed(2),
+		}
+	})
+})
+
+const handleSelect = async (post:string) => {
+	const res = await api.findByPostAndCreatedTime({createdTime:createdTime.value,post})
+	const res2 = await api.findPostFactorDesc({createdTime:createdTime.value,post})
+	if (res.data.state === 200 && res2.data.state === 200 ) {
+		PostStore.updateAnalyzeRelation(res.data.data)
+		PostStore.updateAnalyzeMatching(res2.data.data)
+	} else {
+		ElMessage.error(res.data.msg)
+		ElMessage.error(res2.data.msg)
+	}
+}
+</script>
+
 <template>
 	<div class="position-portrait">
 		<div class="position-portrait-aside">
@@ -50,55 +93,6 @@
 		</div>
 	</div>
 </template>
-
-<script setup lang="ts">
-import { ref, watchEffect } from 'vue'
-import { storeToRefs } from 'pinia'
-import { usePostStore } from '@/stores/post'
-import { useEmployeeStore } from '@/stores/employee'
-import api from '@/api/api'
-import { ElMessage } from 'element-plus'
-
-const employeeStore = useEmployeeStore()
-const PostStore = usePostStore()
-const { createdTime } =storeToRefs(employeeStore)
-const { postData,analyzeRelationList,analyzeMatchingList } = storeToRefs(PostStore)
-
-const tableDataOne = ref<Array<any>>([])
-const tableDataTwo = ref<Array<any>>([])
-watchEffect(() => {
-	tableDataOne.value= analyzeRelationList.value.map((item)=> {
-		const { weight,niceNumber,badNumber,...props } = item
-		return {
-			...props,
-			weight: weight.toFixed(2),
-			badNumber: Number(badNumber).toFixed(2)+'%',
-			niceNumber: Number(niceNumber).toFixed(2)+'%',
-		}
-	})
-	tableDataTwo.value= analyzeMatchingList.value.map((item)=> {
-		const { scores, factor ,...props } = item
-		return {
-			...props,
-			factor: Number(factor).toFixed(2),
-			scores: Number(scores).toFixed(2),
-		}
-	})
-})
-
-const handleSelect = async (post:string) => {
-	const res = await api.findByPostAndCreatedTime({createdTime:createdTime.value,post})
-	const res2 = await api.findPostFactorDesc({createdTime:createdTime.value,post})
-	if (res.data.state === 200 && res2.data.state === 200 ) {
-		PostStore.updateAnalyzeRelation(res.data.data)
-		PostStore.updateAnalyzeMatching(res2.data.data)
-	} else {
-		ElMessage.error(res.data.msg)
-		ElMessage.error(res2.data.msg)
-	}
-  
-}
-</script>
 
 <style lang="scss" scoped>
 .position-portrait {

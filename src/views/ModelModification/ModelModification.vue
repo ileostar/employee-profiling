@@ -72,15 +72,10 @@
 </template>
 
 <script lang="ts" setup>
-import { useModelStore } from '@/stores/model'
-import { usePostStore } from '@/stores/post'
-import { storeToRefs } from 'pinia'
-import { onMounted } from 'vue'
 import CreatedDialog from './components/CreatedDialog.vue'
 import EditDialog from './components/EditDialog.vue'
 import DeleteDialog from './components/DeleteDialog.vue'
 import { ElMessage, ElMessageBox } from 'element-plus'
-import api from '@/api/api'
 
 const postStore = usePostStore()
 const modelStore = useModelStore()

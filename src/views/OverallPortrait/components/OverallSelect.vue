@@ -60,12 +60,7 @@
 </template>
 
 <script lang="ts" setup>
-import api from '@/api/api';
-import { useEmployeeStore } from '@/stores/employee';
-import { usePostStore } from '@/stores/post';
 import { ElMessage } from 'element-plus';
-import { storeToRefs } from 'pinia';
-import { onMounted, reactive, ref } from 'vue'
 
 const postStore = usePostStore()
 const employeeStore = useEmployeeStore()
@@ -109,7 +104,7 @@ const overallOptions = reactive<Overall>({
 
 /*
  * @desc 子传父：将分析结果传给父组件渲染
- */ 
+ */
 const emit = defineEmits(['submitAnalyze'])
 const handleAnalyze = async () => {
 	// 处理数据

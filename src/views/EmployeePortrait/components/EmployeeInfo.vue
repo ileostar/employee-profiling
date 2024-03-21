@@ -1,3 +1,41 @@
+<script lang="ts" setup>
+import { postCountFactor } from '@/stores/employee'
+
+const employeeStore = useEmployeeStore()
+const { portraitFeature:employeeInfos,tagEmployeeInfo:tags,postTagEmployeeInfos,postCountFactors,portraitFeatureTwo } = storeToRefs(employeeStore)
+
+const TagCenterDialogVisible = ref(false)
+const props = defineProps(['employee'])
+
+
+const postName = ref('市场经理')
+const postIntroductInfo = ref<Array<string>>([
+	'有QC项目获奖情况', 
+	'有体育特长', 
+	'初级经济师', 
+	'有文学特长', 
+	'有艺术特长',
+	'近两年参与线下授课经历',
+	'是否受到市局（公司）表彰',
+])
+
+// 员工对应情况
+const employeeMatchingTag = ref<Array<string>>([])
+
+const handlePostGoodFeaturesMessage = ref<Array<string>>()
+const handleEmployeeGoodFeaturesMessage = ref<Array<string>>()
+const handleEmployeeBadFeaturesMessage = ref<Array<string>>()
+const currentEmployeeAndPostAnalyze = ref<postCountFactor>()
+
+watchEffect(() => {
+	employeeMatchingTag.value = tags.value.filter(tag => postIntroductInfo.value.includes(tag));
+	handlePostGoodFeaturesMessage.value = postTagEmployeeInfos.value?.postGoodFeaturesMessage.sort((a,b) => b!.length-a!.length) as Array<string>
+	handleEmployeeGoodFeaturesMessage.value = postTagEmployeeInfos.value?.employeeGoodFeaturesMessage.filter(item=>item!==null).sort((a,b) => b!.length-a!.length) as Array<string>
+	handleEmployeeBadFeaturesMessage.value = postTagEmployeeInfos.value?.employeeBadFeaturesMessage.filter(item=>item!==null).sort((a,b) => b!.length-a!.length) as Array<string>
+	currentEmployeeAndPostAnalyze.value = postCountFactors.value.find(item => item.post === postName.value)
+})
+</script>
+
 <template>
 	<div class="employee-info common-layout">
 		<h1 class="title">{{props.employee}}员工画像</h1>
@@ -214,46 +252,6 @@
     </template>
   </el-dialog>
 </template>
-
-<script lang="ts" setup>
-import { ref, watchEffect } from 'vue'
-import { storeToRefs } from 'pinia'
-import { postCountFactor, useEmployeeStore } from '@/stores/employee'
-
-const employeeStore = useEmployeeStore()
-const { portraitFeature:employeeInfos,tagEmployeeInfo:tags,postTagEmployeeInfos,postCountFactors,portraitFeatureTwo } = storeToRefs(employeeStore)
-
-const TagCenterDialogVisible = ref(false)
-const props = defineProps(['employee'])
-
-
-const postName = ref('市场经理')
-const postIntroductInfo = ref<Array<string>>([
-	'有QC项目获奖情况', 
-	'有体育特长', 
-	'初级经济师', 
-	'有文学特长', 
-	'有艺术特长',
-	'近两年参与线下授课经历',
-	'是否受到市局（公司）表彰',
-])
-
-// 员工对应情况
-const employeeMatchingTag = ref<Array<string>>([])
-
-const handlePostGoodFeaturesMessage = ref<Array<string>>()
-const handleEmployeeGoodFeaturesMessage = ref<Array<string>>()
-const handleEmployeeBadFeaturesMessage = ref<Array<string>>()
-const currentEmployeeAndPostAnalyze = ref<postCountFactor>()
-
-watchEffect(() => {
-	employeeMatchingTag.value = tags.value.filter(tag => postIntroductInfo.value.includes(tag));
-	handlePostGoodFeaturesMessage.value = postTagEmployeeInfos.value?.postGoodFeaturesMessage.sort((a,b) => b!.length-a!.length) as Array<string>
-	handleEmployeeGoodFeaturesMessage.value = postTagEmployeeInfos.value?.employeeGoodFeaturesMessage.filter(item=>item!==null).sort((a,b) => b!.length-a!.length) as Array<string>
-	handleEmployeeBadFeaturesMessage.value = postTagEmployeeInfos.value?.employeeBadFeaturesMessage.filter(item=>item!==null).sort((a,b) => b!.length-a!.length) as Array<string>
-	currentEmployeeAndPostAnalyze.value = postCountFactors.value.find(item => item.post === postName.value)
-})
-</script>
 
 <style lang="scss" scoped>
 .employee-info {

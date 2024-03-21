@@ -1,4 +1,69 @@
-<!-- eslint-disable vue/no-deprecated-router-link-tag-prop -->
+<script setup lang="ts">
+import { useRouter } from 'vue-router'
+import { ElMessage, FormInstance, FormRules } from 'element-plus'
+
+const router = useRouter()
+const userStore = useUsersStore()
+
+const ruleFormRef = ref<FormInstance>()
+
+const { imgUrl, refreshImage } = useRefreshImage()
+
+/** 自定义表单校验规则 */
+const username = useCheckForm('请输入用户名')
+const password = useCheckForm('请输入密码')
+const code = useCheckForm('请输入验证码')
+
+/** 表单 */
+const ruleForm = reactive({
+	username: '',
+	password: '',
+	code: ''
+})
+
+/** 表单校验 */
+const rules = reactive<FormRules>({
+	username: [{ validator: username, trigger: 'blur' }],
+	password: [{ validator: password, trigger: 'blur' }],
+	code: [{ validator: code, trigger: 'blur' }],
+})
+
+/** 提交表单 */
+const submitForm = function (formEl: FormInstance | undefined) {
+	if (!formEl) return
+	formEl.validate(async (valid) => {
+		if (valid) {
+			const res = await api.login(ruleForm)
+			if (res.data.state === 200) {
+				// 更新用户信息
+				userStore.updateInfos(res.data.data.Username)
+
+				// 设置token
+				userStore.updateToken(res.data.data.uToken)
+
+				ElMessage.success('登录成功')
+				router.push('/')
+			} else {
+				ElMessage.error(res.data.message)
+				return false
+			}
+		} else {
+			ElMessage.error('请正确填写表单！')
+			return false
+		}
+	})
+}
+
+/** 回车键登录 */
+const useKeyDown = (e: { keyCode: number }) => {
+	if (e.keyCode == 13 || e.keyCode == 100) {
+		submitForm(ruleFormRef.value)
+	}
+}
+
+useEventListen(useKeyDown,refreshImage)
+</script>
+
 <template>
 	<div class="login">
     <header>基于员工画像的绩效结果评估系统</header>
@@ -26,10 +91,10 @@
         <img id="codeImg" :src="imgUrl" class="codeImg" @click="refreshImage">
 			</el-form-item>
 			<el-form-item class="login-button">
-				<el-button type="primary" @click="submitForm(ruleFormRef)"  @keydown.enter="keyDown($event)">
+				<el-button type="primary" @click="submitForm(ruleFormRef)"  @keydown.enter="useKeyDown($event)">
 					登陆
 				</el-button>
-				<el-button @click="resetForm(ruleFormRef)">重置</el-button>
+				<el-button @click="useRetForm(ruleFormRef)">重置</el-button>
 			</el-form-item>
 			<router-link to="/register" tag="div" class="goRegister">
 				转去注册
@@ -37,113 +102,6 @@
 		</el-form>
 	</div>
 </template>
-
-<script setup lang="ts">
-import { useRouter } from 'vue-router'
-import { onMounted, onUnmounted, reactive, ref } from 'vue'
-import type { FormInstance, FormRules } from 'element-plus'
-import { ElMessage } from 'element-plus'
-import api from '@/api/api'
-import { useUsersStore } from '@/stores/users'
-
-const router = useRouter()
-const userStore = useUsersStore()
-
-const ruleFormRef = ref<FormInstance>()
-
-const imgUrl = ref()
-
-// 自定义表单校验规则
-const username = (_rule: any, value: any, callback: any) => {
-	if (value === '') {
-		callback(new Error('请输入用户名'))
-	} else {
-		callback()
-	}
-}
-const password = (_rule: any, value: any, callback: any) => {
-	if (value === '') {
-		callback(new Error('请输入密码'))
-	} else {
-		callback()
-	}
-}
-const code = (_rule: any, value: any, callback: any) => {
-	if (value === '') {
-		callback(new Error('请输入验证码'))
-	} else {
-		callback()
-	}
-}
-
-// 表单
-const ruleForm = reactive({
-	username: '',
-	password: '',
-	code: ''
-})
-
-// 表单校验
-const rules = reactive<FormRules>({
-	username: [{ validator: username, trigger: 'blur' }],
-	password: [{ validator: password, trigger: 'blur' }],
-	code: [{ validator: code, trigger: 'blur' }],
-})
-
-onMounted(() => {
-	refreshImage()
-	//绑定监听事件
-	window.addEventListener('keydown', keyDown)
-});
-onUnmounted(() => {
-	//销毁事件
-	window.removeEventListener('keydown', keyDown, false)
-});
-
-// 提交表单
-const submitForm = function (formEl: FormInstance | undefined) {
-	if (!formEl) return
-	formEl.validate(async (valid) => {
-		if (valid) {
-			const res = await api.login(ruleForm)
-			if (res.data.state === 200) {
-				// 更新用户信息
-				userStore.updateInfos(res.data.data.Username)
-
-				// 设置token
-				userStore.updateToken(res.data.data.uToken)
-
-				ElMessage.success('登录成功')
-				router.push('/')
-			} else {
-				ElMessage.error(res.data.message)
-				return false
-			}
-		} else {
-			ElMessage.error('请正确填写表单！')
-			return false
-		}
-	})
-}
-
-// 回车键登录
-const keyDown = (e: { keyCode: number }) => {
-	if (e.keyCode == 13 || e.keyCode == 100) {
-		submitForm(ruleFormRef.value)
-	}
-}
-// 重置表单
-const resetForm = (formEl: FormInstance | undefined) => {
-	if (!formEl) return
-	formEl.resetFields()
-}
-
-// 刷新验证码
-const refreshImage = () => {
-	// 修改图片的src属性，添加一个时间戳参数来刷新图片
-	imgUrl.value = import.meta.env.VITE_AXIOS_BASE_URI+'/verifyCode?' + Date.now();
-}
-</script>
 
 <style lang="scss">
 .login {
