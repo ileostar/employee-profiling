@@ -8,7 +8,7 @@
 
 <style lang="scss" scoped>
 /* loading.css */
-.boxLoading {  
+.boxLoading {
   z-index: 999;
   width: 50px;
   height: 50px;
