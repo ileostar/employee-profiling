@@ -14,7 +14,7 @@
             <el-form-item label="模型名称" prop="filePath">
               <el-input v-model="filePath" placeholder="请输入模型名称" clearable maxlength="5vw"/>
             </el-form-item>
-          </el-space>    
+          </el-space>
         </el-col>
         <el-col v-for="(field, key) in formField" :key="field.label" :span="12">
           <el-space
@@ -34,7 +34,21 @@
                   <el-input-number v-model="form[key]" autocomplete="off" :min="0.00" :precision="2" :step="0.01" :max="10"></el-input-number>
                 </template>
             </el-form-item>
-          </el-space>       
+          </el-space>
+        </el-col>
+        <el-col  :span="12">
+          <el-space
+            fill
+            wrap
+            :fill-ratio="80"
+            direction="horizontal"
+            style="width: 96%"
+          ><el-form-item>
+            <span :style="{
+              color: 'red'
+            }">当前数据总和：{{numSum}}</span>
+          </el-form-item>
+          </el-space>
         </el-col>
       </el-row>
     </el-form>
@@ -56,7 +70,7 @@ import { useModelStore } from '@/stores/model';
 import { usePostStore } from '@/stores/post';
 import { ElMessage, FormInstance } from 'element-plus';
 import { storeToRefs } from 'pinia';
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 
 const modelStore = useModelStore()
 const PostStore = usePostStore()
@@ -69,6 +83,7 @@ interface formEl {
 
 const ruleFormRef = ref<FormInstance>()
 const filePath = ref('')
+
 /**
  * 自定义表单校验规则
  * Validates if the file path is valid.
@@ -76,7 +91,7 @@ const filePath = ref('')
  * @param {any} _rule - The rule to validate against.
  * @param {any} _value - The value to validate.
  * @param {any} callback - The callback function to handle the validation result.
- * @return {void} 
+ * @return {void}
  */
 const validFilePath = (_rule: any,_value: any, callback: any) => {
 	if (filePath.value === '') {
@@ -391,6 +406,10 @@ const formRules = reactive({
 	}
 })
 
+const numSum = computed(()=>{
+	return (Object.entries(form).map(item=> item[1]).filter(item=> !isNaN(Number(item))).reduce((a, b) => Number(a) + Number(b), 0) as number).toFixed(2)
+})
+
 /**
  * 校验表单的属性值和是否唯一
  * Checks if the sum of the numbers is equal to one.
@@ -400,7 +419,7 @@ const formRules = reactive({
 const isSumToOne = () => {
 	const copyForm = _.cloneDeep(form)
 	const result = Object.entries(copyForm).map(item=> item[1]).filter(item=> !isNaN(Number(item))).reduce((a, b) => Number(a) + Number(b), 0) === 1
-  
+
 	return result
 }
 
@@ -415,7 +434,9 @@ const submitCreatedForm = (formEl: FormInstance | undefined) => {
 			}
 			const res = await api.insertModel({filePath:filePath.value,request:form})
 			if(res.status === 200) {
+        modelStore.refreshModel()
 				ElMessage.success(res.data)
+        dialogCreateVisible.value = false
 			}
 		} else {
 			ElMessage.error('请正确填写表单')

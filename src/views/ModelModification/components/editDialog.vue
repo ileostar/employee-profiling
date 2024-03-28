@@ -16,7 +16,7 @@
                 <el-option v-for="item of modelTotal" :key="item" :value="item" />
               </el-select>
             </el-form-item>
-          </el-space>    
+          </el-space>
         </el-col>
         <el-col v-for="(field, key) in formField" :key="field.label" :span="12">
           <el-space
@@ -26,7 +26,7 @@
             direction="horizontal"
             style="width: 96%"
           >
-            <el-form-item :label="field.label" :prop="key">
+            <el-form-item :label="field.label as string" :prop="key">
                 <template v-if="field.label === '岗位'">
                   <el-select v-model="form.post" class="m-2" placeholder="选择岗位"  @change="filePath!==''?autoFillModel(filePath,form.post as string):''">
                     <el-option v-for="post in select" :key="post" :value="post" :label="post" />
@@ -36,7 +36,21 @@
                   <el-input-number v-model="form[key]" autocomplete="off" :min="0.00" :precision="2" :step="0.01" :max="10"></el-input-number>
                 </template>
             </el-form-item>
-          </el-space>       
+          </el-space>
+        </el-col>
+        <el-col  :span="12">
+          <el-space
+            fill
+            wrap
+            :fill-ratio="80"
+            direction="horizontal"
+            style="width: 96%"
+          ><el-form-item>
+            <span :style="{
+              color: 'red'
+            }">当前数据总和：{{numSum}}</span>
+          </el-form-item>
+          </el-space>
         </el-col>
       </el-row>
     </el-form>
@@ -58,7 +72,7 @@ import { useModelStore } from '@/stores/model';
 import { usePostStore } from '@/stores/post';
 import { ElMessage, FormInstance } from 'element-plus';
 import { storeToRefs } from 'pinia';
-import { reactive, ref } from 'vue';
+import { computed, reactive, ref } from 'vue';
 
 const modelStore = useModelStore()
 const PostStore = usePostStore()
@@ -411,19 +425,39 @@ const formRules = reactive({
  * @param {string} post - The post for the model.
  * @return {void}
  */
-const autoFillModel = async (filePath: string,post = '客户专员') => {
+const autoFillModel = async (filePath: string,post: string) => {
+	if(!post) return
 	const res = await api.selectModelInformation({filePath,post})
 	if(res.status === 200) {
-		const resArr = Object.entries(res.data)
-		for(const item in formField.value ) {
-			resArr.map(i=>{
-				if(i[0]===item) {
-					form[item] = i[1] as number | string
-				}
-			})
+		let count = 0
+		let flag =true
+		Object.values(res.data).map(item=>{
+			if(item===null) {
+				count++
+			}
+			if(count>50&&flag){
+				ElMessage.error('该模型岗位暂无数据，请先创建该模型岗位！')
+				flag = false
+			}
+		})
+		if(flag){
+			const resArr = Object.entries(res.data)
+			for(const item in formField.value ) {
+				resArr.map(i=>{
+					if(i[0]===item) {
+						form[item] = i[1] as number | string
+					}
+				})
+			}
 		}
+	}else {
+		ElMessage.error('请先添加模型数据！')
 	}
 }
+
+const numSum = computed(()=>{
+	return (Object.entries(form).map(item=> item[1]).filter(item=> !isNaN(Number(item))).reduce((a, b) => Number(a) + Number(b), 0) as number).toFixed(2)
+})
 
 /**
  * 校验表单的属性值和是否唯一
@@ -434,7 +468,7 @@ const autoFillModel = async (filePath: string,post = '客户专员') => {
 const isSumToOne = () => {
 	const copyForm = _.cloneDeep(form)
 	const result = Object.entries(copyForm).map(item=> item[1]).filter(item=> !isNaN(Number(item))).reduce((a, b) => Number(a) + Number(b), 0) === 1
-  
+	console.log('111111111111',Object.entries(copyForm).map(item=> item[1]).filter(item=> !isNaN(Number(item))).reduce((a, b) => Number(a) + Number(b), 0))
 	return result
 }
 
@@ -449,7 +483,9 @@ const submitCreatedForm = (formEl: FormInstance | undefined) => {
 			}
 			const res = await api.insertModel({filePath:filePath.value,request:form})
 			if(res.status === 200) {
+        modelStore.refreshModel()
 				ElMessage.success(res.data)
+        dialogEditVisible.value = false
 			}
 		} else {
 			ElMessage.error('请正确填写表单')

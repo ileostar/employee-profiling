@@ -157,24 +157,20 @@ const routes: Array<RouteRecordRaw> = [
 						// eslint-disable-next-line @typescript-eslint/no-unused-vars
 						async beforeEnter(_to, _from, next) {
 							const performanceStore = usePerformanceStore()
-							const { performanceList,perCurrentTime } = storeToRefs(performanceStore)
-							const employeeStore = useEmployeeStore()
-							const { createdTime:Info ,createdTimeList:Infos } = storeToRefs(employeeStore)
+							const { performanceList,perCurrentTime:Info,performanceTimeList: Infos } = storeToRefs(performanceStore)
 							if (_.isEmpty(Info.value) || _.isEmpty(Infos.value)) {
-								const res = await api.getCreatedTime()
+								const res = await api.selectFindCreatedTime()
 								if (res.data.state === 200) {
-									employeeStore.updateCreatedTimeList(res.data.data)
-									perCurrentTime.value = res.data.data[0]
-								} else {
-									return
+									performanceStore.updatePerformanceTimeList(res.data.data)
+									Info.value = res.data.data[0]
 								}
 							}
 							if(_.isEmpty(performanceList.value)) {
-								const res = await api.selectPerformane()
+								const res = await api.selectByCreatedTime({
+									createdTime: Info.value
+								})
 								if(res.data.state === 200) {
 									performanceStore.updatePerformanceList(res.data.data)
-								} else {
-									return
 								}
 							}
 							next()
@@ -216,10 +212,7 @@ const routes: Array<RouteRecordRaw> = [
 						},
 						async beforeEnter(_to, _from, next) {
 							const userStore = useUsersStore()
-							const { allUsers: Info } = storeToRefs(userStore)
-							if (_.isEmpty(Info.value)) {
-								userStore.updateAllUsers()
-							}
+							userStore.updateAllUsers()
 							next()
 						},
 					},
@@ -280,7 +273,7 @@ const routes: Array<RouteRecordRaw> = [
 							if(_.isEmpty(unitList.value)){
 								const res = await api.selectByUnit()
 								if(res.data.state === 200){
-									postStore.updateUnitList(res.data.data)      
+									postStore.updateUnitList(res.data.data)
 								}else{
 									return
 								}
@@ -342,11 +335,10 @@ const routes: Array<RouteRecordRaw> = [
 				async beforeEnter(_to, _from, next) {
 					const modelStore = useModelStore()
 					const postStore = usePostStore()
-					const { currentModel } = storeToRefs(modelStore)
 					const { postData } = storeToRefs(postStore)
-					modelStore.updateCurrentModel()
 					modelStore.updateModelTotal()
-					modelStore.updateFormField(currentModel.value,postData.value[0])
+					const data = await modelStore.updateCurrentModel()
+					modelStore.updateFormField(data,postData.value[0])
 					next()
 				}
 			},

@@ -19,6 +19,7 @@ export const usePerformanceStore = defineStore('performance',()=>{
 	const performanceColumn = ref<Array<string>>(['员工编号','员工姓名','部门','职务','岗位','考核月份','月度绩效'])
 
 	const perCurrentTime = ref('')
+	const performanceTimeList= ref<Array<string>>()
 	const performanceList = ref<Array<performanceList>>([])
 
 	const dialogEditFormVisible = ref(false)
@@ -31,6 +32,10 @@ export const usePerformanceStore = defineStore('performance',()=>{
 	 */
 	function updatePerformanceList(payload: Array<performanceList>) {
 		performanceList.value = payload
+	}
+
+	function updatePerformanceTimeList(payload: Array<string>) {
+		performanceTimeList.value = payload
 	}
 
 	/**
@@ -53,7 +58,9 @@ export const usePerformanceStore = defineStore('performance',()=>{
 		dialogEditFormVisible,
 		formEdit,
 		perCurrentTime,
+		performanceTimeList,
 		updatePerformanceList,
-		refreshPerformance
+		refreshPerformance,
+		updatePerformanceTimeList
 	}
 })

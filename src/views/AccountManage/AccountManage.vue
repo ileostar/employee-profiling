@@ -95,9 +95,10 @@ const tableData = computed(() => {
 	return allUsers.value.filter((item) => item.role !== '管理员')
 })
 
-const tableProps: string[] = Object.keys(toRaw(tableData.value[0]))?.filter(
-	(item: unknown) => item !== 'password' && item !== 'salt',
-)
+const tableProps = computed(()=>{
+	return Object.keys(toRaw(tableData.value[0]))?.filter(
+		(item: unknown) => item !== 'password' && item !== 'salt')
+})
 
 const currenRowData = ref()
 const ruleFormRef = ref<FormInstance>()

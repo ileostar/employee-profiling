@@ -22,6 +22,10 @@ import { storeToRefs } from 'pinia';
 import { ref } from 'vue';
 import { ElMessage, ElMessageBox } from 'element-plus'
 
+const modelStore = useModelStore()
+const deleteModel = ref('')
+const { modelTotal,dialogDeleteVisible } = storeToRefs(modelStore)
+
 /**
  * Verify delete function.
  *
@@ -51,25 +55,16 @@ const open = () => {
 			cancelButtonText: '取消',
 			type: 'warning',
 		}
-	)
-		.then(() => {
-			modelStore.deleteModel(deleteModel.value)
-			dialogDeleteVisible.value = false
+	).then(() => {
+		modelStore.deleteModel(deleteModel.value)
+		dialogDeleteVisible.value = false
+    modelStore.refreshModel()
+	}).catch(() => {
+		ElMessage({
+			type: 'info',
+			message: '取消删除'
 		})
-		.catch(() => {
-			ElMessage({
-				type: 'info',
-				message: '取消删除',
-			})
-		})
+	})
 }
 
-const modelStore = useModelStore()
-const { modelTotal,dialogDeleteVisible } = storeToRefs(modelStore)
-
-const deleteModel = ref('')
 </script>
-
-<style lang="scss" scoped>
-
-</style>

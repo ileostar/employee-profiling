@@ -1,35 +1,33 @@
 {
-	"compilerOptions": {
-		"target": "ESNext",
-		"useDefineForClassFields": true,
-		"module": "ESNext",
-		"lib": ["ESNext", "DOM", "DOM.Iterable"],
-		"skipLibCheck": true,
+  "compilerOptions": {
+    "target": "ESNext",
+    "useDefineForClassFields": true,
+    "module": "ESNext",
+    "lib": ["ESNext", "DOM", "DOM.Iterable"],
+    "skipLibCheck": true,
 
-		/* Bundler mode */
-		// 单元测试的支持
-		"types": ["vitest/globals"],
-		"moduleResolution": "node",
-		"allowImportingTsExtensions": true,
-		"resolveJsonModule": true,
-		// 解决测试文件中的 '--isolatedModules'报错
-		"isolatedModules": true,
-		"noEmit": true,
-		"jsx": "preserve",
+    /* Bundler mode */
+    // 单元测试的支持
+    "types": ["vitest/globals"],
+    "moduleResolution": "node",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    // 解决测试文件中的 '--isolatedModules'报错
+    "isolatedModules": true,
+    "noEmit": true,
+    "jsx": "preserve",
 
-		/* Linting */
-		"strict": true,
-		"noUnusedLocals": true,
-		"noUnusedParameters": true,
-		"noFallthroughCasesInSwitch": true,
+    /* Linting */
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true,
 
-		/* 设置别名 */
-		"baseUrl": "./",
-		"paths": {
-			"@": ["src"],
-			"@/*": ["src/*"]
-		}
-	},
-	"include": ["src/**/*.ts", "src/**/*.d.ts", "src/**/*.tsx", "src/**/*.vue"],
-	"references": [{ "path": "./tsconfig.node.json" }]
+    /* 设置别名 */
+    "baseUrl": "./",
+    "paths": {
+      "@": ["src"],
+      "@/*": ["src/*"]
+    }
+  }
 }

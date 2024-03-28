@@ -97,15 +97,18 @@ onMounted(() => {
 	if(currentModelValue.value === '') {
 		currentModelValue.value = currentModel.value
 	}
-	findModelInformation()
+	if(!formField.value){
+		modelStore.updateCurrentModel()
+		modelStore.updateModelTotal()
+		modelStore.updateFormField(currentModel.value,currentSelectPost.value)
+	}
+	modelStore.updateFormField(currentSelectModel.value,currentSelectPost.value)
 })
 
 /**
- * Find model information.
- *
- * @return {undefined} No return value.
- */
-const findModelInformation = () => {
+ * 选择模型
+ **/
+const findModelInformation = async () => {
 	modelStore.updateFormField(currentSelectModel.value,currentSelectPost.value)
 }
 

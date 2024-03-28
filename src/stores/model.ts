@@ -27,7 +27,7 @@ export const useModelStore = defineStore('model', () => {
 	const currentSelectModel = ref('')
 	// 当前查看模型岗位
 	const currentSelectPost = ref('')
-  
+
 	const formField: FormField = ref({
 		status: {
 			value: '',
@@ -326,14 +326,29 @@ export const useModelStore = defineStore('model', () => {
 	const updateCurrentModel = async () => {
 		const res = await api.findByModelProperties()
 		if(res.status) {
+			if(res.data.lastIndexOf('/')){
+				const resHandler = res.data.split('/') as Array<string>
+				res.data = resHandler[resHandler.length-1]
+			}
 			currentModel.value=res.data
 			if(currentSelectModel.value === '') {
-				currentSelectModel.value = currentModel.value
+				if(currentModel.value.lastIndexOf('/')){
+					const strArr = currentModel.value.split('/') as Array<string>
+					currentSelectModel.value = strArr[strArr.length-1]
+				} else {
+				  currentSelectModel.value = currentModel.value
+				}
 			}
 			if(currentModelValue.value === '') {
-				currentModelValue.value = currentModel.value
+				if(currentModel.value.lastIndexOf('/')){
+					const strArr = currentModel.value.split('/') as Array<string>
+					currentModelValue.value = strArr[strArr.length-1]
+				} else {
+				  currentModelValue.value = currentModel.value
+				}
 			}
 		}
+		return res.data
 	}
 
 	/**
@@ -348,7 +363,7 @@ export const useModelStore = defineStore('model', () => {
 		const res = await api.selectModelInformation({filePath,post})
 		if(res.status === 200) {
 			const resArr = Object.entries(res.data)
-			for(const item in formField.value ) {
+			for(const item in formField.value) {
 				resArr.map(i=>{
 					if(i[0]===item) {
 						formField.value[item].value = i[1] as number | string
@@ -367,7 +382,13 @@ export const useModelStore = defineStore('model', () => {
 	const updateModelTotal = async () => {
 		const res = await api.selectModels()
 		if( res.status === 200 ) {
-			modelTotal.value = res.data
+			modelTotal.value = res.data.map((item: string)=>{
+				if(item.lastIndexOf('/')){
+					const strArr = item.split('/') as Array<string>
+					return strArr[strArr.length-1]
+				}
+				return item
+			})
 		}
 	}
 
@@ -379,6 +400,10 @@ export const useModelStore = defineStore('model', () => {
 	 * @return {Promise<void>} A Promise that resolves when the model is deleted successfully.
 	 */
 	const deleteModel = async (model: string) => {
+    if(model === currentModelValue.value) {
+      ElMessage.error("当前模型正在使用，不能直接删除！")
+      return
+    }
 		try {
 			const res = await api.deleteModel({fileName:model})
 			if(res.status === 200) {
@@ -387,6 +412,8 @@ export const useModelStore = defineStore('model', () => {
 					message: '删除成功',
 				})
 			}
+			updateCurrentModel()
+			updateModelTotal()
 		} catch(error) {
 			ElMessage({
 				type: 'info',
@@ -394,6 +421,11 @@ export const useModelStore = defineStore('model', () => {
 			})
 		}
 	}
+
+  const refreshModel = async () => {
+		updateModelTotal()
+		updateFormField(currentSelectModel.value,currentSelectPost.value)
+  }
 
 	return {
 		currentModelValue,
@@ -408,6 +440,7 @@ export const useModelStore = defineStore('model', () => {
 		updateCurrentModel,
 		updateModelTotal,
 		updateFormField,
-		deleteModel
+		deleteModel,
+    refreshModel
 	}
 })

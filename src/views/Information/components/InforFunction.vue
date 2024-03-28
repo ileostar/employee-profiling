@@ -156,7 +156,7 @@
 		</template>
 	</el-dialog>
 	<el-dialog v-model="dialogFixFormVisible" @close="resetForm" title="修改员工信息">
-		<el-form :model="form2" :rules="formRules2" ref="ruleForm2Ref"   label-position="top" label-width="130px">
+		<el-form :model="form2" :rules="formRules2" ref="ruleForm2Ref" label-position="top" label-width="130px">
       <el-row>
         <el-col v-for="(field, key) in formField2" :key="field.label" :span="12">
           <el-space
@@ -175,8 +175,8 @@
             <template v-else-if="field.label === '姓名'" >
               <el-input v-model="form2.name" @blur="autofill" autocomplete="off" placeholder="填写姓名自动匹配,请优先填写姓名"></el-input>
             </template>
-            <template v-else-if="field.label === '员工编号'" >     
-              <el-input v-model="form2.number" autocomplete="off" v-if="namesake.length<2"></el-input>          
+            <template v-else-if="field.label === '员工编号'" >
+              <el-input v-model="form2.number" autocomplete="off" v-if="namesake.length<2"></el-input>
               <el-select v-model="form2.number" class="m-2" v-else @change="autofill2(form2.number as number)">
                 <el-option v-for="num in namesake" :key="num.number" :value="num.number" :label="num.number"/>
               </el-select>
@@ -187,8 +187,8 @@
               </el-select>
             </template>
             <template v-else-if="field.label === '最高学历'">
-              <el-select v-model="form2.post" class="m-2" placeholder="选择岗位">
-                <el-option v-for="post in select" :key="post" :value="post" :label="post"/>
+              <el-select v-model="form2.degree" class="m-2" placeholder="选择学历">
+                <el-option v-for="degree in degreeLevel" :key="degree" :value="degree" :label="degree"/>
               </el-select>
             </template>
             <template v-else-if="numberInput.includes(field.label)">
@@ -226,11 +226,11 @@
                 <el-radio label="女" />
               </el-radio-group>
             </template>
-            <template v-else>     
+            <template v-else>
               <el-input v-model="form2[key]" autocomplete="off"></el-input>
             </template>
           </el-form-item>
-         </el-space>   
+         </el-space>
         </el-col>
       </el-row>
 		</el-form>
@@ -244,7 +244,7 @@
 		</template>
 	</el-dialog>
 	<el-dialog v-model="dialogInFormVisible" title="导入">
-    <a href="src/static/employee.xlsx" download style="display: block;padding-bottom: 1vh;margin-top: -2vh;color: #409eff">员工信息导入模版</a>
+    <a href="/employee.xlsx" download style="display: block;padding-bottom: 1vh;margin-top: -2vh;color: #409eff">员工信息导入模版</a>
     <el-upload
     class="upload-demo"
     drag
@@ -1132,7 +1132,7 @@ const submitCreatedForm = async (formEl: FormInstance | undefined) => {
 			dialogCreateFormVisible.value = false
 			const res = await api.insertEmployee(form)
 			if(res.data.state === 200) {
-				const obj:Employee = {      
+				const obj:Employee = {
 					id: 0,
 					number: 0,
 					name: '',
@@ -1200,6 +1200,11 @@ const submitCreatedForm = async (formEl: FormInstance | undefined) => {
 				}
 				const createData = Object.assign({}, obj, res.data.data);
 				EmployeeStore.addEmployeeList(createData)
+        
+				const res1 = await api.getCreatedTime()
+				if (res1.data.state === 200) {
+					EmployeeStore.updateCreatedTimeList(res1.data.data)
+				}
 				ElMessage.success('添加成功')
 			} else {
 				ElMessage.error('添加失败')

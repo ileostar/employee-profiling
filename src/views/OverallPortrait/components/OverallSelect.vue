@@ -141,14 +141,18 @@ const handleAnalyze = async () => {
 			req[key as keyof typeof overallOptions] = value;
 		}
 	}
-  
+
 	const res = await api.overallPortrait({
 		...req,
 		...ageGroup.value
 	})
 	if(res.data.state === 200) {
 		emit('submitAnalyze', res.data.data,overallOptions,ageGroup.value);
-		if(res.data.message){  
+		if(res.data.message){
+			ElMessage.success(res.data.message)
+		}
+	}else {
+		if(res.data.message){
 			ElMessage.success(res.data.message)
 		}
 	}

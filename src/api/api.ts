@@ -217,11 +217,15 @@ export default {
 		//  员工绩效根据员工编号查询方法，用于快速填写表单
 		return http.get('/performane/findByNumber', params)
 	},
+	selectFindCreatedTime: () => {
+		//  员工绩效根据员工编号查询方法，用于快速填写表单
+		return http.get('/performane/selectFindCreatedTime')
+	},
 	findPerByPostAndCondition: (params: Search) => {
 		//  用于右上角的查询，根据岗位和员工编号或岗位和员工姓名进行查询，注意编号和姓名的数据类型是不一样的，会根据传入的数据自动判断是姓名还是编号
 		return http.get('/performane/findByPostAndCondition', params)
 	},
-	findByNumberAndCreatedTime: (params: { createdTime: string,number: number }) => {
+	findByNumberAndCreatedTime: (params: { createdTime: string, number: number }) => {
 		//  用于右上角的查询，根据岗位和员工编号或岗位和员工姓名进行查询，注意编号和姓名的数据类型是不一样的，会根据传入的数据自动判断是姓名还是编号
 		return http.get('/performane/findByNumberAndCreatedTime', params)
 	},
@@ -259,7 +263,7 @@ export default {
 	},
 	deleteModel: (params: { fileName: string }) => {
 		//  删除模型
-		return http.delete('/config/delete', params)
+		return http.get('/config/delete', params)
 	},
 	selectModelInformation: (params: findModel) => {
 		//  搜索模型的信息

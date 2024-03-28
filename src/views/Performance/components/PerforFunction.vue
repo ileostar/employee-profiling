@@ -1,6 +1,6 @@
 <template>
 	<div class="performance-function">
-    <el-select v-model="createdTime" class="m-2" placeholder="Select" @change="changeCreatedTime">
+    <el-select v-model="createdTime" class="m-2" placeholder="选择月份" @change="changeCreatedTime">
       <el-option
         v-for="item in options"
         :key="item"
@@ -112,7 +112,7 @@
                   <el-radio label="女" />
                 </el-radio-group>
               </template>
-              <template v-else>     
+              <template v-else>
                 <el-input v-model="form[key]" autocomplete="off"></el-input>
               </template>
             </el-form-item>
@@ -132,7 +132,7 @@
 	<el-dialog v-model="dialogEditFormVisible" title="修改绩效成绩">
 		<el-form :model="formEdit" :rules="formEditRules" ref="ruleEditFormRef"  label-position="top" label-width="130px">
       <el-row>
-        <el-col  v-for="field, key in formEditField" :key="field.label" :span="12"> 
+        <el-col  v-for="field, key in formEditField" :key="field.label" :span="12">
           <el-space
             fill
             wrap
@@ -166,7 +166,7 @@
                 <el-radio label="女" />
               </el-radio-group>
             </template>
-            <template v-else>     
+            <template v-else>
               <el-input v-model="formEdit[key]" autocomplete="off"></el-input>
             </template>
           </el-form-item>
@@ -184,7 +184,7 @@
 		</template>
 	</el-dialog>
 	<el-dialog v-model="dialogInFormVisible" title="导入绩效成绩">
-    <a href="src/static/performance.xlsx" download style="display: block;padding-bottom: 1vh;margin-top: -2vh;color: #409eff">绩效成绩导入模版</a>
+    <a href="/performance.xlsx" download style="display: block;padding-bottom: 1vh;margin-top: -2vh;color: #409eff">绩效成绩导入模版</a>
     <el-upload
     class="upload-demo"
     drag
@@ -218,14 +218,11 @@ import { usePostStore } from '@/stores/post'
 import api from '@/api/api'
 import { usePerformanceStore } from '@/stores/performance'
 import { ElMessage, FormInstance } from 'element-plus'
-import { useEmployeeStore } from '@/stores/employee'
 
 const PostStore = usePostStore()
-const EmployeeStore = useEmployeeStore()
 const performanceStore = usePerformanceStore()
-const { postData: select } = storeToRefs(PostStore)
-const { dialogEditFormVisible,formEdit,perCurrentTime:createdTime } = storeToRefs(performanceStore)
-const { createdTimeList: options } = storeToRefs(EmployeeStore)
+const { postData: select  } = storeToRefs(PostStore)
+const { dialogEditFormVisible,formEdit,perCurrentTime:createdTime, performanceTimeList: options } = storeToRefs(performanceStore)
 
 const search = ref('')
 const defaultSelect = ref('')

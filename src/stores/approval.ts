@@ -26,7 +26,9 @@ export const useApprovalsStore = defineStore('approval',() => {
 					...item
 				}
 			})
-			ElMessage.success(res.data.message)
+			if (res.data.message) {
+			  ElMessage.success(res.data.message)
+			}
 		} else {
 			ElMessage.error(res.data.message)
 		}
