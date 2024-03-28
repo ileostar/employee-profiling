@@ -336,9 +336,15 @@ const routes: Array<RouteRecordRaw> = [
 					const modelStore = useModelStore()
 					const postStore = usePostStore()
 					const { postData } = storeToRefs(postStore)
+          const { currentModelValue,currentSelectPost } = storeToRefs(modelStore)
 					modelStore.updateModelTotal()
-					const data = await modelStore.updateCurrentModel()
-					modelStore.updateFormField(data,postData.value[0])
+          if(_.isEmpty(currentModelValue.value)) {
+					  const data = await modelStore.updateCurrentModel()
+            modelStore.updateFormField(data,postData.value[0])
+          }else {
+            if(!currentSelectPost.value)
+              modelStore.updateFormField(currentModelValue.value,postData.value[0])
+          }
 					next()
 				}
 			},

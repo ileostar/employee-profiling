@@ -127,27 +127,26 @@ const confirmSwitch = (current: string) => {
 			cancelButtonText: '取消',
 			type: 'warning',
 		}
-	)
-		.then(async() => {
-			const res = await api.chooseModel({filePath:current})
-			if(res.status) {
-				ElMessage({
-					type: 'success',
-					message: '切换成功',
-				})
-			}
-			dialogDeleteVisible.value = false
-		})
-		.catch(async () => {
-			const res = await api.findByModelProperties()
-			if(res.status) {
-				currentModelValue.value=res.data
-			}
-			ElMessage({
-				type: 'info',
-				message: '取消切换',
-			})
-		})
+	).then(async() => {
+    const res = await api.chooseModel({filePath:current})
+    if(res.status) {
+      ElMessage({
+        type: 'success',
+        message: '切换成功',
+      })
+    }
+    dialogDeleteVisible.value = false
+  })
+  .catch(async () => {
+    const res = await api.findByModelProperties()
+    if(res.status) {
+      currentModelValue.value=res.data
+    }
+    ElMessage({
+      type: 'info',
+      message: '取消切换',
+    })
+  })
 }
 </script>
 <style lang="scss" scoped>
