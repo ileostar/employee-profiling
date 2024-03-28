@@ -443,4 +443,13 @@ export const useModelStore = defineStore('model', () => {
 		deleteModel,
 		refreshModel
 	}
+},{
+	persist:{
+    paths: [
+      'currentModelValue',
+      'currentSelectModel',
+      'currentSelectPost',
+      'modelTotal'
+    ]
+  }
 })

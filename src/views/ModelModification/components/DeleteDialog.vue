@@ -24,7 +24,7 @@ import { ElMessage, ElMessageBox } from 'element-plus'
 
 const modelStore = useModelStore()
 const deleteModel = ref('')
-const { modelTotal,dialogDeleteVisible } = storeToRefs(modelStore)
+const { modelTotal,dialogDeleteVisible,currentSelectModel,currentModelValue } = storeToRefs(modelStore)
 
 /**
  * Verify delete function.
@@ -58,6 +58,7 @@ const open = () => {
 	).then(() => {
 		modelStore.deleteModel(deleteModel.value)
 		dialogDeleteVisible.value = false
+    currentSelectModel.value = currentModelValue.value
 		modelStore.refreshModel()
 	}).catch(() => {
 		ElMessage({
@@ -66,5 +67,4 @@ const open = () => {
 		})
 	})
 }
-
 </script>
