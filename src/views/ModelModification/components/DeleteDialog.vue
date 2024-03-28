@@ -58,7 +58,7 @@ const open = () => {
 	).then(() => {
 		modelStore.deleteModel(deleteModel.value)
 		dialogDeleteVisible.value = false
-    modelStore.refreshModel()
+		modelStore.refreshModel()
 	}).catch(() => {
 		ElMessage({
 			type: 'info',

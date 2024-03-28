@@ -31,28 +31,6 @@ export default defineConfig((_mode) => {
 			},
 			extensions: ['.js', '.json', '.ts'], // 使用路径别名时想要省略的后缀名，可以自己 增减
 		},
-		test: {
-			// 模拟dom环境
-			environment: 'happy-dom',
-			coverage: {
-				// 覆盖率提供者
-				provider: 'istanbul',
-				reporter: ['text', 'json', 'html'],
-				// 设置覆盖文件夹
-				reportsDirectory: './coverage',
-				// 检查每个文件的阈值
-				perFile: true,
-				// 设置代码覆盖率阈值
-				lines: 75,
-				functions: 75,
-				branches: 75,
-				statements: 75,
-			},
-			open: true,
-			include: ['./src/components/**/*.{test,spec}.ts'],
-		},
-		open: true,
-		include: ['./src/components/**/*.{test,spec}.ts'],
 		server,
 	}
 })

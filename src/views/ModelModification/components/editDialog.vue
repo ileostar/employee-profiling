@@ -483,9 +483,9 @@ const submitCreatedForm = (formEl: FormInstance | undefined) => {
 			}
 			const res = await api.insertModel({filePath:filePath.value,request:form})
 			if(res.status === 200) {
-        modelStore.refreshModel()
+				modelStore.refreshModel()
 				ElMessage.success(res.data)
-        dialogEditVisible.value = false
+				dialogEditVisible.value = false
 			}
 		} else {
 			ElMessage.error('请正确填写表单')

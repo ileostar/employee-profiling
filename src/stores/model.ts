@@ -400,10 +400,10 @@ export const useModelStore = defineStore('model', () => {
 	 * @return {Promise<void>} A Promise that resolves when the model is deleted successfully.
 	 */
 	const deleteModel = async (model: string) => {
-    if(model === currentModelValue.value) {
-      ElMessage.error("当前模型正在使用，不能直接删除！")
-      return
-    }
+		if(model === currentModelValue.value) {
+			ElMessage.error('当前模型正在使用，不能直接删除！')
+			return
+		}
 		try {
 			const res = await api.deleteModel({fileName:model})
 			if(res.status === 200) {
@@ -422,10 +422,10 @@ export const useModelStore = defineStore('model', () => {
 		}
 	}
 
-  const refreshModel = async () => {
+	const refreshModel = async () => {
 		updateModelTotal()
 		updateFormField(currentSelectModel.value,currentSelectPost.value)
-  }
+	}
 
 	return {
 		currentModelValue,
@@ -441,6 +441,6 @@ export const useModelStore = defineStore('model', () => {
 		updateModelTotal,
 		updateFormField,
 		deleteModel,
-    refreshModel
+		refreshModel
 	}
 })
